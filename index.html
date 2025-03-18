@@ -673,25 +673,28 @@
     $(document).ready(function () {
         if (!window.jQuery) {
             console.error("Ошибка: jQuery не загружен!");
-        } else {
-            console.log("jQuery загружен успешно.");
+            return;
         }
 
-        $.fn.scrollToTop = function () {
-            let $btn = $(this);
-            $btn.hide();
+        console.log("jQuery загружен успешно.");
 
-            $(window).on("scroll", function () {
-                $(this).scrollTop() > 100 ? $btn.fadeIn("slow") : $btn.fadeOut("slow");
-            });
+        if (!$.fn.scrollToTop) {
+            $.fn.scrollToTop = function () {
+                let $btn = $(this);
+                $btn.hide();
 
-            $btn.on("click", function (e) {
-                e.preventDefault();
-                $("html, body").animate({ scrollTop: 0 }, "slow");
-            });
+                $(window).on("scroll", function () {
+                    $(this).scrollTop() > 100 ? $btn.fadeIn("slow") : $btn.fadeOut("slow");
+                });
 
-            return this;
-        };
+                $btn.on("click", function (e) {
+                    e.preventDefault();
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
+                });
+
+                return this;
+            };
+        }
 
         if ($("#toTop").length) {
             $("#toTop").scrollToTop();
