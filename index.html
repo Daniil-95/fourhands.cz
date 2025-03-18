@@ -19,9 +19,6 @@
 
     <!--Icon-->
     <link rel="icon" href="images/icons.png" type="image/x-icon">
-
-    <!--Scripts-->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
@@ -668,42 +665,48 @@
             </div>
         </div>
     </footer>
+</div>
 
-    <script>
-        $(function () {
-            $.fn.scrollToTop = function () {
-                var $btn = $(this);
-                $btn.hide();
+<!--Scripts-->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        if (!window.jQuery) {
+            console.error("Ошибка: jQuery не загружен!");
+        } else {
+            console.log("jQuery загружен успешно.");
+        }
 
-                $(window).on("scroll", function () {
-                    $(this).scrollTop() > 100 ? $btn.fadeIn("slow") : $btn.fadeOut("slow");
-                });
+        $.fn.scrollToTop = function () {
+            let $btn = $(this);
+            $btn.hide();
 
-                $btn.on("click", function (e) {
-                    e.preventDefault();
-                    $("html, body").animate({ scrollTop: 0 }, "slow");
-                });
+            $(window).on("scroll", function () {
+                $(this).scrollTop() > 100 ? $btn.fadeIn("slow") : $btn.fadeOut("slow");
+            });
 
-                return this;
-            };
+            $btn.on("click", function (e) {
+                e.preventDefault();
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+            });
 
-            if ($("#toTop").length) {
-                $("#toTop").scrollToTop();
+            return this;
+        };
+
+        if ($("#toTop").length) {
+            $("#toTop").scrollToTop();
+        }
+
+        $("#menu a").on("click", function (e) {
+            e.preventDefault();
+            let target = $(this).attr("href");
+            if ($(target).length) {
+                $("html, body").animate({ scrollTop: $(target).offset().top }, 1500);
+            } else {
+                console.warn("Элемент не найден: " + target);
             }
         });
-
-        $(document).ready(() => {
-            $("#menu a").on("click", function (e) {
-                e.preventDefault();
-                var target = $(this).attr("href");
-                if ($(target).length) {
-                    $("html, body").animate({ scrollTop: $(target).offset().top }, 1500);
-                } else {
-                    console.warn("Элемент не найден: " + target);
-                }
-            });
-        });
-    </script>
-</div>
+    });
+</script>
 </body>
 </html>
