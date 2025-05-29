@@ -1,0 +1,9 @@
+utils:
+	translateDirs:
+	 	{
+	 		%appDir%/translations,
+	 	}
+
+recaptcha:
+   	siteKey:
+   	secretKey:

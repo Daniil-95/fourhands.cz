@@ -1,0 +1,85 @@
+parameters:
+
+#	langs!: {'en', 'de'}
+
+	frontLayout: %appDir%/FrontModule/templates/@layout.latte
+	adminLayout: %appDir%/AdminModule/templates/@layout.latte
+
+	structure_settings:
+		related_structure: false
+		mirror_structure: false
+
+	article_settings:
+		allow_categories: true
+#		allow_authors: true
+		allow_tags: true
+#		category_items_per_page: 1
+
+	image_settings:
+#		wwwDir: %wwwDir%
+#		imagesFolder: 'images'
+#		thumbFolder: 'images/thumbs'
+#		filterClass: 'App\Upload\ImageFilter'
+#		image_max_w: 1920
+#		image_max_h: 1920
+#		thumb_max_w: 500
+#		thumb_max_h: 500
+		allow_tags: true
+
+	document_settings:
+#		wwwDir: %wwwDir%
+#		documentFolder: 'documents'
+#		filterClass: 'App\Upload\DocumentFilter'
+		allow_tags: true
+
+	news_settings:
+#		per_page: 6
+#		preview_limit: 3
+
+
+	components:
+# vlastní šablona na obecnou komponentu SlideshowControl
+		slideshow:
+		    template: '%appDir%/FrontModule/components/Slideshow/SlideshowControl.latte'
+
+# vlastní šablona na obecnou komponentu PartnersControl
+		partners:
+		    template: '%appDir%/FrontModule/components/Partners/PartnersControl.latte'
+
+# vlastní šablona na obecnou komponentu ArticleControl
+		article:
+		    template: '%appDir%/FrontModule/components/Article/ArticleControl.latte'
+
+# alternativní vlastní šablona na obecnou komponentu ArticleControl - v adminu položky struktury - Bloky na stránce - vytvořit / připojit articleImageLeft
+#		articleImageLeft:
+#			factory: IArticleControlFactory
+#			parameters:
+#				articlesId:
+#			template: '%appDir%/FrontModule/components/Article/ArticleImageLeft.latte'
+
+# vlastní šablona na obecnou komponentu NewsControl
+		news:
+			factory: INewsControlFactory
+			template: '%appDir%/FrontModule/components/News/NewsControl.latte'
+
+# vlastní šablona na obecnou komponentu ArticleCategoryPreviewControl
+		articleCategoryPreview:
+			factory: IArticleCategoryPreviewControlFactory
+			template: '%appDir%/FrontModule/components/ArticleCategoryPreview/ArticleCategoryPreviewControl.latte'
+
+# komponenta GalleryControl
+		gallery:
+			factory: IGalleryControlFactory
+			template: '%appDir%/FrontModule/components/Gallery/GalleryControl.latte'
+			parameters:
+				galleryId:
+
+# komponenta  PlotMapControl
+		plotmap:
+			factory: IPlotMapControlFactory
+			template: '%appDir%/FrontModule/components/PlotMap/PlotMapControl.latte'
+
+	templates:
+# vlastní šablona
+		user:
+			template: %appDir%/FrontModule/templates/User/mySettings.latte

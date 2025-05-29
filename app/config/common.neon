@@ -1,0 +1,7 @@
+includes:
+    - ../../vendor/oxit/oxitweb-core/src/app/config/common.neon
+    - parameters.neon
+    - services.neon
+    - extensions.neon
+    - decorator.neon
+

@@ -1,0 +1,21 @@
+@import "front/variables";
+@import "front/mixins";
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+@import "../../vendor/oxit/oxitweb-core/src/www/scss/oxit/size-indicator";
+@import "../../vendor/oxit/oxitweb-core/src/www/scss/oxit/size-indicator-xxl";
+@import "../../vendor/oxit/oxitweb-core/src/www/scss/oxit/flash";
+@import "../../vendor/oxit/oxitweb-core/src/www/scss/oxit/text-snippet-modal";
+
+@import "front/cookieBar";
+@import "front/navigation";
+@import "front/slides";
+@import "front/footer";
+@import "front/user";
+@import "front/contact";
+@import "front/team";
+@import "front/family";
+@import "front/project";
+@import "front/features";
+@import "front/gallery";
+@import "front/plot-map";

@@ -1,0 +1,76 @@
+{if !isset($link)}
+	{var $link = 'this'}
+{/if}
+{varType Nette\Utils\Paginator $paginator}
+<div class="row paginator-wrap" n:if='$paginator->itemCount > $paginator->itemsPerPage'>
+	<div class="col-sm-12">
+		<nav class="nav-paginator">
+			<ul class="pagination pagination-sm">
+				{if $paginator->page!=1}
+					<li class="page-item">
+						<a n:class="'page-link', isset($ajax) && $ajax ? 'ajax'" n:href="$link page=>1">
+							<i class="fa fa-fast-backward" aria-hidden="true"></i>
+						</a>
+					</li>
+				{else}
+					<li class="disabled page-item">
+						<a class="page-link" href="#">
+							<i class="fa fa-fast-backward" aria-hidden="true"></i>
+						</a>
+					</li>
+				{/if}
+
+				{var $page = $paginator->page - 1}
+
+				{if $page > 0}
+					<li class="page-item">
+						<a n:class="'page-link', isset($ajax) && $ajax ? 'ajax'" n:href="$link page=>$page">
+							<i class="fa fa-step-backward" aria-hidden="true"></i>
+						</a>
+					</li>
+				{else}
+					<li class="disabled page-item">
+						<a class="page-link" href="#">
+							<i class="fa fa-step-backward" aria-hidden="true"></i>
+						</a>
+					</li>
+				{/if}
+
+				<li class="disabled page-item">
+						<a class="page-link" href="#">
+							<span>{$paginator->page}</span>
+						</a>
+				</li>
+
+				{var $page = $paginator->page + 1}
+				{if $page <= $paginator->getLastPage()}
+					<li class="page-item">
+						<a n:class="'page-link', isset($ajax) && $ajax ? 'ajax'" n:href="$link page=>$page">
+							<i class="fa fa-step-forward" aria-hidden="true"></i>
+						</a>
+					</li>
+				{else}
+					<li class="disabled page-item">
+						<a class="page-link" href="#">
+							<i class="fa fa-step-forward" aria-hidden="true"></i>
+						</a>
+					</li>
+				{/if}
+
+				{if $paginator->page!=$paginator->getLastPage()}
+					<li class="page-item">
+						<a n:class="'page-link', isset($ajax) && $ajax ? 'ajax'" n:href="$link $paginator->getLastPage()">
+							<i class="fa fa-fast-forward" aria-hidden="true"></i>
+						</a>
+					</li>
+				{else}
+					<li class="disabled page-item">
+						<a class="page-link" href="#">
+							<i class="fa fa-fast-forward" aria-hidden="true"></i>
+						</a>
+					</li>
+				{/if}
+			</ul>
+		</nav>
+	</div>
+</div>

@@ -164,7 +164,7 @@ header{}
 
 header .wrap-header{}
 
-header .main-header{background: url(../images/slider2.jpg) fixed center; background-color: #222;color:#fff;min-height: 600px;text-align: center;padding-top: 100px;}
+header .main-header{background: url(../../images/slider2.jpg) fixed center; background-color: #222;color:#fff;min-height: 600px;text-align: center;padding-top: 100px;}
 
 header .main-header h1{font-size: 100px;margin: 20px 0; line-height: 1.2;font-weight: 500;}
 
@@ -258,7 +258,7 @@ header .main-header .zerogrid{border-bottom: 1px dotted #fff;border-top: 1px dot
 
 .menu-main a:hover:before, .menu-main .current:before {left: 0;}
 
-.menu-main a:hover:after, .menu-main .current:after {right: 0;}   
+.menu-main a:hover:after, .menu-main .current:after {right: 0;}
 
 @media (max-width: 550px) {
 
@@ -270,7 +270,7 @@ header .main-header .zerogrid{border-bottom: 1px dotted #fff;border-top: 1px dot
 
 .menu-main a {
 
-  padding: 25px 0 20px; 
+  padding: 25px 0 20px;
 
   margin: 0 30px;
 
@@ -478,7 +478,7 @@ a.button{
 
 	font-size: 13px;
 
-	border:1px solid #ffffff; 
+	border:1px solid #ffffff;
 
 	display: inline-block;
 
@@ -514,7 +514,7 @@ a.button.bt2 {background: #0000ff;color: #ffffff;}
 
 /* -------------------------------Zoom-Effect---------------------------------- */
 
-/* ---------------------------------------------------------------------------- */	
+/* ---------------------------------------------------------------------------- */
 
 .item-container {
 

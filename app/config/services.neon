@@ -1,0 +1,6 @@
+services:
+	router: App\Services\Router\RouterFactory::createRouter(%default_lang%)
+	- App\FrontModule\Components\IGalleryControlFactory
+	- App\Managers\GalleryManager
+	- App\FrontModule\Components\IPlotMapControlFactory
+	- App\Managers\PlotManager

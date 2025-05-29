@@ -1,0 +1,56 @@
+<div id="cookieBar" class="cookieBar">
+	<div class="cookieBar__inner" data-step="1">
+		{control textSnippet-cookieMainText}
+		<div class="btn__wrapper">
+			<span data-step-target="2">{_'Settings'}</span>
+			<div class="btn__wrapper-inner">
+				<div class="btn btn--transparent" data-consent="none">{_'Decline all'}</div>
+				<div class="btn btn--primary" data-consent="all">{_'Accept all'}</div>
+			</div>
+		</div>
+	</div>
+	<div class="cookieBar__inner" data-step="2">
+		<span class="cookieBar__arrow">
+			<img data-step-target="1"
+				 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAABFCAYAAADU4cH/AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH3wgaCi4jhJ8F6AAAA+RJREFUeNrtnDFIVVEYgL/zegWJQ4jgpEuIUyI0FDwdkggRaWtyqyUcIqOmwCENghqiIVrCyQqpqRAFycGk3KIIDBGCIAjCHCTj+eJveP/wFN899/nuve+de88Pb9EjyOe5nv+75/9/IyI0Uxhj+oAXwFkR2cKxyDUZzAFgFegBPuBg5JoI5hgwBxzTL/UYY956oIeDOQE8AFr3fatgjLnvElDT6P+hCuw6kK+ypAhcFpEZF4DmGwxzHjhn+T22gS+u7NB8A2G+AwqWZZvASZdO+3wDQJ4APgGdlqXfgV7XUqdcA2Cuh4C54iLMRIFqwr4GtAcsKwJLItLvIszEgGrCvgx0BCzbBaZFZBCHI5cQzMUDcsz9O3NKRK7ieORihjkGLFTYz0GxA4yLyB1SELEl9mo/ty0wi8B5EVkmJZGPCeYT4EqIhH04TTBjARrSfn4CQyLykZRFpI98SPv5BXS7mhYlskPTbj+JnvIKcyOM/YhIV5ph1g1U7WcDaLOc5Asi0k8GIlcHzAF17iCYJbWfITISuUPCHFH7abHszMk02E+sQNV+ZrNkP7GlTWo/E8CRLNlPLGmTMWYGuGSBmUr7iRyoXucWgKNZtJ/IHnnNMd9k3X4i2aE12M9XHC2bSQxohf20hbCffo8xIG2qwX5ee5gWoGo/7y0w/wGPROSixxdwKKn9zALHLT+zC/zw6A6MvyjQm8AfQPynrs9v1HxKHkY0QI0+wnn/tEYSWzlgUB93H1Gc8urdBcqVbj7qzOsrT/mwyXwReO7ZHXzK73F5r5sRJ/YKqJfy1UZQ9ABr+gfwEeZtU8Uru6A385vAaRH55lFWcfmK3ToIvNS0qlq0AZ/V/31guVMSkVFgSv29WrQCq/oewAO1LdCLtmuUL96qxTFgTi/w/P/QUAvLL09eYb/tvJfF286agSrUAWCe4Pv4EvBQRG55oOGg9inUDkvyv5SlipFDA60QgHWCOzogg1ckhyrFUQHoplyeGBQFY0ymBKDugltfZBvBDt23W/spd3oUA5a1q6r2eaDhoA4B03rCV4sOYDntAhBZn5KWLU5admorsJhmqJE2fmlCPx7CqhbSalWxNH5VtCPamr7ups2q4uykG6A8lKXVYlVP01TlHOvMkSxaVexDXLJmVYlMxclSY1giAwhEZEtEurDfVXUC6y6raqIzR7JgVYlPFqvBqlZcFICGjGoLaVUtalUjHmhtVrVtsapZY8yoBxoO6mNg2LJTDQ6Namv4dEYtVjtTZafuABdc6n1qinGXCuwUeysAS8CEa115pplGBmv+uaan/DMttPCmFAHUGyIy4WIe+h/vXmj9tvn9wQAAAABJRU5ErkJggg=="
+				 alt="">
+		</span>
+
+		<div class="cookieBar__switchWrapper">
+			<span>
+				<h5>{_'Necessary/functional'}</h5>
+				<p>{control textSnippet-necessaryCookiesText}</p>
+			</span>
+			<span style="white-space: nowrap">{_'Always active'}</span>
+		</div>
+		<hr>
+		<div class="cookieBar__switchWrapper">
+			<span>
+			<h5>{_'Analytics'}</h5>
+			<p>{control textSnippet-analyticsCookiesText}</p>
+			</span>
+			<label class="cookieBar__switch" for="consent_analytics">
+				<input id="consent_analytics" data-consent-cookie="cookie_consent_analytics" type="checkbox">
+				<span class="cookieBar__slider cookieBar__slider--round"></span>
+			</label>
+		</div>
+		<hr>
+		<div class="cookieBar__switchWrapper">
+			<span>
+				<h5>{_'Advertisement'}</h5>
+				<p>{control textSnippet-advertisementCookiesText}</p>
+			</span>
+			<label class="cookieBar__switch" for="consent_advertisement">
+				<input id="consent_advertisement" data-consent-cookie="cookie_consent_advertisement" type="checkbox">
+				<span class="cookieBar__slider cookieBar__slider--round"></span>
+			</label>
+		</div>
+		<hr>
+		<div class="btn__wrapper">
+			<div class="btn__wrapper-inner">
+				<div class="btn btn--transparent" data-consent="custom">{_'Save settings'}</div>
+				<div class="btn btn--primary" data-consent="all">{_'Accept all'}</div>
+			</div>
+		</div>
+	</div>
+</div>
