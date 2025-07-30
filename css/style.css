@@ -166,7 +166,18 @@ header .wrap-header{}
 
 header .main-header{background: url(../images/slider2.jpg) fixed center; background-color: #222;color:#fff;min-height: 600px;text-align: center;padding-top: 100px;}
 
-header .main-header h1{font-size: 100px;margin: 20px 0; line-height: 1.2;font-weight: 500;}
+header .main-header h1 {
+	font-size: 100px;
+	margin: 20px 0;
+	line-height: 1.2;
+	font-weight: 500;
+}
+
+@media (max-width: 768px) {
+	header .main-header h1 {
+		font-size: 80px;
+	}
+}
 
 header .main-header .zerogrid{border-bottom: 1px dotted #fff;border-top: 1px dotted #fff;padding: 60px 0px 40px 0px;}
 
