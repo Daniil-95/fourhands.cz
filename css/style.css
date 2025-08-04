@@ -175,7 +175,7 @@ header .main-header h1 {
 
 @media (max-width: 768px) {
 	header .main-header h1 {
-		font-size: 80px;
+		font-size: 50px;
 	}
 }
 
@@ -331,7 +331,7 @@ header .logo img{display: inline-block;margin: auto;padding: 10px;max-width: 210
 
 .content-box .header {text-align: center; margin: 20px 0 70px;}
 
-.content-box .header h2{font-size: 50px;  line-height: 1.2;font-weight: 500;}
+.content-box .header h2{font-size: 40px;  line-height: 1.2;font-weight: 500;}
 
 .content-box .header .wrapper{padding: 5px; display: inline-block;}
 
