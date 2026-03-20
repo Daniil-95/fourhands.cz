@@ -1,0 +1,20 @@
+parameters:
+    appName: Fourhands
+
+application:
+    errorPresenter: Front:Error
+    mapping:
+        *: App\Presentation\*\*Presenter
+
+session:
+    expiration: 14 days
+
+services:
+    router: App\Core\RouterFactory::createRouter
+
+    security.authenticator:
+        factory: App\Security\AdminAuthenticator(@Nette\Database\Explorer)
+
+    - App\Model\ContentRepository
+    - App\Model\EventRepository
+    - App\Model\MediaRepository
