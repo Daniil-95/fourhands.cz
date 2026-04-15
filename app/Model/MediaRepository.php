@@ -44,7 +44,7 @@ final class MediaRepository
                 'type' => 'video',
                 'title' => (string) ($row->title ?? ''),
                 'description' => '',
-                'image_path' => '',
+                'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
                 'url' => (string) (($row->embed ?: $row->file) ?? ''),
             ];
         }
@@ -67,7 +67,7 @@ final class MediaRepository
                 'type' => 'video',
                 'title' => (string) ($row->title ?? ''),
                 'description' => '',
-                'image_path' => '',
+                'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
                 'url' => (string) (($row->embed ?: $row->file) ?? ''),
                 'sort_order' => 0,
             ];
@@ -97,6 +97,7 @@ final class MediaRepository
                 'title' => $data['title'],
                 'embed' => $data['url'] ?: null,
                 'file' => $data['url'] ?: null,
+                'ratio' => $this->normalizePath((string) ($data['image_path'] ?? '')),
             ];
 
             if ($id !== null) {
@@ -160,7 +161,7 @@ final class MediaRepository
                 'id' => self::VIDEO_ID_OFFSET + (int) $row->id,
                 'title' => (string) ($row->title ?? ''),
                 'description' => '',
-                'image_path' => '',
+                'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
                 'url' => (string) (($row->embed ?: $row->file) ?? ''),
             ];
         }
@@ -180,5 +181,15 @@ final class MediaRepository
         }
 
         return 'images/' . ltrim($trimmed, '/');
+    }
+
+    private function normalizeVideoThumb(string $thumb): string
+    {
+        $trimmed = trim($thumb);
+        if ($trimmed === '' || $trimmed === '16:9') {
+            return '';
+        }
+
+        return $this->normalizePath($trimmed);
     }
 }

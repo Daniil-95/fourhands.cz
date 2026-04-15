@@ -7,6 +7,27 @@ use Nette\Database\Table\ActiveRow;
 
 final class ContentRepository
 {
+    private const TITLE_MAP = [
+        'cs' => [
+            'about' => 'O nás',
+            'performances' => 'Naše vystoupení',
+            'artist_katerina' => 'Kateřina Konopová',
+            'artist_irena' => 'Irena Andruško',
+            'program' => 'Nabídka programů',
+            'contacts' => 'Kontakty',
+            'copyright' => 'Copyright',
+        ],
+        'en' => [
+            'about' => 'About us',
+            'performances' => 'Performances',
+            'artist_katerina' => 'Katerina Konopova',
+            'artist_irena' => 'Irena Andrusko',
+            'program' => 'Programmes',
+            'contacts' => 'Contacts',
+            'copyright' => 'Copyright',
+        ],
+    ];
+
     public function __construct(private Explorer $db)
     {
     }
@@ -23,7 +44,7 @@ final class ContentRepository
             $items[$row->code] = [
                 'id' => (int) $row->id,
                 'key_name' => $row->code,
-                'title' => $row->code,
+                'title' => self::TITLE_MAP[$locale][$row->code] ?? $row->code,
                 'content_html' => $row->content,
                 'sort_order' => 0,
             ];
