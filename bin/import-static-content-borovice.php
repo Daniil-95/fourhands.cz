@@ -283,9 +283,8 @@ $pdo = new PDO($config['dsn'], $config['user'], $config['password'], [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 ]);
 
-$useRemote = in_array('--remote', $argv, true);
-$csSource = $useRemote ? 'https://fourhands.cz/' : $root . '/index.html';
-$enSource = $useRemote ? 'https://fourhands.cz/index-en.html' : $root . '/index-en.html';
+$csSource = 'https://fourhands.cz/';
+$enSource = 'https://fourhands.cz/index-en.html';
 
 importLanguage($pdo, 'cs', $csSource);
 importLanguage($pdo, 'en', $enSource);
