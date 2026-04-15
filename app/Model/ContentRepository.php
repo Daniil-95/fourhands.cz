@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Nette\Database\Explorer;
+use Nette\Database\Table\ActiveRow;
 
 final class ContentRepository
 {
@@ -12,19 +13,19 @@ final class ContentRepository
 
     public function getByLocale(string $locale): array
     {
-        $rows = $this->db->table('content_blocks')
+        $rows = $this->db->table('text_snippets')
             ->where('lang', $locale)
-            ->order('sort_order ASC, id ASC')
+            ->order('code ASC, id ASC')
             ->fetchAll();
 
         $items = [];
         foreach ($rows as $row) {
-            $items[$row->key_name] = [
+            $items[$row->code] = [
                 'id' => (int) $row->id,
-                'key_name' => $row->key_name,
-                'title' => $row->title,
-                'content_html' => $row->content_html,
-                'sort_order' => (int) $row->sort_order,
+                'key_name' => $row->code,
+                'title' => $row->code,
+                'content_html' => $row->content,
+                'sort_order' => 0,
             ];
         }
 
@@ -33,26 +34,33 @@ final class ContentRepository
 
     public function getAll(): array
     {
-        return $this->db->table('content_blocks')->order('lang ASC, sort_order ASC, id ASC')->fetchAll();
+        return $this->db->table('text_snippets')->order('lang ASC, code ASC, id ASC')->fetchAll();
     }
 
-    public function getById(int $id): ?\Nette\Database\Table\ActiveRow
+    public function getById(int $id): ?ActiveRow
     {
-        return $this->db->table('content_blocks')->get($id);
+        return $this->db->table('text_snippets')->get($id);
     }
 
     public function save(array $data, ?int $id = null): void
     {
+        $payload = [
+            'lang' => $data['lang'],
+            'code' => $data['key_name'],
+            'content' => $data['content_html'],
+        ];
+
         if ($id !== null) {
-            $this->db->table('content_blocks')->where('id', $id)->update($data);
+            $this->db->table('text_snippets')->where('id', $id)->update($payload);
             return;
         }
 
-        $this->db->table('content_blocks')->insert($data);
+        $payload['created'] = new \DateTimeImmutable();
+        $this->db->table('text_snippets')->insert($payload);
     }
 
     public function delete(int $id): void
     {
-        $this->db->table('content_blocks')->where('id', $id)->delete();
+        $this->db->table('text_snippets')->where('id', $id)->delete();
     }
 }

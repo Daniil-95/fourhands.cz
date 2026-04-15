@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Presentation\Admin\Dashboard;
+namespace App\AdminModule\Presenters;
 
-use App\Core\BaseAdminPresenter;
+use App\Common\BaseAdminPresenter;
 
 final class DashboardPresenter extends BaseAdminPresenter
 {

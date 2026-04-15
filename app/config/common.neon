@@ -4,16 +4,17 @@ parameters:
 application:
     errorPresenter: Front:Error
     mapping:
-        *: App\Presentation\*\*Presenter
+        Admin: App\AdminModule\Presenters\*Presenter
+        Front: App\FrontModule\Presenters\*Presenter
 
 session:
     expiration: 14 days
 
 services:
-    router: App\Core\RouterFactory::createRouter
+    router: App\Common\RouterFactory::createRouter
 
     security.authenticator:
-        factory: App\Security\AdminAuthenticator(@Nette\Database\Explorer)
+        factory: App\Security\AdminAuthenticator(@Nette\Database\Explorer, @Nette\Http\Request)
 
     - App\Model\ContentRepository
     - App\Model\EventRepository

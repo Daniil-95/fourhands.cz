@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectTasksOptions">
     <enabled-global>
-      <option value="Scss" />
+      <option value="SCSS" />
     </enabled-global>
   </component>
 </project>

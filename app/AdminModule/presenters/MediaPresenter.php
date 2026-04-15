@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Presentation\Admin\Media;
+namespace App\AdminModule\Presenters;
 
-use App\Core\BaseAdminPresenter;
+use App\Common\BaseAdminPresenter;
 use App\Model\MediaRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Presentation\Front;
+namespace App\FrontModule\Presenters;
 
-use App\Core\BasePresenter;
+use App\Common\BasePresenter;
 
 final class ErrorPresenter extends BasePresenter
 {

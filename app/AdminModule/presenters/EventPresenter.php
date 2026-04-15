@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Presentation\Admin\Event;
+namespace App\AdminModule\Presenters;
 
-use App\Core\BaseAdminPresenter;
+use App\Common\BaseAdminPresenter;
 use App\Model\EventRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
@@ -34,10 +34,10 @@ final class EventPresenter extends BaseAdminPresenter
 
             $this['eventForm']->setDefaults([
                 'lang' => $item->lang,
-                'type' => $item->type,
-                'event_date' => $item->event_date ? $item->event_date->format('Y-m-d') : '',
-                'description' => $item->description,
-                'sort_order' => $item->sort_order,
+                'type' => 'upcoming',
+                'event_date' => $item->publish_date ? $item->publish_date->format('Y-m-d') : '',
+                'description' => $item->title,
+                'sort_order' => 0,
             ]);
         }
     }

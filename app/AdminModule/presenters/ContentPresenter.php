@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Presentation\Admin\Content;
+namespace App\AdminModule\Presenters;
 
-use App\Core\BaseAdminPresenter;
+use App\Common\BaseAdminPresenter;
 use App\Model\ContentRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
@@ -34,10 +34,10 @@ final class ContentPresenter extends BaseAdminPresenter
 
             $this['contentForm']->setDefaults([
                 'lang' => $item->lang,
-                'key_name' => $item->key_name,
-                'title' => $item->title,
-                'content_html' => $item->content_html,
-                'sort_order' => $item->sort_order,
+                'key_name' => $item->code,
+                'title' => $item->code,
+                'content_html' => $item->content,
+                'sort_order' => 0,
             ]);
         }
     }

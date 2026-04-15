@@ -7,9 +7,9 @@
         <tr n:foreach="$items as $item">
             <td>{$item->id}</td>
             <td>{$item->lang}</td>
-            <td>{$item->key_name}</td>
-            <td>{$item->title}</td>
-            <td>{$item->sort_order}</td>
+            <td>{$item->code}</td>
+            <td>{$item->code}</td>
+            <td>0</td>
             <td>
                 <a n:href="edit id => $item->id">Edit</a>
                 <a n:href="delete id => $item->id" onclick="return confirm('Delete this block?')">Delete</a>

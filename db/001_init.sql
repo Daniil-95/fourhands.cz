@@ -1,10 +1,11 @@
-﻿CREATE TABLE IF NOT EXISTS admin_users (
+CREATE TABLE IF NOT EXISTS admin_users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(64) NOT NULL UNIQUE,
+    username VARCHAR(64) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     role VARCHAR(32) NOT NULL DEFAULT 'admin',
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uniq_username (username)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 CREATE TABLE IF NOT EXISTS content_blocks (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -15,7 +16,7 @@ CREATE TABLE IF NOT EXISTS content_blocks (
     sort_order INT NOT NULL DEFAULT 100,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE KEY uniq_lang_key (`lang`, key_name)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 CREATE TABLE IF NOT EXISTS events (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -25,7 +26,7 @@ CREATE TABLE IF NOT EXISTS events (
     description TEXT NOT NULL,
     sort_order INT NOT NULL DEFAULT 100,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 CREATE TABLE IF NOT EXISTS media_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -37,7 +38,7 @@ CREATE TABLE IF NOT EXISTS media_items (
     url VARCHAR(500) NULL,
     sort_order INT NOT NULL DEFAULT 100,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO admin_users (username, password_hash, role)
 VALUES ('admin', '$2y$10$x7pVPxkfgqRy9MFKXiLjIezZe8d2Vc4KfjJqJWuRefKbtO36.CqL6', 'admin')

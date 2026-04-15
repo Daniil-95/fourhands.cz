@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Presentation\Front;
+namespace App\FrontModule\Presenters;
 
-use App\Core\BasePresenter;
+use App\Common\BasePresenter;
 use App\Model\ContentRepository;
 use App\Model\EventRepository;
 use App\Model\MediaRepository;
