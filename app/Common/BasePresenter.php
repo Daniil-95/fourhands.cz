@@ -3,9 +3,20 @@
 namespace App\Common;
 
 use Nette\Application\UI\Presenter;
+use App\Model\NavigationRepository;
+use App\Model\SettingRepository;
 
 abstract class BasePresenter extends Presenter
 {
+    private ?SettingRepository $settingRepository = null;
+    private ?NavigationRepository $navigationRepository = null;
+
+    public function injectSiteData(SettingRepository $settingRepository, NavigationRepository $navigationRepository): void
+    {
+        $this->settingRepository = $settingRepository;
+        $this->navigationRepository = $navigationRepository;
+    }
+
     protected function startup(): void
     {
         parent::startup();
@@ -18,6 +29,8 @@ abstract class BasePresenter extends Presenter
         $this->template->locale = $locale;
         $this->template->switchLocale = $locale === 'cs' ? 'en' : 'cs';
         $this->template->isAdmin = str_starts_with($this->getName(), 'Admin:');
+        $this->template->siteSettings = $this->settingRepository?->getByLocale($locale) ?? [];
+        $this->template->navigation = $this->navigationRepository?->getActiveByLocale($locale) ?? [];
     }
 
     protected function getLocale(): string

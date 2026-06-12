@@ -15,6 +15,7 @@ final class EventRepository
     {
         $rows = $this->db->table('news')
             ->where('lang', $locale)
+            ->where('active', 1)
             ->order('publish_date DESC, id DESC')
             ->fetchAll();
 
@@ -60,7 +61,9 @@ final class EventRepository
             'title' => $data['description'],
             'publish_date' => $data['event_date'] ?: new \DateTimeImmutable(),
             'active' => 1,
+            'sort_order' => $data['sort_order'],
         ];
+        $payload['active'] = $data['active'] ? 1 : 0;
 
         if ($id !== null) {
             $this->db->table('news')->where('id', $id)->update($payload);

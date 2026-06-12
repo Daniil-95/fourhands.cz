@@ -34,30 +34,24 @@ final class EventPresenter extends BaseAdminPresenter
 
             $this['eventForm']->setDefaults([
                 'lang' => $item->lang,
-                'type' => 'upcoming',
                 'event_date' => $item->publish_date ? $item->publish_date->format('Y-m-d') : '',
                 'description' => $item->title,
-                'sort_order' => 0,
+                'sort_order' => $item->sort_order,
+                'active' => (bool) $item->active,
             ]);
         }
-    }
-
-    public function actionDelete(int $id): void
-    {
-        $this->eventRepository->delete($id);
-        $this->flashMessage('Event deleted.', 'success');
-        $this->redirect('default');
     }
 
     protected function createComponentEventForm(): Form
     {
         $form = new Form();
-        $form->addSelect('lang', 'Language', ['cs' => 'Czech', 'en' => 'English'])->setRequired();
-        $form->addSelect('type', 'Type', ['upcoming' => 'Upcoming', 'past' => 'Past'])->setRequired();
-        $form->addText('event_date', 'Date (YYYY-MM-DD)');
-        $form->addTextArea('description', 'Description')->setRequired()->setHtmlAttribute('rows', 4);
-        $form->addInteger('sort_order', 'Sort order')->setDefaultValue(100);
-        $form->addSubmit('save', 'Save');
+        $form->addProtection();
+        $form->addSelect('lang', 'Jazyk', ['cs' => 'Čeština', 'en' => 'Angličtina'])->setRequired();
+        $form->addText('event_date', 'Datum')->setHtmlType('date')->setRequired();
+        $form->addTextArea('description', 'Název a popis akce')->setRequired()->setHtmlAttribute('rows', 5);
+        $form->addInteger('sort_order', 'Pořadí')->setDefaultValue(100);
+        $form->addCheckbox('active', 'Publikovat')->setDefaultValue(true);
+        $form->addSubmit('save', 'Uložit');
 
         $form->onSuccess[] = $this->eventFormSucceeded(...);
         return $form;
@@ -72,13 +66,27 @@ final class EventPresenter extends BaseAdminPresenter
 
         $this->eventRepository->save([
             'lang' => $values->lang,
-            'type' => $values->type,
             'event_date' => $date,
             'description' => $values->description,
             'sort_order' => $values->sort_order ?? 100,
+            'active' => $values->active,
         ], $this->editingId);
 
-        $this->flashMessage('Event saved.', 'success');
+        $this->flashMessage('Akce byla uložena.', 'success');
         $this->redirect('default');
+    }
+
+    protected function createComponentDeleteForm(): Form
+    {
+        $form = new Form();
+        $form->addProtection();
+        $form->addHidden('id')->setRequired();
+        $form->addSubmit('delete', 'Smazat');
+        $form->onSuccess[] = function (Form $form, \stdClass $values): void {
+            $this->eventRepository->delete((int) $values->id);
+            $this->flashMessage('Akce byla smazána.', 'success');
+            $this->redirect('default');
+        };
+        return $form;
     }
 }

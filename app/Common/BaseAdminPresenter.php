@@ -9,8 +9,13 @@ abstract class BaseAdminPresenter extends BasePresenter
         parent::startup();
 
         if (!$this->getUser()->isLoggedIn() && $this->getName() !== 'Admin:Sign') {
-            $this->flashMessage('Please sign in first.', 'warning');
+            $this->flashMessage('Nejprve se přihlaste.', 'warning');
             $this->redirect(':Admin:Sign:default');
+        }
+
+        if ($this->getUser()->isLoggedIn() && !$this->getUser()->isInRole('admin')) {
+            $this->getUser()->logout(true);
+            $this->error('Nemáte oprávnění pro přístup do administrace.', 403);
         }
     }
 }

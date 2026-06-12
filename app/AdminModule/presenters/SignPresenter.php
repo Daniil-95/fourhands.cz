@@ -15,10 +15,10 @@ final class SignPresenter extends BaseAdminPresenter
     protected function createComponentSignInForm(): Form
     {
         $form = new Form();
-        $form->addText('username', 'Username or email')->setRequired();
-        $form->addPassword('password', 'Password')->setRequired();
-        $form->addCheckbox('remember', 'Remember me for 30 days');
-        $form->addSubmit('send', 'Sign in');
+        $form->addText('username', 'Uživatelské jméno')->setRequired();
+        $form->addPassword('password', 'Heslo')->setRequired();
+        $form->addCheckbox('remember', 'Zapamatovat na 30 dní');
+        $form->addSubmit('send', 'Přihlásit se');
         $form->onSuccess[] = $this->signInSucceeded(...);
 
         return $form;
@@ -27,7 +27,7 @@ final class SignPresenter extends BaseAdminPresenter
     public function actionOut(): void
     {
         $this->getUser()->logout();
-        $this->flashMessage('Signed out.', 'info');
+            $this->flashMessage('Byli jste odhlášeni.', 'info');
         $this->redirect('default');
     }
 

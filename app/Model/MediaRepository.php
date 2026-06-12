@@ -15,10 +15,10 @@ final class MediaRepository
     public function getByLocaleAndType(string $locale, string $type): array
     {
         if ($type === 'photo') {
-            return $this->photos();
+            return $this->photos($locale);
         }
 
-        return $this->videos();
+        return $this->videos($locale);
     }
 
     public function getAll(): array
@@ -28,24 +28,30 @@ final class MediaRepository
         foreach ($this->db->table('images')->order('id DESC')->fetchAll() as $row) {
             $items[] = (object) [
                 'id' => (int) $row->id,
-                'lang' => 'cs',
+                'lang' => (string) $row->lang,
                 'type' => 'photo',
                 'title' => (string) ($row->title ?? ''),
                 'description' => (string) ($row->subtitle ?? ''),
                 'image_path' => $this->normalizePath((string) ($row->file ?? '')),
                 'url' => '',
+                'sort_order' => (int) $row->sort_order,
+                'active' => (bool) $row->active,
+                'alt_text' => (string) ($row->alt_text ?? ''),
             ];
         }
 
         foreach ($this->db->table('videos')->order('id DESC')->fetchAll() as $row) {
             $items[] = (object) [
                 'id' => self::VIDEO_ID_OFFSET + (int) $row->id,
-                'lang' => 'cs',
+                'lang' => (string) $row->lang,
                 'type' => 'video',
                 'title' => (string) ($row->title ?? ''),
                 'description' => '',
                 'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
                 'url' => (string) (($row->embed ?: $row->file) ?? ''),
+                'sort_order' => (int) $row->sort_order,
+                'active' => (bool) $row->active,
+                'alt_text' => '',
             ];
         }
 
@@ -70,6 +76,8 @@ final class MediaRepository
                 'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
                 'url' => (string) (($row->embed ?: $row->file) ?? ''),
                 'sort_order' => 0,
+                'active' => (bool) $row->active,
+                'alt_text' => '',
             ];
         }
 
@@ -87,17 +95,23 @@ final class MediaRepository
             'image_path' => $this->normalizePath((string) ($row->file ?? '')),
             'url' => '',
             'sort_order' => 0,
+            'active' => (bool) $row->active,
+            'alt_text' => (string) ($row->alt_text ?? ''),
         ];
     }
 
-    public function save(array $data, ?int $id = null): void
+    public function save(array $data, int $userId, ?int $id = null): void
     {
         if ($data['type'] === 'video') {
             $payload = [
                 'title' => $data['title'],
+                'lang' => $data['lang'],
+                'description' => $data['description'],
                 'embed' => $data['url'] ?: null,
                 'file' => $data['url'] ?: null,
                 'ratio' => $this->normalizePath((string) ($data['image_path'] ?? '')),
+                'sort_order' => $data['sort_order'],
+                'active' => $data['active'] ? 1 : 0,
             ];
 
             if ($id !== null) {
@@ -107,15 +121,20 @@ final class MediaRepository
             }
 
             $payload['created'] = new \DateTimeImmutable();
+            $payload['users_id'] = $userId;
             $this->db->table('videos')->insert($payload);
             return;
         }
 
         $payload = [
             'title' => $data['title'],
+            'lang' => $data['lang'],
             'subtitle' => $data['description'],
+            'alt_text' => $data['alt_text'],
             'file' => $this->normalizePath((string) ($data['image_path'] ?? '')),
             'crop' => 0,
+            'sort_order' => $data['sort_order'],
+            'active' => $data['active'] ? 1 : 0,
         ];
 
         if ($id !== null) {
@@ -124,6 +143,7 @@ final class MediaRepository
         }
 
         $payload['created'] = new \DateTimeImmutable();
+        $payload['users_id'] = $userId;
         $this->db->table('images')->insert($payload);
     }
 
@@ -137,10 +157,10 @@ final class MediaRepository
         $this->db->table('images')->where('id', $id)->delete();
     }
 
-    private function photos(): array
+    private function photos(string $locale): array
     {
         $items = [];
-        foreach ($this->db->table('images')->order('id DESC')->fetchAll() as $row) {
+        foreach ($this->db->table('images')->where('lang', $locale)->where('active', 1)->order('sort_order, id DESC')->fetchAll() as $row) {
             $items[] = [
                 'id' => (int) $row->id,
                 'title' => (string) ($row->title ?? ''),
@@ -153,10 +173,10 @@ final class MediaRepository
         return $items;
     }
 
-    private function videos(): array
+    private function videos(string $locale): array
     {
         $items = [];
-        foreach ($this->db->table('videos')->order('id DESC')->fetchAll() as $row) {
+        foreach ($this->db->table('videos')->where('lang', $locale)->where('active', 1)->order('sort_order, id DESC')->fetchAll() as $row) {
             $items[] = [
                 'id' => self::VIDEO_ID_OFFSET + (int) $row->id,
                 'title' => (string) ($row->title ?? ''),

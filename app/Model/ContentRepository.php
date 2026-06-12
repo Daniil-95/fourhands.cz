@@ -36,7 +36,8 @@ final class ContentRepository
     {
         $rows = $this->db->table('text_snippets')
             ->where('lang', $locale)
-            ->order('code ASC, id ASC')
+            ->where('active', 1)
+            ->order('sort_order ASC, code ASC, id ASC')
             ->fetchAll();
 
         $items = [];
@@ -44,9 +45,9 @@ final class ContentRepository
             $items[$row->code] = [
                 'id' => (int) $row->id,
                 'key_name' => $row->code,
-                'title' => self::TITLE_MAP[$locale][$row->code] ?? $row->code,
+                'title' => $row->title ?: (self::TITLE_MAP[$locale][$row->code] ?? $row->code),
                 'content_html' => $row->content,
-                'sort_order' => 0,
+                'sort_order' => (int) $row->sort_order,
             ];
         }
 
@@ -67,7 +68,7 @@ final class ContentRepository
 
     public function getAll(): array
     {
-        return $this->db->table('text_snippets')->order('lang ASC, code ASC, id ASC')->fetchAll();
+        return $this->db->table('text_snippets')->order('lang ASC, category ASC, sort_order ASC, code ASC')->fetchAll();
     }
 
     public function getById(int $id): ?ActiveRow
@@ -80,7 +81,11 @@ final class ContentRepository
         $payload = [
             'lang' => $data['lang'],
             'code' => $data['key_name'],
+            'title' => $data['title'],
+            'category' => $data['category'],
             'content' => $data['content_html'],
+            'sort_order' => $data['sort_order'],
+            'active' => $data['active'] ? 1 : 0,
         ];
 
         if ($id !== null) {
