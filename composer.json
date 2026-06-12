@@ -20,12 +20,4 @@
       "App\\": "app/"
     }
   },
-  "scripts": {
-    "post-install-cmd": [
-      "@php bin/init.php"
-    ],
-    "post-update-cmd": [
-      "@php bin/init.php"
-    ]
-  }
 }

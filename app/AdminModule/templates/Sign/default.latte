@@ -1,17 +1,19 @@
 ﻿{layout none}
 <!DOCTYPE html>
 <html lang="cs">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Přihlášení do administrace</title>
-    <link rel="stylesheet" href="{$basePath}/css/admin.css">
-</head>
-<body>
-<div class="signin-wrap">
-    <h1>Fourhands Administrace</h1>
-    <div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
-    {control signInForm}
-</div>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Přihlášení do administrace</title>
+        <link rel="stylesheet" href="{$basePath}/css/admin.css">
+    </head>
+    <body>
+        <div class="signin-wrap">
+            <h1>Fourhands Administrace</h1>
+            <div n:foreach="$flashes as $flash" class="flash {$flash->type}">
+                {$flash->message}
+            </div>
+            {control signInForm}
+        </div>
+    </body>
 </html>

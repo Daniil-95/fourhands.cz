@@ -1,7 +1,15 @@
 {block title}Videa{/block}
 {block content}
-<section class="page-hero"><div class="container"><p class="eyebrow eyebrow--light">Video galerie</p><h1>Poslechněte si Fourhands</h1><p>Výběr koncertních vystoupení a hudebních ukázek.</p></div></section>
-<section class="section"><div class="container"><div class="video-grid">
-    <a class="video-card reveal" href="{$video['url']}" target="_blank" rel="noopener" n:foreach="$videos as $video"><img src="{$basePath}/{$video['image_path'] ?: 'images/kids1-thumb.jpg'}" alt="{$video['title']}"><span class="video-card__play">▶</span><strong>{$video['title']}</strong></a>
-</div></div></section>
+    <section class="page-hero">
+        <div class="container"><p class="eyebrow eyebrow--light">Video galerie</p>
+            <h1>Poslechněte si Fourhands</h1>
+            <p>Výběr koncertních vystoupení a hudebních ukázek.</p></div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="video-grid">
+                <a class="video-card reveal" href="{$video['url']}" target="_blank" rel="noopener" n:foreach="$videos as $video"><img  src="{$basePath}/{$video['image_path'] ?: 'images/kids1-thumb.jpg'}"  alt="{$video['title']}"><span  class="video-card__play">▶</span><strong>{$video['title']}</strong></a>
+            </div>
+        </div>
+    </section>
 {/block}

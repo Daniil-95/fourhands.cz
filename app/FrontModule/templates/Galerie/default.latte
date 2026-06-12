@@ -1,8 +1,20 @@
 {block title}Galerie{/block}
 {block content}
-<section class="page-hero"><div class="container"><p class="eyebrow eyebrow--light">Fotogalerie</p><h1>Okamžiky v obrazech</h1><p>Koncerty, svatby a události s atmosférou.</p></div></section>
-<section class="section"><div class="container"><div class="gallery-grid">
-    <button class="gallery-item reveal" type="button" n:foreach="$photos as $photo" data-lightbox="{$basePath}/{$photo['image_path']}"><img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title']}"><span>{$photo['title']}</span></button>
-</div></div></section>
-<dialog class="lightbox" data-lightbox-dialog><button type="button" data-lightbox-close>×</button><img src="" alt=""></dialog>
+    <section class="page-hero">
+        <div class="container"><p class="eyebrow eyebrow--light">Fotogalerie</p>
+            <h1>Okamžiky v obrazech</h1>
+            <p>Koncerty, svatby a události s atmosférou.</p></div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="gallery-grid">
+                <button class="gallery-item reveal" type="button" n:foreach="$photos as $photo" data-lightbox="{$basePath}/{$photo['image_path']}"><img src="{$basePath}/{$photo['image_path']}"  alt="{$photo['title']}"><span>{$photo['title']}</span>
+                </button>
+            </div>
+        </div>
+    </section>
+    <dialog class="lightbox" data-lightbox-dialog>
+        <button type="button" data-lightbox-close>×</button>
+        <img src="" alt="">
+    </dialog>
 {/block}

@@ -1,8 +1,34 @@
 {block title}Členky dua{/block}
 {block content}
-<section class="page-hero"><div class="container"><p class="eyebrow eyebrow--light">Fourhands</p><h1>Členky dua</h1><p>Dvě osobnosti, jeden hudební dialog.</p></div></section>
-<section class="section members"><div class="container">
-    <article class="member row align-items-start gy-5"><div class="col-lg-5"><img src="{$basePath}/images/katerina.jpg" alt="Kateřina Konopová"></div><div class="col-lg-7"><p class="eyebrow">Pianistka</p><h2>{$content['artist_katerina']['title'] ?? 'Kateřina Konopová'}</h2><div class="rich-text">{$content['artist_katerina']['content_html'] ?? ''|noescape}</div><div class="member__facts"><span>Vzdělání</span><span>Zkušenosti</span><span>Ocenění</span></div></div></article>
-    <article class="member member--reverse row align-items-start gy-5"><div class="col-lg-5"><img src="{$basePath}/images/Irena.jpg" alt="Irena Andruško"></div><div class="col-lg-7"><p class="eyebrow">Pianistka</p><h2>{$content['artist_irena']['title'] ?? 'Irena Andruško'}</h2><div class="rich-text">{$content['artist_irena']['content_html'] ?? ''|noescape}</div><div class="member__facts"><span>Vzdělání</span><span>Zkušenosti</span><span>Ocenění</span></div></div></article>
-</div></section>
+    <section class="page-hero">
+        <div class="container">
+            <p class="eyebrow eyebrow--light">Fourhands</p>
+            <h1>Členky dua</h1>
+            <p>Dvě osobnosti, jeden hudební dialog.</p>
+        </div>
+    </section>
+    <section class="section members">
+        <div class="container">
+            <article class="member row align-items-start gy-5">
+                <div class="col-lg-5"><img src="{$basePath}/images/katerina.jpg" alt="Kateřina Konopová"></div>
+                <div class="col-lg-7"><p class="eyebrow">Pianistka</p>
+                    <h2>{$content['artist_katerina']['title'] ?? 'Kateřina Konopová'}</h2>
+                    <div class="rich-text">{$content['artist_katerina']['content_html'] ?? ''|noescape}</div>
+                    <div class="member__facts">
+                        <span>Vzdělání</span><span>Zkušenosti</span><span>Ocenění</span>
+                    </div>
+                </div>
+            </article>
+            <article class="member member--reverse row align-items-start gy-5">
+                <div class="col-lg-5"><img src="{$basePath}/images/Irena.jpg" alt="Irena Andruško"></div>
+                <div class="col-lg-7"><p class="eyebrow">Pianistka</p>
+                    <h2>{$content['artist_irena']['title'] ?? 'Irena Andruško'}</h2>
+                    <div class="rich-text">{$content['artist_irena']['content_html'] ?? ''|noescape}</div>
+                    <div class="member__facts">
+                        <span>Vzdělání</span><span>Zkušenosti</span><span>Ocenění</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
 {/block}

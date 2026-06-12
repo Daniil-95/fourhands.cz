@@ -7,22 +7,22 @@
     <link rel="stylesheet" href="{$basePath}/css/admin.css">
 </head>
 <body>
-    <div class="admin-shell">
-        <aside class="sidebar">
-            <h1>Fourhands</h1>
-            <nav>
-                <a n:href=":Admin:Dashboard:default">Přehled</a>
-                <a n:href=":Admin:Content:default">Bloky obsahu</a>
-                <a n:href=":Admin:Event:default">Události</a>
-                <a n:href=":Admin:Media:default">Média</a>
-                <a n:href=":Front:Homepage:default" target="_blank" rel="noopener">Otevřít web</a>
-                <a n:href=":Admin:Sign:out">Odhlásit se</a>
-            </nav>
-        </aside>
-        <main class="main">
-            <div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
-            {include content}
-        </main>
-    </div>
+<div class="admin-shell">
+    <aside class="sidebar">
+        <h1>Fourhands</h1>
+        <nav>
+            <a n:href=":Admin:Dashboard:default">Přehled</a>
+            <a n:href=":Admin:Content:default">Bloky obsahu</a>
+            <a n:href=":Admin:Event:default">Události</a>
+            <a n:href=":Admin:Media:default">Média</a>
+            <a n:href=":Front:Homepage:default" target="_blank" rel="noopener">Otevřít web</a>
+            <a n:href=":Admin:Sign:out">Odhlásit se</a>
+        </nav>
+    </aside>
+    <main class="main">
+        <div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+        {include content}
+    </main>
+</div>
 </body>
 </html>

@@ -1,9 +1,19 @@
 ﻿{block content}
-<h2>Média</h2>
-<p><a class="btn" n:href="edit">Přidat médium</a></p>
-<table>
-    <thead><tr><th>ID</th><th>Jazyk</th><th>Typ</th><th>Název</th><th>Obrázek</th><th>URL</th><th>Akce</th></tr></thead>
-    <tbody>
+    <h2>Média</h2>
+    <p><a class="btn" n:href="edit">Přidat médium</a></p>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Jazyk</th>
+            <th>Typ</th>
+            <th>Název</th>
+            <th>Obrázek</th>
+            <th>URL</th>
+            <th>Akce</th>
+        </tr>
+        </thead>
+        <tbody>
         <tr n:foreach="$items as $item">
             <td>{$item->id}</td>
             <td>{$item->lang}</td>
@@ -16,6 +26,6 @@
                 <a n:href="delete id => $item->id" onclick="return confirm('Smazat toto médium?')">Smazat</a>
             </td>
         </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
 {/block}
