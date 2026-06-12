@@ -2,7 +2,7 @@
 
 body {
   font-family: $font-body;
-  font-size: 18px;
+  font-size: $font-size-body;
   line-height: 1.7;
 }
 
@@ -14,16 +14,16 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size: clamp(64px, 8vw, 112px);
+  font-size: $font-size-h1;
   letter-spacing: .04em;
 }
 
 h2 {
-  font-size: clamp(42px, 5vw, 68px);
+  font-size: $font-size-h2;
 }
 
 h3 {
-  font-size: 34px;
+  font-size: $font-size-h3;
 }
 
 p {
@@ -45,6 +45,16 @@ p {
 
 .rich-text {
   color: $color-text-light;
+}
+
+.rich-text a {
+  color: $color-primary;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  &:hover {
+    color: $color-primary-hover;
+  }
 }
 
 .rich-text p:last-child {

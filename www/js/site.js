@@ -3,22 +3,46 @@ document.documentElement.classList.add('js');
 const header = document.querySelector('[data-header]');
 const menu = document.querySelector('[data-menu]');
 const menuToggle = document.querySelector('[data-menu-toggle]');
+const backdrop = document.querySelector('[data-menu-backdrop]');
 
 document.body.classList.toggle('is-home', Boolean(document.querySelector('.hero')));
 
+// ─── Header scroll effect ────────────────────────────────
 const updateHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 32);
 updateHeader();
 window.addEventListener('scroll', updateHeader, { passive: true });
 
-menuToggle?.addEventListener('click', () => {
-    const open = menu?.classList.toggle('is-open');
-    menuToggle.setAttribute('aria-expanded', String(Boolean(open)));
-});
-menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-    menu.classList.remove('is-open');
-    menuToggle?.setAttribute('aria-expanded', 'false');
-}));
+// ─── Mobile menu ─────────────────────────────────────────
+const openMenu = () => {
+    menu?.classList.add('is-open');
+    backdrop?.classList.add('is-visible');
+    menuToggle?.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+};
 
+const closeMenu = () => {
+    menu?.classList.remove('is-open');
+    backdrop?.classList.remove('is-visible');
+    menuToggle?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+};
+
+menuToggle?.addEventListener('click', () => {
+    const isOpen = menu?.classList.contains('is-open');
+    isOpen ? closeMenu() : openMenu();
+});
+
+backdrop?.addEventListener('click', closeMenu);
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu?.classList.contains('is-open')) {
+        closeMenu();
+    }
+});
+
+menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+
+// ─── Scroll-triggered reveal animations ──────────────────
 const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -29,6 +53,7 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
 
+// ─── Swiper: Video carousel ──────────────────────────────
 if (window.Swiper && document.querySelector('.video-swiper')) {
     new Swiper('.video-swiper', {
         slidesPerView: 1,
@@ -37,6 +62,8 @@ if (window.Swiper && document.querySelector('.video-swiper')) {
         breakpoints: { 768: { slidesPerView: 2 }, 1200: { slidesPerView: 3 } },
     });
 }
+
+// ─── Swiper: Reference carousel ──────────────────────────
 if (window.Swiper && document.querySelector('.reference-swiper')) {
     new Swiper('.reference-swiper', {
         slidesPerView: 1,
@@ -46,9 +73,24 @@ if (window.Swiper && document.querySelector('.reference-swiper')) {
     });
 }
 
+// ─── Lightbox ────────────────────────────────────────────
 const lightbox = document.querySelector('[data-lightbox-dialog]');
-document.querySelectorAll('[data-lightbox]').forEach((item) => item.addEventListener('click', () => {
-    lightbox.querySelector('img').src = item.dataset.lightbox;
-    lightbox.showModal();
-}));
-document.querySelector('[data-lightbox-close]')?.addEventListener('click', () => lightbox.close());
+if (lightbox) {
+    document.querySelectorAll('[data-lightbox]').forEach((item) => item.addEventListener('click', () => {
+        const img = lightbox.querySelector('img');
+        if (img) img.src = item.dataset.lightbox;
+        lightbox.showModal();
+        document.body.style.overflow = 'hidden';
+    }));
+
+    lightbox.addEventListener('close', () => {
+        document.body.style.overflow = '';
+    });
+
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) lightbox.close();
+    });
+
+    const closeBtn = document.querySelector('[data-lightbox-close]');
+    closeBtn?.addEventListener('click', () => lightbox.close());
+}

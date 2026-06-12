@@ -20,6 +20,10 @@
   width: 100%;
   height: 560px;
   object-fit: cover;
+
+  @include respond-down(sm) {
+    height: 320px;
+  }
 }
 
 .stats {
@@ -29,34 +33,33 @@
   padding: 25px 0;
   border-top: 1px solid $color-border;
   border-bottom: 1px solid $color-border;
+
+  @include respond-down(sm) {
+    gap: 8px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
 }
 
 .stats div {
   display: grid;
+
+  @include respond-down(sm) {
+    flex: 1;
+    min-width: 80px;
+    text-align: center;
+  }
 }
 
 .stats strong {
   color: $color-primary;
   font-family: $font-heading;
-  font-size: 38px;
+  font-size: clamp(28px, 4vw, 38px);
   font-weight: 500;
   line-height: 1;
 }
 
 .stats span {
   color: $color-text-light;
-  font-size: 11px;
-}
-
-@media (max-width: 575.98px) {
-  .about__image img {
-    height: 420px;
-  }
-  .stats {
-    gap: 12px;
-    justify-content: space-between;
-  }
-  .stats strong {
-    font-size: 30px;
-  }
+  font-size: clamp(10px, 1.5vw, 11px);
 }

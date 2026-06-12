@@ -1,7 +1,15 @@
 @use "variables" as *;
 
 .section {
-  padding: 120px 0;
+  padding: $space-3xl 0;
+
+  @include respond-down(md) {
+    padding: $space-2xl 0;
+  }
+
+  @include respond-down(xs) {
+    padding: $space-xl 0;
+  }
 }
 
 .section--light {
@@ -10,7 +18,7 @@
 
 .section-heading {
   max-width: 720px;
-  margin: 0 auto 54px;
+  margin: 0 auto $space-lg;
   text-align: center;
 }
 
@@ -19,7 +27,7 @@
 }
 
 .section-action {
-  margin-top: 42px;
+  margin-top: $space-lg;
   text-align: center;
 }
 
@@ -40,10 +48,4 @@
   border: 1px solid #c9decf;
   background: #edf8f0;
   color: #286438;
-}
-
-@media (max-width: 767.98px) {
-  .section {
-    padding: 80px 0;
-  }
 }

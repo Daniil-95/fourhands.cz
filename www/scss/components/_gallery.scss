@@ -4,6 +4,40 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 5px;
+
+  @include respond-down(lg) {
+    grid-template-columns: repeat(3, 1fr);
+
+    a:nth-child(n+4) {
+      display: none;
+    }
+  }
+
+  @include respond-down(sm) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    a {
+      display: block !important;
+      height: 200px;
+    }
+
+    a:nth-child(n+4) {
+      display: none !important;
+    }
+  }
+
+  @include respond-down(xs) {
+    grid-template-columns: 1fr;
+
+    a {
+      height: 260px;
+    }
+
+    a:nth-child(n+2) {
+      display: none !important;
+    }
+  }
 }
 
 .gallery-preview a {
@@ -25,9 +59,18 @@
 .gallery-grid {
   columns: 3;
   column-gap: 18px;
+
+  @include respond-down(lg) {
+    columns: 2;
+  }
+
+  @include respond-down(sm) {
+    columns: 1;
+  }
 }
 
 .gallery-item {
+  display: block;
   position: relative;
   width: 100%;
   margin: 0 0 18px;
@@ -48,6 +91,11 @@
   background: linear-gradient(transparent, rgba(0, 0, 0, .65));
   color: $color-white;
   text-align: left;
+
+  @include respond-down(sm) {
+    padding: 24px 12px 10px;
+    font-size: 13px;
+  }
 }
 
 .lightbox {
@@ -55,10 +103,10 @@
   padding: 0;
   border: 0;
   background: transparent;
-}
 
-.lightbox::backdrop {
-  background: rgba(20, 10, 12, .9);
+  &::backdrop {
+    background: rgba(20, 10, 12, .9);
+  }
 }
 
 .lightbox img {
@@ -75,28 +123,16 @@
   color: white;
   cursor: pointer;
   font-size: 46px;
-}
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
 
-@media (max-width: 991.98px) {
-  .gallery-preview {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .gallery-preview a:nth-child(n+4) {
-    display: none;
-  }
-  .gallery-grid {
-    columns: 2;
-  }
-}
-
-@media (max-width: 575.98px) {
-  .gallery-preview, .gallery-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    columns: auto;
-  }
-  .gallery-preview a {
-    display: block !important;
-    height: 280px;
+  @include respond-down(sm) {
+    top: 12px;
+    right: 12px;
+    font-size: 36px;
+    width: 44px;
+    height: 44px;
   }
 }

@@ -7,16 +7,20 @@
   background: $color-white;
   text-align: center;
   transition: $transition;
-}
 
-.program-card:hover {
-  box-shadow: $shadow;
-  transform: translateY(-8px);
+  &:hover {
+    box-shadow: $shadow;
+    transform: translateY(-8px);
+  }
 }
 
 .program-card__image {
   height: 220px;
   overflow: hidden;
+
+  @include respond-down(sm) {
+    height: 180px;
+  }
 }
 
 .program-card__image img {
@@ -51,16 +55,26 @@
 
 .program-card__body h3 {
   font-size: 28px;
+
+  @include respond-down(sm) {
+    font-size: 24px;
+  }
 }
 
 .program-card__body p {
   min-height: 58px;
   color: $color-text-light;
-  font-size: 14px;
+  font-size: $font-size-small;
   line-height: 1.6;
+
+  @include respond-down(sm) {
+    min-height: auto;
+  }
 }
 
 .program-card__body a {
+  display: inline-block;
+  padding: 8px 0;
   color: $color-primary;
   font-size: 11px;
   font-weight: 600;

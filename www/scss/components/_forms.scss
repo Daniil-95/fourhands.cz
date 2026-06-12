@@ -18,11 +18,20 @@
   border-radius: 0;
   outline-color: $color-primary;
   background: $color-white;
+  transition: border-color $transition;
+
+  &:focus {
+    border-color: $color-primary;
+  }
 }
 
 .inquiry-form textarea {
   min-height: 120px;
   resize: vertical;
+
+  @include respond-down(sm) {
+    min-height: 100px;
+  }
 }
 
 .inquiry-form .form-row {
@@ -30,14 +39,12 @@
   grid-template-columns: 1fr 1fr;
   gap: 14px;
   margin-bottom: 14px;
+
+  @include respond-down(sm) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .inquiry-form > label {
   margin-bottom: 18px;
-}
-
-@media (max-width: 575.98px) {
-  .inquiry-form .form-row {
-    grid-template-columns: 1fr;
-  }
 }

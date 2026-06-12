@@ -1,13 +1,62 @@
+@use "sass:map";
+
+// ─── Colors ──────────────────────────────────────────────
 $color-primary: #8F1125;
 $color-primary-hover: #A71A30;
+$color-primary-dark: #610b18;
 $color-background: #F8F5F0;
 $color-background-light: #FCFAF7;
 $color-text: #2A2A2A;
 $color-text-light: #6D6D6D;
 $color-border: #E7E0D7;
 $color-white: #FFFFFF;
+$color-hero-gradient-start: #4a0a14;
+$color-footer-bg: #4b0913;
 
+// ─── Typography ──────────────────────────────────────────
 $font-heading: "Cormorant Garamond", serif;
 $font-body: "Inter", sans-serif;
+
+$font-size-hero-heading: clamp(48px, 8vw, 112px);
+$font-size-page-heading: clamp(42px, 6vw, 90px);
+$font-size-h1: clamp(36px, 5vw, 68px);
+$font-size-h2: clamp(30px, 4vw, 68px);
+$font-size-h3: clamp(24px, 3vw, 34px);
+$font-size-body: clamp(16px, 1.1vw, 18px);
+$font-size-small: clamp(12px, 0.8vw, 14px);
+
+// ─── Spacing Scale ───────────────────────────────────────
+$space-xs: 0.5rem;
+$space-sm: 1rem;
+$space-md: 1.5rem;
+$space-lg: 2rem;
+$space-xl: 4rem;
+$space-2xl: 6rem;
+$space-3xl: 8rem;
+
+// ─── Breakpoints ─────────────────────────────────────────
+$breakpoints: (
+    xs: 480px,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px,
+);
+
+// ─── Mixins ──────────────────────────────────────────────
+@mixin respond-down($bp) {
+    @media (max-width: map.get($breakpoints, $bp) - .02px) {
+        @content;
+    }
+}
+
+@mixin respond-up($bp) {
+    @media (min-width: map.get($breakpoints, $bp)) {
+        @content;
+    }
+}
+
+// ─── Shadows & Transitions ───────────────────────────────
 $shadow: 0 20px 60px rgba(55, 24, 27, .12);
 $transition: .35s ease;

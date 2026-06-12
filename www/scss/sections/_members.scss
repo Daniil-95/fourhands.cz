@@ -1,8 +1,12 @@
 @use "../base/variables" as *;
 
 .member {
-  padding: 80px 0;
+  padding: $space-2xl 0;
   border-bottom: 1px solid $color-border;
+
+  @include respond-down(sm) {
+    padding: $space-xl 0;
+  }
 }
 
 .member:first-child {
@@ -17,6 +21,14 @@
   width: 100%;
   max-height: 720px;
   object-fit: cover;
+
+  @include respond-down(md) {
+    max-height: 480px;
+  }
+
+  @include respond-down(sm) {
+    max-height: 360px;
+  }
 }
 
 .member--reverse {

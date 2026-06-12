@@ -7,7 +7,7 @@
 .video-card {
   position: relative;
   display: block;
-  height: 300px;
+  height: clamp(220px, 25vw, 300px);
   overflow: hidden;
   background: #1f1718;
   color: $color-white;
@@ -38,7 +38,7 @@
   bottom: 18px;
   left: 20px;
   font-family: $font-heading;
-  font-size: 24px;
+  font-size: clamp(18px, 2vw, 24px);
   font-weight: 500;
   line-height: 1.1;
 }
@@ -55,6 +55,17 @@
   border: 2px solid $color-white;
   border-radius: 50%;
   transform: translate(-50%, -50%);
+  transition: $transition;
+
+  @include respond-down(sm) {
+    width: 48px;
+    height: 48px;
+    font-size: 14px;
+  }
+}
+
+.video-card:hover .video-card__play {
+  background: rgba(255, 255, 255, .15);
 }
 
 .slider-arrow {
@@ -71,36 +82,46 @@
   color: $color-primary;
   cursor: pointer;
   transform: translateY(-50%);
+  transition: $transition;
+
+  &:hover {
+    background: $color-primary;
+    color: $color-white;
+  }
+
+  @include respond-down(sm) {
+    width: 44px;
+    height: 44px;
+    font-size: 12px;
+  }
 }
 
 .slider-arrow--prev {
   left: -26px;
+
+  @include respond-down(lg) {
+    left: 8px;
+  }
 }
 
 .slider-arrow--next {
   right: -26px;
+
+  @include respond-down(lg) {
+    right: 8px;
+  }
 }
 
 .video-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 22px;
-}
 
-@media (max-width: 991.98px) {
-  .video-grid {
+  @include respond-down(lg) {
     grid-template-columns: repeat(2, 1fr);
   }
-  .slider-arrow--prev {
-    left: 8px;
-  }
-  .slider-arrow--next {
-    right: 8px;
-  }
-}
 
-@media (max-width: 575.98px) {
-  .video-grid {
+  @include respond-down(sm) {
     grid-template-columns: 1fr;
   }
 }

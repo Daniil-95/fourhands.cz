@@ -1,7 +1,7 @@
 @use "../base/variables" as *;
 
 .references {
-  background: radial-gradient(circle at 50% 0, #b32338, $color-primary 46%, #610b18);
+  background: radial-gradient(circle at 50% 0, #b32338, $color-primary 46%, $color-primary-dark);
 }
 
 .testimonial {
@@ -10,17 +10,24 @@
   background: $color-white;
   color: $color-text-light;
   font-family: $font-heading;
-  font-size: 20px;
+  font-size: clamp(17px, 1.5vw, 20px);
   font-style: italic;
+
+  @include respond-down(sm) {
+    padding: 24px 20px;
+  }
 }
 
 .testimonial > span {
+  display: block;
   color: #d8c5ae;
-  font-size: 58px;
+  font-size: clamp(40px, 5vw, 58px);
   line-height: .6;
 }
 
 .testimonial strong {
+  display: block;
+  margin-top: 8px;
   color: $color-text;
   font-family: $font-body;
   font-size: 12px;

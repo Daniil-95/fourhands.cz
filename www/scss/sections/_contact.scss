@@ -8,10 +8,26 @@
   min-height: 720px;
   background-position: center;
   background-size: cover;
+
+  @include respond-down(lg) {
+    min-height: 440px;
+  }
+
+  @include respond-down(sm) {
+    min-height: 260px;
+  }
 }
 
 .contact__content {
   padding: 85px max(6vw, 45px);
+
+  @include respond-down(lg) {
+    padding: 70px 24px;
+  }
+
+  @include respond-down(sm) {
+    padding: 48px 20px;
+  }
 }
 
 .contact__details {
@@ -23,11 +39,3 @@
   font-size: 14px;
 }
 
-@media (max-width: 991.98px) {
-  .contact__visual {
-    min-height: 440px;
-  }
-  .contact__content {
-    padding: 70px 24px;
-  }
-}

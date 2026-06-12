@@ -1,3 +1,9 @@
+@use "../base/variables" as *;
+
 .references .section-heading {
   margin-bottom: 40px;
+
+  @include respond-down(sm) {
+    margin-bottom: 28px;
+  }
 }

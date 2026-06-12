@@ -2,9 +2,13 @@
 
 .site-footer {
   padding: 75px 0 20px;
-  background: #4b0913;
+  background: $color-footer-bg;
   color: rgba(255, 255, 255, .72);
   font-size: 13px;
+
+  @include respond-down(sm) {
+    padding: 48px 0 16px;
+  }
 }
 
 .brand--footer {
@@ -34,17 +38,25 @@
 
 .socials a {
   display: grid;
-  width: 30px;
-  height: 30px;
+  width: 44px;
+  height: 44px;
   place-items: center;
   border: 1px solid rgba(255, 255, 255, .3);
   border-radius: 50%;
   color: $color-white;
-  font-size: 10px;
+  font-size: 13px;
+  transition: $transition;
+
+  &:hover {
+    border-color: $color-white;
+    background: rgba(255, 255, 255, .1);
+  }
 }
 
 .site-footer__bottom {
   display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-top: 55px;
   padding-top: 18px;
   border-top: 1px solid rgba(255, 255, 255, .15);
