@@ -1,4 +1,7 @@
 {block title}{_'Piano duo for exceptional moments'}{/block}
+{block head}
+<link rel="preload" as="image" href="{$basePath}/images/story.jpg" fetchpriority="high">
+{/block}
 {block content}
     <section class="hero" id="uvod" style="--hero-image:url('{$basePath}/images/story.jpg')">
         <div class="container hero__content reveal">
@@ -14,8 +17,8 @@
         <div class="container">
             <div class="row align-items-center gy-5">
                 <div class="col-lg-6 reveal">
-                    <div class="about__image"><img src="{$basePath}/images/slider2.jpg" alt="{_'Piano duo Fourhands'}">
-                    </div>
+<div class="about__image"><img src="{$basePath}/images/slider2.jpg" width="1200" height="529" alt="{_'Piano duo Fourhands'}">
+            </div>
                 </div>
                 <div class="col-lg-6 reveal">
                     <p class="eyebrow">{_'About us'}</p>
@@ -45,7 +48,7 @@
                 ]}
                 <div class="col-md-6 col-xl-3 reveal" n:foreach="$programs as $program">
                     <article class="program-card">
-                        <div class="program-card__image"><img src="{$basePath}/images/{$program[2]}" alt="{_ $program[0]}"></div>
+                        <div class="program-card__image"><img src="{$basePath}/images/{$program[2]}" width="600" height="400" alt="{_ $program[0]}" loading="lazy"></div>
                         <div class="program-card__icon">{$program[3]}</div>
                         <div class="program-card__body"><h3>{_ $program[0]}</h3>
                             <p>{_ $program[1]}</p><a href="#kontakt">{_'More information'} <span>→</span></a>
@@ -65,7 +68,7 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide" n:foreach="$videos as $video">
                             <a class="video-card" href="{$video['url']}" target="_blank" rel="noopener">
-                                <img src="{$basePath}/{$video['image_path'] ?: 'images/kids1-thumb.jpg'}" alt="{$video['title']}">
+                                <img src="{$basePath}/{$video['image_path'] ?: 'images/kids1-thumb.jpg'}" width="640" height="427" alt="{$video['title']}" loading="lazy">
                                 <span class="video-card__play">▶</span><strong>{$video['title']}</strong>
                             </a>
                         </div>
@@ -83,7 +86,7 @@
             <div class="section-heading reveal"><p class="eyebrow">{_'Photo gallery'}</p>
                 <h2>{_'Moments in pictures'}</h2></div>
             <div class="gallery-preview reveal">
-                {foreach ($photos|slice: 0, 5) as $photo}<a n:href=":Front:Galerie:default locale => $locale"><img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title']}"></a>{/foreach}
+                {foreach ($photos|slice: 0, 5) as $photo}<a n:href=":Front:Galerie:default locale => $locale"><img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title']}" loading="lazy"></a>{/foreach}
             </div>
             <div class="section-action"><a class="button button--outline" n:href=":Front:Galerie:default locale => $locale">{_'Show entire gallery'} <span>→</span></a></div>
         </div>

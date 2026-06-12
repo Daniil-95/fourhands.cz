@@ -2,6 +2,8 @@
 
 .section {
   padding: $space-3xl 0;
+  content-visibility: auto;
+  contain-intrinsic-size: 600px;
 
   @include respond-down(md) {
     padding: $space-2xl 0;

@@ -20,6 +20,7 @@
 .member img {
   width: 100%;
   max-height: 720px;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
 
   @include respond-down(md) {
