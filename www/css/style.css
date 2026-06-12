@@ -299,38 +299,32 @@ p {
 }
 
 .gallery-grid {
-  columns: 4;
-  column-gap: 22px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
 }
 @media (max-width: 991.98px) {
   .gallery-grid {
-    columns: 3;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 @media (max-width: 575.98px) {
   .gallery-grid {
-    columns: 2;
-    column-gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 }
 
 .gallery-item {
   display: block;
   position: relative;
-  width: 100%;
-  margin: 0 0 22px;
-  padding: 0;
   overflow: hidden;
-  border: 0;
   border-radius: 8px;
-  background: none;
   cursor: zoom-in;
-  break-inside: avoid;
   text-decoration: none;
 }
 @media (max-width: 575.98px) {
   .gallery-item {
-    margin-bottom: 16px;
     border-radius: 6px;
   }
 }
