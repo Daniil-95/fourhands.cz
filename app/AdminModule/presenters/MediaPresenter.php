@@ -32,7 +32,7 @@ final class MediaPresenter extends BaseAdminPresenter
         if ($id !== null) {
             $item = $this->mediaRepository->getById($id);
             if (!$item) {
-                $this->error('Media item not found.');
+                $this->error('Médium nenalezeno.');
             }
             $this->editingType = $item->type;
 

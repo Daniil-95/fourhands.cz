@@ -29,7 +29,7 @@ final class EventPresenter extends BaseAdminPresenter
         if ($id !== null) {
             $item = $this->eventRepository->getById($id);
             if (!$item) {
-                $this->error('Event not found.');
+                $this->error('Událost nenalezena.');
             }
 
             $this['eventForm']->setDefaults([

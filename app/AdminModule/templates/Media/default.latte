@@ -1,8 +1,8 @@
 ﻿{block content}
-<h2>Media</h2>
-<p><a class="btn" n:href="edit">Add media item</a></p>
+<h2>Média</h2>
+<p><a class="btn" n:href="edit">Přidat médium</a></p>
 <table>
-    <thead><tr><th>ID</th><th>Lang</th><th>Type</th><th>Title</th><th>Image</th><th>URL</th><th>Actions</th></tr></thead>
+    <thead><tr><th>ID</th><th>Jazyk</th><th>Typ</th><th>Název</th><th>Obrázek</th><th>URL</th><th>Akce</th></tr></thead>
     <tbody>
         <tr n:foreach="$items as $item">
             <td>{$item->id}</td>
@@ -12,8 +12,8 @@
             <td>{$item->image_path}</td>
             <td>{$item->url|truncate:40}</td>
             <td>
-                <a n:href="edit id => $item->id">Edit</a>
-                <a n:href="delete id => $item->id" onclick="return confirm('Delete this media item?')">Delete</a>
+                <a n:href="edit id => $item->id">Upravit</a>
+                <a n:href="delete id => $item->id" onclick="return confirm('Smazat toto médium?')">Smazat</a>
             </td>
         </tr>
     </tbody>

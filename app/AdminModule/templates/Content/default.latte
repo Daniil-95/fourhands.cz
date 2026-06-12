@@ -1,18 +1,18 @@
 ﻿{block content}
-<h2>Content blocks</h2>
-<p><a class="btn" n:href="edit">Add block</a></p>
+<h2>Bloky obsahu</h2>
+<p><a class="btn" n:href="edit">Přidat blok</a></p>
 <table>
-    <thead><tr><th>ID</th><th>Lang</th><th>Key</th><th>Title</th><th>Order</th><th>Actions</th></tr></thead>
+    <thead><tr><th>ID</th><th>Jazyk</th><th>Klíč</th><th>Název</th><th>Pořadí</th><th>Akce</th></tr></thead>
     <tbody>
         <tr n:foreach="$items as $item">
             <td>{$item->id}</td>
             <td>{$item->lang}</td>
             <td>{$item->code}</td>
             <td>{$item->code}</td>
-            <td>0</td>
+            <td>{$item->sort_order}</td>
             <td>
-                <a n:href="edit id => $item->id">Edit</a>
-                <a n:href="delete id => $item->id" onclick="return confirm('Delete this block?')">Delete</a>
+                <a n:href="edit id => $item->id">Upravit</a>
+                <a n:href="delete id => $item->id" onclick="return confirm('Smazat tento blok?')">Smazat</a>
             </td>
         </tr>
     </tbody>

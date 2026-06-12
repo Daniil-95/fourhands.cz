@@ -29,23 +29,23 @@ final class AdminAuthenticator implements Authenticator
 
         if (!$row) {
             $this->logLoginAttempt(null, $login, false, 'user_not_found');
-            throw new AuthenticationException('Invalid credentials.');
+            throw new AuthenticationException('Neplatné přihlašovací údaje.');
         }
 
         if ((int) $row->active !== 1) {
             $this->logLoginAttempt((int) $row->id, $login, false, 'inactive');
-            throw new AuthenticationException('Account is inactive.');
+            throw new AuthenticationException('Účet je deaktivován.');
         }
 
         if (!password_verify($password, (string) $row->password)) {
             $this->logLoginAttempt((int) $row->id, $login, false, 'invalid_password');
-            throw new AuthenticationException('Invalid credentials.');
+            throw new AuthenticationException('Neplatné přihlašovací údaje.');
         }
 
         $roles = $this->extractRoles($this->loadRoleCodes((int) $row->id));
         if ($roles === [] || !in_array('admin', $roles, true)) {
             $this->logLoginAttempt((int) $row->id, $login, false, 'no_admin_access');
-            throw new AuthenticationException('You do not have admin access.');
+            throw new AuthenticationException('Nemáte oprávnění pro vstup do administrace.');
         }
 
         $this->logLoginAttempt((int) $row->id, $login, true, 'ok');

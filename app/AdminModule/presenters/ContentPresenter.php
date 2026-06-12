@@ -29,7 +29,7 @@ final class ContentPresenter extends BaseAdminPresenter
         if ($id !== null) {
             $item = $this->contentRepository->getById($id);
             if (!$item) {
-                $this->error('Content block not found.');
+                $this->error('Blok obsahu nenalezen.');
             }
 
             $this['contentForm']->setDefaults([
