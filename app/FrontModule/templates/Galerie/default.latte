@@ -1,20 +1,22 @@
 {block title}{_'Gallery'}{/block}
 {block content}
     <section class="page-hero">
-        <div class="container"><p class="eyebrow eyebrow--light">{_'Photo gallery'}</p>
+        <div class="container">
+            <p class="eyebrow eyebrow--light">{_'Photo gallery'}</p>
             <h1>{_'Moments in pictures'}</h1>
-            <p>{_'Concerts, weddings and events with atmosphere.'}</p></div>
+            <p>{_'Concerts, weddings and events with atmosphere.'}</p>
+        </div>
     </section>
     <section class="section">
         <div class="container">
             <div class="gallery-grid">
-                <button class="gallery-item reveal" type="button" n:foreach="$photos as $photo" data-lightbox="{$basePath}/{$photo['image_path']}"><img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title']}" loading="lazy"><span>{$photo['title']}</span>
-                </button>
+                {foreach $photos as $photo}
+                    <a class="gallery-item reveal" href="{$basePath}/{$photo['image_path']}" data-fancybox="gallery" data-caption="{$photo['title'] ?: 'Fourhands'}">
+                        <img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title'] ?: 'Fourhands'}" loading="lazy">
+                        <span>{$photo['title']}</span>
+                    </a>
+                {/foreach}
             </div>
         </div>
     </section>
-    <dialog class="lightbox" data-lightbox-dialog>
-        <button type="button" data-lightbox-close>×</button>
-        <img src="" alt="">
-    </dialog>
 {/block}

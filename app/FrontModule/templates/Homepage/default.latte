@@ -133,11 +133,17 @@
             </div>
             {if $photos}
                 <div class="homepage-gallery reveal">
-                    {foreach $photos as $photo}
-                        <a href="{$basePath}/{$photo['image_path']}" data-fancybox="homepage-gallery" data-caption="{$photo['title'] ?: 'Fourhands'}">
-                            <img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title'] ?: 'Fourhands'}" loading="lazy">
-                        </a>
-                    {/foreach}
+                    <div class="swiper homepage-gallery-swiper">
+                        <div class="swiper-wrapper">
+                            {foreach $photos as $photo}
+                                <div class="swiper-slide">
+                                    <a href="{$basePath}/{$photo['image_path']}" data-fancybox="homepage-gallery" data-caption="{$photo['title'] ?: 'Fourhands'}">
+                                        <img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title'] ?: 'Fourhands'}" loading="lazy">
+                                    </a>
+                                </div>
+                            {/foreach}
+                        </div>
+                    </div>
                 </div>
                 <div class="section-action">
                     <a class="button button--outline" n:href=":Front:Galerie:default locale => $locale">{_'Show entire gallery'}<span>→</span></a>

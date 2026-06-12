@@ -63,13 +63,45 @@ if (window.Swiper && document.querySelector('.video-swiper')) {
     });
 }
 
-// ─── Fancybox: Homepage gallery ─────────────────────────
+// ─── Swiper: Homepage gallery carousel ──────────────────
+if (window.Swiper && document.querySelector('.homepage-gallery-swiper')) {
+    new Swiper('.homepage-gallery-swiper', {
+        slidesPerView: 1.3,
+        spaceBetween: 16,
+        centeredSlides: true,
+        grabCursor: true,
+        loop: true,
+        autoplay: {
+            delay: 4000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+        },
+        speed: 600,
+        breakpoints: {
+            768: { slidesPerView: 3, centeredSlides: true },
+            1200: { slidesPerView: 4.5, centeredSlides: true },
+        },
+    });
+}
+
+// ─── Fancybox ─────────────────────────────────────────────
+const fancyboxConfig = {
+    Toolbar: { display: ['zoom', 'fullscreen', 'thumbs', 'close'] },
+    Images: { zoom: true },
+    Carousel: { infinite: true },
+};
+
 if (window.Fancybox && document.querySelector('[data-fancybox="homepage-gallery"]')) {
     Fancybox.bind('[data-fancybox="homepage-gallery"]', {
+        ...fancyboxConfig,
         Thumbs: { autoStart: false },
-        Toolbar: { display: ['zoom', 'fullscreen', 'thumbs', 'close'] },
-        Images: { zoom: true },
-        Carousel: { infinite: true },
+    });
+}
+
+if (window.Fancybox && document.querySelector('[data-fancybox="gallery"]')) {
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        ...fancyboxConfig,
+        Thumbs: { autoStart: true },
     });
 }
 
@@ -83,24 +115,4 @@ if (window.Swiper && document.querySelector('.reference-swiper')) {
     });
 }
 
-// ─── Lightbox ────────────────────────────────────────────
-const lightbox = document.querySelector('[data-lightbox-dialog]');
-if (lightbox) {
-    document.querySelectorAll('[data-lightbox]').forEach((item) => item.addEventListener('click', () => {
-        const img = lightbox.querySelector('img');
-        if (img) img.src = item.dataset.lightbox;
-        lightbox.showModal();
-        document.body.style.overflow = 'hidden';
-    }));
 
-    lightbox.addEventListener('close', () => {
-        document.body.style.overflow = '';
-    });
-
-    lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) lightbox.close();
-    });
-
-    const closeBtn = document.querySelector('[data-lightbox-close]');
-    closeBtn?.addEventListener('click', () => lightbox.close());
-}
