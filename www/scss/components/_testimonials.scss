@@ -1,0 +1,8 @@
+@use "../base/variables" as *;
+
+.references { background: radial-gradient(circle at 50% 0, #b32338, $color-primary 46%, #610b18); }
+.testimonial { height: auto; padding: 32px; background: $color-white; color: $color-text-light; font-family: $font-heading; font-size: 20px; font-style: italic; }
+.testimonial > span { color: #d8c5ae; font-size: 58px; line-height: .6; }
+.testimonial strong { color: $color-text; font-family: $font-body; font-size: 12px; font-style: normal; }
+.reference-swiper { padding-bottom: 55px; }
+.reference-swiper .swiper-pagination-bullet { background: $color-white; }

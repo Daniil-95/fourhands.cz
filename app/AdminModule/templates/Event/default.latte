@@ -1,0 +1,20 @@
+﻿{block content}
+<h2>Events</h2>
+<p><a class="btn" n:href="edit">Add event</a></p>
+<table>
+    <thead><tr><th>ID</th><th>Lang</th><th>Type</th><th>Date</th><th>Description</th><th>Actions</th></tr></thead>
+    <tbody>
+        <tr n:foreach="$items as $item">
+            <td>{$item->id}</td>
+            <td>{$item->lang}</td>
+            <td>-</td>
+            <td>{$item->publish_date}</td>
+            <td>{$item->title|truncate:70}</td>
+            <td>
+                <a n:href="edit id => $item->id">Edit</a>
+                <a n:href="delete id => $item->id" onclick="return confirm('Delete this event?')">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{/block}

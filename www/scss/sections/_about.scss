@@ -1,0 +1,10 @@
+@use "../base/variables" as *;
+
+.about__image { position: relative; padding: 0 28px 28px 0; }
+.about__image::after { content: ""; position: absolute; z-index: -1; right: 0; bottom: 0; width: 70%; height: 70%; border: 1px solid #cdbca9; }
+.about__image img { width: 100%; height: 560px; object-fit: cover; }
+.stats { display: flex; gap: 36px; margin: 34px 0; padding: 25px 0; border-top: 1px solid $color-border; border-bottom: 1px solid $color-border; }
+.stats div { display: grid; }
+.stats strong { color: $color-primary; font-family: $font-heading; font-size: 38px; font-weight: 500; line-height: 1; }
+.stats span { color: $color-text-light; font-size: 11px; }
+@media (max-width: 575.98px) { .about__image img { height: 420px; } .stats { gap: 12px; justify-content: space-between; } .stats strong { font-size: 30px; } }

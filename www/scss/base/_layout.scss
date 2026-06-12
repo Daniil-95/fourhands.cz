@@ -1,0 +1,11 @@
+@use "variables" as *;
+
+.section { padding: 120px 0; }
+.section--light { background: $color-background-light; }
+.section-heading { max-width: 720px; margin: 0 auto 54px; text-align: center; }
+.section-heading--light { color: $color-white; }
+.section-action { margin-top: 42px; text-align: center; }
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+.reveal.is-visible { opacity: 1; transform: none; }
+.flash { margin: 20px 0; padding: 12px 16px; border: 1px solid #c9decf; background: #edf8f0; color: #286438; }
+@media (max-width: 767.98px) { .section { padding: 80px 0; } }

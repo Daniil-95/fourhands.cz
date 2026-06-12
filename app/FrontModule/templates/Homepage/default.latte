@@ -1,0 +1,109 @@
+{block title}Klavírní duo pro výjimečné okamžiky{/block}
+{block content}
+<section class="hero" id="uvod" style="--hero-image:url('{$basePath}/images/story.jpg')">
+    <div class="container hero__content reveal">
+        <p class="eyebrow eyebrow--light">Klavírní duo</p>
+        <h1>FOURHANDS</h1>
+        <p class="hero__lead">Klavírní duo pro výjimečné<br>okamžiky vašeho života</p>
+        <a class="button" href="#kontakt">Nezávazná poptávka <span>→</span></a>
+    </div>
+    <a class="hero__scroll" href="#o-duu">Objevte nás <span>↓</span></a>
+</section>
+
+<section class="section about" id="o-duu">
+    <div class="container">
+        <div class="row align-items-center gy-5">
+            <div class="col-lg-6 reveal"><div class="about__image"><img src="{$basePath}/images/slider2.jpg" alt="Klavírní duo Fourhands"></div></div>
+            <div class="col-lg-6 reveal">
+                <p class="eyebrow">O duu</p>
+                <h2>Hudba, která propojuje a vytváří emoce</h2>
+                <div class="rich-text">{$content['about']['content_html'] ?? '<p>Jsme klavírní duo Fourhands. Spojujeme vášeň pro hudbu, cit pro detail a radost z toho, když se hudba stává součástí důležitých životních okamžiků.</p>'|noescape}</div>
+                <div class="stats"><div><strong>10+</strong><span>let hraní</span></div><div><strong>150+</strong><span>koncertů</span></div><div><strong>1000+</strong><span>spokojených hostů</span></div></div>
+                <a class="button" n:href=":Front:Clenky:default locale => $locale">Poznejte nás <span>→</span></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section--light" id="programy">
+    <div class="container">
+        <div class="section-heading reveal"><p class="eyebrow">Naše programy</p><h2>Hudba pro každou příležitost</h2></div>
+        <div class="row gy-4 program-grid">
+            {var $programs = [
+                ['Svatby', 'Romantická hudba pro obřad, hostinu i večerní zábavu.', 'kids5-thumb.jpg', '♡'],
+                ['Firemní akce', 'Elegantní doprovod pro večírky, gala večery a eventy.', 'kids8-thumb.jpg', '◇'],
+                ['Koncerty', 'Vlastní koncertní programy na prestižních místech.', 'D55806FE-109C-441B-98E7-8035F609E16F.jpg', '♩'],
+                ['Soukromé akce', 'Hudba na narozeniny, výročí a jiné výjimečné události.', 'kids7-thumb.jpg', '☆']
+            ]}
+            <div class="col-md-6 col-xl-3 reveal" n:foreach="$programs as $program">
+                <article class="program-card">
+                    <div class="program-card__image"><img src="{$basePath}/images/{$program[2]}" alt="{$program[0]}"></div>
+                    <div class="program-card__icon">{$program[3]}</div>
+                    <div class="program-card__body"><h3>{$program[0]}</h3><p>{$program[1]}</p><a href="#kontakt">Více informací <span>→</span></a></div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section videos" id="videa">
+    <div class="container">
+        <div class="section-heading reveal"><p class="eyebrow">Video prezentace</p><h2>Poslechněte si nás</h2></div>
+        <div class="slider-shell reveal">
+            <div class="swiper video-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" n:foreach="$videos as $video">
+                        <a class="video-card" href="{$video['url']}" target="_blank" rel="noopener">
+                            <img src="{$basePath}/{$video['image_path'] ?: 'images/kids1-thumb.jpg'}" alt="{$video['title']}">
+                            <span class="video-card__play">▶</span><strong>{$video['title']}</strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <button class="slider-arrow slider-arrow--prev video-prev" aria-label="Předchozí video">←</button><button class="slider-arrow slider-arrow--next video-next" aria-label="Další video">→</button>
+        </div>
+        <div class="section-action"><a class="button" n:href=":Front:Videa:default locale => $locale">Zobrazit všechna videa <span>→</span></a></div>
+    </div>
+</section>
+
+<section class="section section--light" id="galerie">
+    <div class="container-fluid">
+        <div class="section-heading reveal"><p class="eyebrow">Fotogalerie</p><h2>Okamžiky v obrazech</h2></div>
+        <div class="gallery-preview reveal">
+            {foreach ($photos|slice: 0, 5) as $photo}<a n:href=":Front:Galerie:default locale => $locale"><img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title']}"></a>{/foreach}
+        </div>
+        <div class="section-action"><a class="button button--outline" n:href=":Front:Galerie:default locale => $locale">Zobrazit celou galerii <span>→</span></a></div>
+    </div>
+</section>
+
+<section class="section references" id="reference">
+    <div class="container">
+        <div class="section-heading section-heading--light reveal"><p class="eyebrow eyebrow--light">Reference</p><h2>Co o nás říkají naši klienti</h2></div>
+        <div class="swiper reference-swiper reveal"><div class="swiper-wrapper">
+            {if $references}
+                <article class="swiper-slide testimonial" n:foreach="$references as $reference"><span>“</span><div>{$reference['content_html']|noescape}</div></article>
+            {else}
+                <article class="swiper-slide testimonial"><span>“</span><p>Fourhands vytvořily na naší svatbě kouzelnou atmosféru. Hosté byli nadšení a my na tento okamžik nezapomeneme.</p><strong>— Tereza & Martin</strong></article>
+                <article class="swiper-slide testimonial"><span>“</span><p>Profesionální přístup, nádherný repertoár a dokonalá souhra. Vřele doporučujeme na každou firemní akci.</p><strong>— Event manager, Prague</strong></article>
+                <article class="swiper-slide testimonial"><span>“</span><p>Elegantní, talentované a velmi milé. Hudba Fourhands dodala našemu večeru jedinečný nádech.</p><strong>— Jana K.</strong></article>
+            {/if}
+        </div><div class="swiper-pagination"></div></div>
+    </div>
+</section>
+
+<section class="contact" id="kontakt">
+    <div class="container-fluid"><div class="row g-0">
+        <div class="col-lg-5 contact__visual" style="background-image:url('{$basePath}/images/story.jpg')"></div>
+        <div class="col-lg-7 contact__content reveal">
+            <p class="eyebrow">Kontakt</p><h2>Plánujete akci?<br>Rády vám zahrajeme.</h2>
+            <div class="contact__details"><a href="tel:+420777123456">+420 777 123 456</a><a href="mailto:info@fourhands.cz">info@fourhands.cz</a><span>Praha, Česká republika</span></div>
+            {foreach $flashes as $flash}<div class="flash {$flash->type}">{$flash->message}</div>{/foreach}
+            {form inquiryForm class => 'inquiry-form'}
+                <div class="form-row"><label>{label name /}{input name}</label><label>{label email /}{input email}</label></div>
+                <div class="form-row"><label>{label eventType /}{input eventType}</label><label>{label date /}{input date}</label></div>
+                <label>{label message /}{input message}</label>{input send class => 'button'}
+            {/form}
+        </div>
+    </div></div>
+</section>
+{/block}
