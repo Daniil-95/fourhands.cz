@@ -5,18 +5,29 @@
   align-items: stretch;
   gap: 16px;
   position: relative;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 24px;
+
+  @include respond-up(lg) {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 
   @include respond-down(xl) {
     gap: 14px;
   }
 
   @include respond-down(lg) {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
     padding-bottom: 14px;
 
     &::-webkit-scrollbar {
+      display: block;
       height: 4px;
     }
 

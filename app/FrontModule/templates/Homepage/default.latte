@@ -1,4 +1,4 @@
-{var $heroImage = $siteSettings['hero_image'] ? $basePath . '/'. $siteSettings['hero_image'] : $basePath . '/images/story.jpg'}
+{var $heroImage = $siteSettings['hero_image'] ? $basePath . '/' . $siteSettings['hero_image'] : $basePath . '/images/story.jpg'}
 {var $heroHeading = $siteSettings['hero_heading'] ?: 'FOURHANDS'}
 {var $heroLead = $siteSettings['hero_lead'] ?: 'Klavírní duo pro výjimečné okamžiky vašeho života.'}
 {var $heroCta = $siteSettings['hero_cta'] ?: 'Nezávazná poptávka'}
@@ -19,9 +19,11 @@
 {var $contactImage = $siteSettings['hero_image'] ? $basePath . '/' . $siteSettings['hero_image'] : $basePath . '/images/story.jpg'}
 
 {block title}{_'Piano duo for exceptional moments'}{/block}
+
 {block head}
-<link rel="preload" as="image" href="{$heroImage}" fetchpriority="high">
+    <link rel="preload" as="image" href="{$heroImage}" fetchpriority="high">
 {/block}
+
 {block content}
     <section class="hero" id="uvod" style="--hero-image:url('{$heroImage}');--hero-position:center 30%">
         <div class="container hero__content reveal">
@@ -37,7 +39,8 @@
         <div class="container">
             <div class="row align-items-center gy-5">
                 <div class="col-lg-6 reveal">
-                    <div class="about__image"><img src="{$aboutImage}" width="1200" height="529" alt="{_'Piano duo Fourhands'}">
+                    <div class="about__image">
+                        <img src="{$aboutImage}" width="1200" height="529" alt="{_'Piano duo Fourhands'}">
                     </div>
                 </div>
                 <div class="col-lg-6 reveal">
@@ -63,25 +66,32 @@
                 {if $programs}
                     <div class="col-md-6 col-xl-3 reveal" n:foreach="$programs as $program">
                         <article class="program-card">
-                            <div class="program-card__image"><img src="{$basePath}/images/{$program->image_path}" width="600" height="400" alt="{$program->title}" loading="lazy"></div>
-                            <div class="program-card__icon"><span class="program-icon program-icon--{$program->icon}"></span></div>
+                            <div class="program-card__image">
+                                <img src="{$basePath}/images/{$program->image_path}" width="600" height="400" alt="{$program->title}" loading="lazy">
+                            </div>
+                            <div class="program-card__icon">
+                                <span class="program-icon program-icon--{$program->icon}"></span>
+                            </div>
                             <div class="program-card__body"><h3>{$program->title}</h3>
                                 <p>{$program->description}</p><a href="#kontakt">{_'More information'} <span>→</span></a>
                             </div>
                         </article>
                     </div>
-                    {else}
-                    {var $fallbackPrograms = [
-                        ['Svatby', 'Romantická hudba pro obřad, hostinu i večerní zábavu.', 'kids5-thumb.jpg', 'heart'],
-                        ['Firemní akce', 'Elegantní doprovod pro večírky, gala večery a eventy.', 'kids8-thumb.jpg', 'diamond'],
-                        ['Koncerty', 'Vlastní koncertní programy na prestižních místech.', 'D55806FE-109C-441B-98E7-8035F609E16F.jpg', 'note'],
-                        ['Soukromé akce', 'Hudba na narozeniny, výročí a jiné výjimečné události.', 'kids7-thumb.jpg', 'star']
-                    ]}
+                {else}
+                {var $fallbackPrograms = [
+                ['Svatby', 'Romantická hudba pro obřad, hostinu i večerní zábavu.', 'kids5-thumb.jpg', 'heart'],
+                ['Firemní akce', 'Elegantní doprovod pro večírky, gala večery a eventy.', 'kids8-thumb.jpg', 'diamond'],
+                ['Koncerty', 'Vlastní koncertní programy na prestižních místech.', 'D55806FE-109C-441B-98E7-8035F609E16F.jpg', 'note'],
+                ['Soukromé akce', 'Hudba na narozeniny, výročí a jiné výjimečné události.', 'kids7-thumb.jpg', 'star']
+                ]}
                     <div class="col-md-6 col-xl-3 reveal" n:foreach="$fallbackPrograms as $program">
                         <article class="program-card">
-                            <div class="program-card__image"><img src="{$basePath}/images/{$program[2]}" width="600" height="400" alt="{_ $program[0]}" loading="lazy"></div>
+                            <div class="program-card__image">
+                                <img src="{$basePath}/images/{$program[2]}" width="600" height="400" alt="{_ $program[0]}" loading="lazy">
+                            </div>
                             <div class="program-card__icon"><span class="program-icon program-icon--{$program[3]}"></span></div>
-                            <div class="program-card__body"><h3>{_ $program[0]}</h3>
+                            <div class="program-card__body">
+                                <h3>{_ $program[0]}</h3>
                                 <p>{_ $program[1]}</p><a href="#kontakt">{_'More information'} <span>→</span></a>
                             </div>
                         </article>
@@ -109,33 +119,39 @@
                 <button class="slider-arrow slider-arrow--prev video-prev" aria-label="{_'Previous video'}">←</button>
                 <button class="slider-arrow slider-arrow--next video-next" aria-label="{_'Next video'}">→</button>
             </div>
-            <div class="section-action"><a class="button button--outline button--outline-light" n:href=":Front:Videa:default locale => $locale">{_'Show all videos'} <span>→</span></a></div>
+            <div class="section-action">
+                <a class="button button--outline button--outline-light" n:href=":Front:Videa:default locale => $locale">{_'Show all videos'}<span>→</span></a>
+            </div>
         </div>
     </section>
 
     <section class="section section--light" id="galerie">
         <div class="container-fluid">
-            <div class="section-heading reveal"><p class="eyebrow">{_'Photo gallery'}</p>
-                <h2>{_'Moments in pictures'}</h2></div>
-            {if $photos}
-            <div class="homepage-gallery reveal">
-                {foreach $photos as $photo}
-                <a href="{$basePath}/{$photo['image_path']}"
-                   data-fancybox="homepage-gallery"
-                   data-caption="{$photo['title'] ?: 'Fourhands'}">
-                    <img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title'] ?: 'Fourhands'}" loading="lazy">
-                </a>
-                {/foreach}
+            <div class="section-heading reveal">
+                <p class="eyebrow">{_'Photo gallery'}</p>
+                <h2>{_'Moments in pictures'}</h2>
             </div>
-            <div class="section-action"><a class="button button--outline" n:href=":Front:Galerie:default locale => $locale">{_'Show entire gallery'} <span>→</span></a></div>
+            {if $photos}
+                <div class="homepage-gallery reveal">
+                    {foreach $photos as $photo}
+                        <a href="{$basePath}/{$photo['image_path']}" data-fancybox="homepage-gallery" data-caption="{$photo['title'] ?: 'Fourhands'}">
+                            <img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title'] ?: 'Fourhands'}" loading="lazy">
+                        </a>
+                    {/foreach}
+                </div>
+                <div class="section-action">
+                    <a class="button button--outline" n:href=":Front:Galerie:default locale => $locale">{_'Show entire gallery'}<span>→</span></a>
+                </div>
             {/if}
         </div>
     </section>
 
     <section class="section references" id="reference">
         <div class="container">
-            <div class="section-heading section-heading--light reveal"><p class="eyebrow eyebrow--light">{_'References'}</p>
-                <h2>{_'What our clients say about us'}</h2></div>
+            <div class="section-heading section-heading--light reveal">
+                <p class="eyebrow eyebrow--light">{_'References'}</p>
+                <h2>{_'What our clients say about us'}</h2>
+            </div>
             <div class="swiper reference-swiper reveal">
                 <div class="swiper-wrapper">
                     {if $references}
@@ -161,23 +177,23 @@
     </section>
 
     {if $events['upcoming']}
-    <section class="section section--light" id="udalosti">
-        <div class="container">
-            <div class="section-heading reveal">
-                <p class="eyebrow">{_'Events'}</p>
-                <h2>{_'Upcoming performances'}</h2>
-            </div>
-            <div class="row gy-3 reveal">
-                <div class="col-md-6" n:foreach="$events['upcoming'] as $event">
-                    <article class="event-card">
-                        <time datetime="{$event['event_date']->format('Y-m-d')}">{$event['event_date']|date:'j. n. Y'}</time>
-                        <small>{$event['event_date']|date:'F'}</small>
-                        <h3>{$event['description']}</h3>
-                    </article>
+        <section class="section section--light" id="udalosti">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">{_'Events'}</p>
+                    <h2>{_'Upcoming performances'}</h2>
+                </div>
+                <div class="row gy-3 reveal">
+                    <div class="col-md-6" n:foreach="$events['upcoming'] as $event">
+                        <article class="event-card">
+                            <time datetime="{$event['event_date']->format('Y-m-d')}">{$event['event_date']|date:'j. n. Y'}</time>
+                            <small>{$event['event_date']|date:'F'}</small>
+                            <h3>{$event['description']}</h3>
+                        </article>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
     {/if}
 
     <section class="contact" id="kontakt">
@@ -192,9 +208,11 @@
                         <a href="mailto:{$contactEmail}">{$contactEmail}</a>
                         <span>{$contactAddress}</span>
                     </div>
+
                     {foreach $flashes as $flash}
                         <div class="flash {$flash->type}">{$flash->message}</div>
                     {/foreach}
+
                     {form inquiryForm class => 'inquiry-form'}
                         <div class="form-row">
                             <label>{label name /}{input name}</label><label>{label email /}{input email}</label></div>
