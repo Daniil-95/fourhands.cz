@@ -1,21 +1,46 @@
+@use "../base/variables" as *;
+
 .event-card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  position: relative;
+  padding: 32px;
+  border: 1px solid $color-border;
+  background: $color-white;
+  transition: $transition;
 
-    time {
-        font-size: 14px;
-        font-weight: 600;
-        color: #8F1125;
-        display: block;
-        margin-bottom: 4px;
-    }
+  &:hover {
+    box-shadow: $shadow;
+    border-color: $color-primary;
+    transform: translateY(-3px);
+  }
 
-    h3 {
-        font-size: 16px;
-        font-weight: 600;
-        margin: 0;
-        color: #1e293b;
-    }
+  time {
+    display: block;
+    margin-bottom: 12px;
+    font-family: $font-heading;
+    font-size: 36px;
+    font-weight: 500;
+    color: $color-primary;
+    line-height: 1;
+  }
+
+  time + small {
+    display: block;
+    margin-top: -6px;
+    margin-bottom: 14px;
+    font-family: $font-body;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: $color-text-light;
+  }
+
+  h3 {
+    margin: 0;
+    font-family: $font-body;
+    font-size: 15px;
+    font-weight: 400;
+    color: $color-text-light;
+    line-height: 1.6;
+  }
 }

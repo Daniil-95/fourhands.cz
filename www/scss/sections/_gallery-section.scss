@@ -1,5 +1,88 @@
 @use "../base/variables" as *;
 
-.gallery-preview + .section-action {
-  margin-top: 28px;
+.homepage-gallery {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  position: relative;
+
+  @include respond-down(xl) {
+    gap: 14px;
+  }
+
+  @include respond-down(lg) {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 14px;
+
+    &::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, .05);
+      border-radius: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $color-primary;
+      border-radius: 2px;
+    }
+  }
+
+  @include respond-down(sm) {
+    gap: 10px;
+    padding-bottom: 12px;
+    scroll-snap-type: x mandatory;
+
+    a {
+      flex: 0 0 72%;
+      scroll-snap-align: start;
+    }
+  }
+}
+
+.homepage-gallery a {
+  flex: 0 0 auto;
+  height: 320px;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
+  transition: transform .4s ease, box-shadow .4s ease;
+
+  @include respond-down(xl) {
+    height: 300px;
+  }
+
+  @include respond-down(lg) {
+    height: 280px;
+  }
+
+  @include respond-down(sm) {
+    height: 250px;
+    border-radius: 8px;
+  }
+}
+
+.homepage-gallery a:last-child {
+  margin-right: 4px;
+}
+
+.homepage-gallery img {
+  height: 100%;
+  width: auto;
+  display: block;
+  transition: transform .6s ease;
+}
+
+.homepage-gallery a:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .10);
+  transform: translateY(-3px);
+}
+
+.homepage-gallery a:hover img {
+  transform: scale(1.06);
 }

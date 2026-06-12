@@ -63,6 +63,16 @@ if (window.Swiper && document.querySelector('.video-swiper')) {
     });
 }
 
+// ─── Fancybox: Homepage gallery ─────────────────────────
+if (window.Fancybox && document.querySelector('[data-fancybox="homepage-gallery"]')) {
+    Fancybox.bind('[data-fancybox="homepage-gallery"]', {
+        Thumbs: { autoStart: false },
+        Toolbar: { display: ['zoom', 'fullscreen', 'thumbs', 'close'] },
+        Images: { zoom: true },
+        Carousel: { infinite: true },
+    });
+}
+
 // ─── Swiper: Reference carousel ──────────────────────────
 if (window.Swiper && document.querySelector('.reference-swiper')) {
     new Swiper('.reference-swiper', {

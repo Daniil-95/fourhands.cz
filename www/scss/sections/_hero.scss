@@ -6,13 +6,18 @@
   min-height: 100vh;
   min-height: 100dvh;
   align-items: center;
-  background: linear-gradient(90deg, rgba(15, 8, 8, .82), rgba(15, 8, 8, .18) 65%), var(--hero-image) center/cover;
+  background: linear-gradient(90deg, rgba(15, 8, 8, .82), rgba(15, 8, 8, .18) 65%), var(--hero-image) var(--hero-position, center)/cover;
   color: $color-white;
 }
 
 .hero__content {
   position: relative;
   z-index: 2;
+  padding: 80px 0 40px;
+
+  @include respond-down(sm) {
+    padding: 60px 0 20px;
+  }
 }
 
 .hero__lead {

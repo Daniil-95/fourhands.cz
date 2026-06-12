@@ -23,7 +23,7 @@
 <link rel="preload" as="image" href="{$heroImage}" fetchpriority="high">
 {/block}
 {block content}
-    <section class="hero" id="uvod" style="--hero-image:url('{$heroImage}')">
+    <section class="hero" id="uvod" style="--hero-image:url('{$heroImage}');--hero-position:center 30%">
         <div class="container hero__content reveal">
             <p class="eyebrow eyebrow--light">{_'Piano Duo'}</p>
             <h1>{$heroHeading}</h1>
@@ -109,7 +109,7 @@
                 <button class="slider-arrow slider-arrow--prev video-prev" aria-label="{_'Previous video'}">←</button>
                 <button class="slider-arrow slider-arrow--next video-next" aria-label="{_'Next video'}">→</button>
             </div>
-            <div class="section-action"><a class="button" n:href=":Front:Videa:default locale => $locale">{_'Show all videos'} <span>→</span></a></div>
+            <div class="section-action"><a class="button button--outline button--outline-light" n:href=":Front:Videa:default locale => $locale">{_'Show all videos'} <span>→</span></a></div>
         </div>
     </section>
 
@@ -117,10 +117,18 @@
         <div class="container-fluid">
             <div class="section-heading reveal"><p class="eyebrow">{_'Photo gallery'}</p>
                 <h2>{_'Moments in pictures'}</h2></div>
-            <div class="gallery-preview reveal">
-                {foreach ($photos|slice: 0, 5) as $photo}<a n:href=":Front:Galerie:default locale => $locale"><img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title']}" loading="lazy"></a>{/foreach}
+            {if $photos}
+            <div class="homepage-gallery reveal">
+                {foreach $photos as $photo}
+                <a href="{$basePath}/{$photo['image_path']}"
+                   data-fancybox="homepage-gallery"
+                   data-caption="{$photo['title'] ?: 'Fourhands'}">
+                    <img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title'] ?: 'Fourhands'}" loading="lazy">
+                </a>
+                {/foreach}
             </div>
             <div class="section-action"><a class="button button--outline" n:href=":Front:Galerie:default locale => $locale">{_'Show entire gallery'} <span>→</span></a></div>
+            {/if}
         </div>
     </section>
 
@@ -163,6 +171,7 @@
                 <div class="col-md-6" n:foreach="$events['upcoming'] as $event">
                     <article class="event-card">
                         <time datetime="{$event['event_date']->format('Y-m-d')}">{$event['event_date']|date:'j. n. Y'}</time>
+                        <small>{$event['event_date']|date:'F'}</small>
                         <h3>{$event['description']}</h3>
                     </article>
                 </div>

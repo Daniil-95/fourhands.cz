@@ -1,5 +1,13 @@
 @use "../base/variables" as *;
 
 .videos {
-  background: $color-background;
+  background: $color-primary-dark;
+
+  .section-heading {
+    color: $color-white;
+  }
+
+  .section-heading .eyebrow {
+    color: #f4d8d9;
+  }
 }
