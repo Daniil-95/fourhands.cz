@@ -1,62 +1,78 @@
 ﻿<!DOCTYPE html>
 <html lang="cs">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{ifset title}{include title|stripHtml} | {/ifset}Fourhands Administrace</title>
-    <link rel="stylesheet" href="{$basePath}/css/admin.css">
-</head>
-<body>
-<div class="admin-shell">
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <h1>Fourhands</h1>
-            <span class="sidebar-subtitle">Administrace</span>
-        </div>
-        <nav>
-            <span class="nav-section">Obsah</span>
-            <a n:href=":Admin:Dashboard:default" class="{if $presenter->getName() === 'Admin:Dashboard'}active{/if}">
-                <span class="nav-icon">&#9632;</span> Přehled
-            </a>
-            <a n:href=":Admin:Content:default" class="{if $presenter->getName() === 'Admin:Content'}active{/if}">
-                <span class="nav-icon">&#9632;</span> Bloky obsahu
-            </a>
-            <a n:href=":Admin:Event:default" class="{if $presenter->getName() === 'Admin:Event'}active{/if}">
-                <span class="nav-icon">&#9632;</span> Události
-            </a>
-            <a n:href=":Admin:Testimonial:default" class="{if $presenter->getName() === 'Admin:Testimonial'}active{/if}">
-                <span class="nav-icon">&#9632;</span> Reference
-            </a>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{ifset title}{include title|stripHtml} | {/ifset}Fourhands Administrace</title>
+        <link rel="stylesheet" href="{$basePath}/css/admin.css">
+    </head>
+    <body>
+    <div class="admin-shell">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>Fourhands</h1>
+                <span class="sidebar-subtitle">Administrace</span>
+            </div>
+            <nav>
+                <span class="nav-section">Obsah</span>
 
-            <span class="nav-section">Média</span>
-            <a n:href=":Admin:Media:default" class="{if $presenter->getName() === 'Admin:Media'}active{/if}">
-                <span class="nav-icon">&#9632;</span> Média
-            </a>
+                <a n:href=":Admin:Dashboard:default" class="{if $presenter->getName() === 'Admin:Dashboard'}active{/if}">
+                    <span class="nav-icon">&#9632;</span> Přehled
+                </a>
 
-            <span class="nav-section">Nastavení</span>
-            <a n:href=":Admin:Navigation:default" class="{if $presenter->getName() === 'Admin:Navigation'}active{/if}">
-                <span class="nav-icon">&#9632;</span> Menu
-            </a>
-            <a n:href=":Admin:Setting:default" class="{if $presenter->getName() === 'Admin:Setting'}active{/if}">
-                <span class="nav-icon">&#9632;</span> Nastavení webu
-            </a>
+                <a n:href=":Admin:Content:default" class="{if $presenter->getName() === 'Admin:Content'}active{/if}">
+                    <span class="nav-icon">&#9632;</span> Bloky obsahu
+                </a>
 
-            <span class="nav-section">Nástroje</span>
-            <a href="{$basePath}" target="_blank" rel="noopener">
-                <span class="nav-icon">&#9632;</span> Otevřít web
-            </a>
-            <a n:href=":Admin:Sign:out">
-                <span class="nav-icon">&#9632;</span> Odhlásit se
-            </a>
-        </nav>
-    </aside>
-    <main class="main">
-        <div class="flash-container">
-            <div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
-        </div>
-        {include content}
-    </main>
-</div>
-{include scripts}
-</body>
+                <a n:href=":Admin:Event:default" class="{if $presenter->getName() === 'Admin:Event'}active{/if}">
+                    <span class="nav-icon">&#9632;</span> Události
+                </a>
+
+                <a n:href=":Admin:Testimonial:default" class="{if $presenter->getName() === 'Admin:Testimonial'}active{/if}">
+                    <span class="nav-icon">&#9632;</span> Reference
+                </a>
+
+                <span class="nav-section">Média</span>
+
+                <a n:href=":Admin:Media:default" class="{if $presenter->getName() === 'Admin:Media'}active{/if}">
+                    <span class="nav-icon">&#9632;</span> Média
+                </a>
+
+                <span class="nav-section">Nastavení</span>
+
+                <a n:href=":Admin:Navigation:default" class="{if $presenter->getName() === 'Admin:Navigation'}active{/if}">
+                    <span class="nav-icon">&#9632;</span> Menu
+                </a>
+
+                <a n:href=":Admin:Setting:default" class="{if $presenter->getName() === 'Admin:Setting'}active{/if}">
+                    <span class="nav-icon">&#9632;</span> Nastavení webu
+                </a>
+
+                <span class="nav-section">Nástroje</span>
+
+                <a n:href=":Front:Homepage:default" target="_blank">
+                    <span class="nav-icon">&#9632;</span> Otevřít web
+                </a>
+
+                <a n:href=":Admin:Sign:out">
+                    <span class="nav-icon">&#9632;</span> Odhlásit se
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main">
+            <div class="flash-container">
+                <div n:foreach="$flashes as $flash" class="flash {$flash->type}">
+                    {$flash->message}
+                </div>
+            </div>
+
+            {include content}
+        </main>
+    </div>
+
+    {ifset #scripts}
+        {include #scripts}
+    {/ifset}
+    </body>
 </html>
