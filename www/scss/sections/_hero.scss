@@ -1,9 +1,51 @@
 @use "../base/variables" as *;
 
-.hero { position: relative; display: flex; min-height: 100vh; align-items: center; background: linear-gradient(90deg, rgba(15,8,8,.82), rgba(15,8,8,.18) 65%), var(--hero-image) center/cover; color: $color-white; }
-.hero__content { position: relative; z-index: 2; }
-.hero__lead { margin: 0 0 34px; font-family: $font-heading; font-size: clamp(28px, 3vw, 42px); line-height: 1.15; }
-.hero__scroll { position: absolute; bottom: 28px; left: 50%; display: grid; justify-items: center; gap: 8px; color: #fff; font-size: 9px; letter-spacing: .16em; text-transform: uppercase; transform: translateX(-50%); }
-.page-hero { padding: 190px 0 90px; background: linear-gradient(120deg, #4a0a14, $color-primary); color: $color-white; text-align: center; }
-.page-hero h1 { font-size: clamp(54px, 8vw, 90px); }
-.page-hero p:last-child { color: #efdfe0; }
+.hero {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(15, 8, 8, .82), rgba(15, 8, 8, .18) 65%), var(--hero-image) center/cover;
+  color: $color-white;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero__lead {
+  margin: 0 0 34px;
+  font-family: $font-heading;
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.15;
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+}
+
+.page-hero {
+  padding: 190px 0 90px;
+  background: linear-gradient(120deg, #4a0a14, $color-primary);
+  color: $color-white;
+  text-align: center;
+}
+
+.page-hero h1 {
+  font-size: clamp(54px, 8vw, 90px);
+}
+
+.page-hero p:last-child {
+  color: #efdfe0;
+}

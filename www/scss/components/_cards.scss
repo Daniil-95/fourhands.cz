@@ -1,12 +1,69 @@
 @use "../base/variables" as *;
 
-.program-card { position: relative; height: 100%; border: 1px solid $color-border; background: $color-white; text-align: center; transition: $transition; }
-.program-card:hover { box-shadow: $shadow; transform: translateY(-8px); }
-.program-card__image { height: 220px; overflow: hidden; }
-.program-card__image img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
-.program-card:hover .program-card__image img { transform: scale(1.05); }
-.program-card__icon { position: relative; z-index: 2; display: grid; width: 64px; height: 64px; margin: -32px auto 0; place-items: center; border: 5px solid $color-white; border-radius: 50%; background: $color-primary; color: $color-white; font-size: 26px; }
-.program-card__body { padding: 22px 22px 30px; }
-.program-card__body h3 { font-size: 28px; }
-.program-card__body p { min-height: 58px; color: $color-text-light; font-size: 14px; line-height: 1.6; }
-.program-card__body a { color: $color-primary; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.program-card {
+  position: relative;
+  height: 100%;
+  border: 1px solid $color-border;
+  background: $color-white;
+  text-align: center;
+  transition: $transition;
+}
+
+.program-card:hover {
+  box-shadow: $shadow;
+  transform: translateY(-8px);
+}
+
+.program-card__image {
+  height: 220px;
+  overflow: hidden;
+}
+
+.program-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .6s ease;
+}
+
+.program-card:hover .program-card__image img {
+  transform: scale(1.05);
+}
+
+.program-card__icon {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 64px;
+  height: 64px;
+  margin: -32px auto 0;
+  place-items: center;
+  border: 5px solid $color-white;
+  border-radius: 50%;
+  background: $color-primary;
+  color: $color-white;
+  font-size: 26px;
+}
+
+.program-card__body {
+  padding: 22px 22px 30px;
+}
+
+.program-card__body h3 {
+  font-size: 28px;
+}
+
+.program-card__body p {
+  min-height: 58px;
+  color: $color-text-light;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.program-card__body a {
+  color: $color-primary;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
