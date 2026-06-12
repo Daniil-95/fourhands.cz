@@ -191,7 +191,7 @@ final class MediaRepository
     private function photos(string $locale): array
     {
         $items = [];
-        foreach ($this->db->table('images')->where('lang', $locale)->where('active', 1)->order('sort_order, id DESC')->fetchAll() as $row) {
+        foreach ($this->db->table('images')->where('active', 1)->order('sort_order, id DESC')->fetchAll() as $row) {
             $items[] = [
                 'id' => (int) $row->id,
                 'title' => (string) ($row->title ?? ''),
@@ -207,7 +207,7 @@ final class MediaRepository
     private function videos(string $locale): array
     {
         $items = [];
-        foreach ($this->db->table('videos')->where('lang', $locale)->where('active', 1)->order('sort_order, id DESC')->fetchAll() as $row) {
+        foreach ($this->db->table('videos')->where('active', 1)->order('sort_order, id DESC')->fetchAll() as $row) {
             $items[] = [
                 'id' => self::VIDEO_ID_OFFSET + (int) $row->id,
                 'title' => (string) ($row->title ?? ''),

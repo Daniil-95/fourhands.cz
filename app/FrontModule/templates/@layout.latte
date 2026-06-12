@@ -1,140 +1,141 @@
 <!DOCTYPE html>
 <html lang="{$locale}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#8F1125">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#8F1125">
 
-    {var $metaTitle = $siteSettings['meta_title'] ?? 'Fourhands'}
-    {var $metaDescription = $siteSettings['meta_description'] ?? ''}
-    {var $ogTitle = $siteSettings['og_title'] ?? $metaTitle}
-    {var $ogDescription = $siteSettings['og_description'] ?? $metaDescription}
-    {var $ogImage = $siteSettings['og_image'] ? $basePath . '/' . $siteSettings['og_image'] : ''}
-    {var $seoKeywords = $siteSettings['seo_keywords'] ?? ''}
-    {var $seoCanonical = $siteSettings['seo_canonical'] ?? ''}
+        {var $metaTitle = $siteSettings['meta_title'] ?? 'Fourhands'}
+        {var $metaDescription = $siteSettings['meta_description'] ?? ''}
+        {var $ogTitle = $siteSettings['og_title'] ?? $metaTitle}
+        {var $ogDescription = $siteSettings['og_description'] ?? $metaDescription}
+        {var $ogImage = $siteSettings['og_image'] ? $basePath . '/' . $siteSettings['og_image'] : ''}
+        {var $seoKeywords = $siteSettings['seo_keywords'] ?? ''}
+        {var $seoCanonical = $siteSettings['seo_canonical'] ?? ''}
 
-    <title>{ifset title}{include title|stripHtml} | {/ifset}{$metaTitle}</title>
+        <title>{ifset title}{include title|stripHtml} | {/ifset}{$metaTitle}</title>
 
-    {if $metaDescription}
-        <meta name="description" content="{$metaDescription}">
-    {/if}
-    {if $seoKeywords}
-        <meta name="keywords" content="{$seoKeywords}">
-    {/if}
-    {if $seoCanonical}
-        <link rel="canonical" href="{$seoCanonical}">
-    {/if}
-    <meta property="og:title" content="{ifset title}{include title|stripHtml} | {/ifset}{$ogTitle}">
-    <meta property="og:description" content="{$ogDescription}">
-    <meta property="og:type" content="website">
-    {if $ogImage}<meta property="og:image" content="{$ogImage}">{/if}
-    <meta name="twitter:card" content="summary_large_image">
+        {if $metaDescription}
+            <meta name="description" content="{$metaDescription}">
+        {/if}
+        {if $seoKeywords}
+            <meta name="keywords" content="{$seoKeywords}">
+        {/if}
+        {if $seoCanonical}
+            <link rel="canonical" href="{$seoCanonical}">
+        {/if}
+        <meta property="og:title" content="{ifset title}{include title|stripHtml} | {/ifset}{$ogTitle}">
+        <meta property="og:description" content="{$ogDescription}">
+        <meta property="og:type" content="website">
+        {if $ogImage}<meta property="og:image" content="{$ogImage}">{/if}
+        <meta name="twitter:card" content="summary_large_image">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap"></noscript>
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap"></noscript>
 
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap-grid.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap-grid.min.css"></noscript>
+        <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap-grid.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap-grid.min.css"></noscript>
 
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"></noscript>
+        <link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"></noscript>
 
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6/dist/fancybox/fancybox.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6/dist/fancybox/fancybox.css"></noscript>
+        <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6/dist/fancybox/fancybox.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6/dist/fancybox/fancybox.css"></noscript>
 
-    <link rel="stylesheet" href="{$basePath}/css/style.css">
+        <link rel="stylesheet" href="{$basePath}/css/style.css">
 
-    <link rel="icon" href="{$basePath}/{var $favicon = $siteSettings['hero_image'] ?? 'images/icons.png'}{$favicon}" type="image/x-icon" sizes="32x32">
+        <link rel="icon" href="{$basePath}/images/icons.png" type="image/x-icon" sizes="32x32">
 
-    {block head}{/block}
-</head>
-<body>
-<header class="site-header" data-header>
-    <div class="container-fluid site-header__inner">
-        <a class="brand" n:href=":Front:Homepage:default locale => $locale" aria-label="{_'Fourhands home'}">
-            <span class="brand__name">FOURHANDS</span>
-            <span class="brand__sub">{_'Piano Duo'}</span>
-        </a>
-        <button class="menu-toggle" type="button" aria-label="{_'Open menu'}" aria-expanded="false" data-menu-toggle>
-            <span></span><span></span>
-        </button>
-        <nav class="site-nav" data-menu>
-            {if $navigation}
-                {foreach $navigation as $navItem}
-                    <a href="{if str_starts_with($navItem->url, '/')}{link :Front:Homepage:default, locale => $locale}{$navItem->url|trim:'/'}{else}{$navItem->url}{/if}">{$navItem->title}</a>
-                {/foreach}
-            {else}
-                <a href="{link :Front:Homepage:default, locale => $locale}#uvod">{_'Home'}</a>
-                <a href="{link :Front:Homepage:default, locale => $locale}#o-duu">{_'About us'}</a>
-                <a n:href=":Front:Clenky:default locale => $locale">{_'Members'}</a>
-                <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Programs'}</a>
-                <a n:href=":Front:Galerie:default locale => $locale">{_'Gallery'}</a>
-                <a n:href=":Front:Videa:default locale => $locale">{_'Videos'}</a>
-                <a href="{link :Front:Homepage:default, locale => $locale}#reference">{_'References'}</a>
-                <a href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Contact'}</a>
-            {/if}
-            <a class="button button--small" href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Inquiry'}</a>
-            <a class="lang-switch" n:href="this locale => $switchLocale">{if $locale == 'cs'}EN{else}CS{/if}</a>
-        </nav>
-        <div class="site-nav-backdrop" data-menu-backdrop></div>
-    </div>
-</header>
-
-<main>{include content}</main>
-
-<footer class="site-footer">
-    <div class="container">
-        <div class="row gy-5">
-            <div class="col-lg-4">
-                <a class="brand brand--footer" n:href=":Front:Homepage:default locale => $locale">
+        {block head}{/block}
+    </head>
+    <body>
+        <header class="site-header" data-header>
+            <div class="container-fluid site-header__inner">
+                <a class="brand" n:href=":Front:Homepage:default locale => $locale" aria-label="{_'Fourhands home'}">
                     <span class="brand__name">FOURHANDS</span>
                     <span class="brand__sub">{_'Piano Duo'}</span>
                 </a>
+                <button class="menu-toggle" type="button" aria-label="{_'Open menu'}" aria-expanded="false" data-menu-toggle>
+                    <span></span><span></span>
+                </button>
+                <nav class="site-nav" data-menu>
+                    {if $navigation}
+                        {foreach $navigation as $navItem}
+                            <a href="{if str_starts_with($navItem->url, '/')}{link :Front:Homepage:default, locale => $locale}{$navItem->url|trim:'/'}{else}{$navItem->url}{/if}">{$navItem->title}</a>
+                        {/foreach}
+                    {else}
+                        <a href="{link :Front:Homepage:default, locale => $locale}#uvod">{_'Home'}</a>
+                        <a href="{link :Front:Homepage:default, locale => $locale}#o-duu">{_'About us'}</a>
+                        <a n:href=":Front:Clenky:default locale => $locale">{_'Members'}</a>
+                        <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Programs'}</a>
+                        <a n:href=":Front:Galerie:default locale => $locale">{_'Gallery'}</a>
+                        <a n:href=":Front:Videa:default locale => $locale">{_'Videos'}</a>
+                        <a href="{link :Front:Homepage:default, locale => $locale}#reference">{_'References'}</a>
+                        <a href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Contact'}</a>
+                    {/if}
+                    <a class="button button--small" href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Inquiry'}</a>
+                    <a class="lang-switch" n:href="this locale => $switchLocale">{if $locale == 'cs'}EN{else}CS{/if}</a>
+                </nav>
+                <div class="site-nav-backdrop" data-menu-backdrop></div>
+            </div>
+        </header>
 
-                <p>{_'Piano duo for weddings, concerts and events that deserve an exceptional musical atmosphere.'}</p>
+        <main>{include content}</main>
 
-                <div class="socials">
-                    <a href="{$siteSettings['facebook'] ?: '#'}" aria-label="{_'Facebook'}">f</a>
-                    <a href="{$siteSettings['instagram'] ?: '#'}" aria-label="{_'Instagram'}">ig</a>
-                    <a href="{$siteSettings['youtube'] ?: '#'}" aria-label="{_'YouTube'}">yt</a>
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row gy-5">
+                    <div class="col-lg-4">
+                        <a class="brand brand--footer" n:href=":Front:Homepage:default locale => $locale">
+                            <span class="brand__name">FOURHANDS</span>
+                            <span class="brand__sub">{_'Piano Duo'}</span>
+                        </a>
+
+                        <p>{_'Piano duo for weddings, concerts and events that deserve an exceptional musical atmosphere.'}</p>
+
+                        <div class="socials">
+                            <a href="{$siteSettings['facebook'] ?: '#'}" aria-label="{_'Facebook'}">f</a>
+                            <a href="{$siteSettings['instagram'] ?: '#'}" aria-label="{_'Instagram'}">ig</a>
+                            <a href="{$siteSettings['youtube'] ?: '#'}" aria-label="{_'YouTube'}">yt</a>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-2">
+                        <h3>{_'Navigation'}</h3>
+                        <a href="{link :Front:Homepage:default, locale => $locale}#o-duu">{_'About us'}</a>
+                        <a n:href=":Front:Clenky:default locale => $locale">{_'Members'}</a>
+                        <a n:href=":Front:Galerie:default locale => $locale">{_'Gallery'}</a>
+                        <a n:href=":Front:Videa:default locale => $locale">{_'Videos'}</a>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <h3>{_'Programs'}</h3>
+                        <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Weddings'}</a>
+                        <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Corporate events'}</a>
+                        <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Concerts'}</a>
+                        <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Private events'}</a>
+                    </div>
+                    <div class="col-lg-3">
+                        <h3>{_'Contact'}</h3>
+                        <a href="tel:+420777123456">{$siteSettings['phone'] ?: '+420 777 123 456'}</a>
+                        <a href="mailto:{$siteSettings['email'] ?: 'info@fourhands.cz'}">{$siteSettings['email'] ?: 'info@fourhands.cz'}</a>
+                        <span>{$siteSettings['address'] ?: 'Praha, Česká republika'}</span>
+                    </div>
+                </div>
+                <div class="site-footer__bottom">
+                    <span>{$siteSettings['footer_copyright'] ?: '© Fourhands'}</span>
+                    <div>
+                        <a href="{$siteSettings['gdpr_url'] ?: '#'}">{_'GDPR'}</a>
+                        <a href="{$siteSettings['cookies_url'] ?: '#'}">{_'Cookies'}</a>
+                    </div>
                 </div>
             </div>
-            <div class="col-6 col-lg-2">
-                <h3>{_'Navigation'}</h3>
-                <a href="{link :Front:Homepage:default, locale => $locale}#o-duu">{_'About us'}</a>
-                <a n:href=":Front:Clenky:default locale => $locale">{_'Members'}</a>
-                <a n:href=":Front:Galerie:default locale => $locale">{_'Gallery'}</a>
-                <a n:href=":Front:Videa:default locale => $locale">{_'Videos'}</a>
-            </div>
-            <div class="col-6 col-lg-3">
-                <h3>{_'Programs'}</h3>
-                <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Weddings'}</a>
-                <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Corporate events'}</a>
-                <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Concerts'}</a>
-                <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Private events'}</a>
-            </div>
-            <div class="col-lg-3">
-                <h3>{_'Contact'}</h3>
-                <a href="tel:+420777123456">{$siteSettings['phone'] ?: '+420 777 123 456'}</a>
-                <a href="mailto:{$siteSettings['email'] ?: 'info@fourhands.cz'}">{$siteSettings['email'] ?: 'info@fourhands.cz'}</a>
-                <span>{$siteSettings['address'] ?: 'Praha, Česká republika'}</span>
-            </div>
-        </div>
-        <div class="site-footer__bottom">
-            <span>{$siteSettings['footer_copyright'] ?: '© Fourhands'}</span>
-            <div>
-                <a href="{$siteSettings['gdpr_url'] ?: '#'}">{_'GDPR'}</a>
-                <a href="{$siteSettings['cookies_url'] ?: '#'}">{_'Cookies'}</a>
-            </div>
-        </div>
-    </div>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6/dist/fancybox/fancybox.umd.js" defer></script>
-<script src="{$basePath}/js/main.js" defer></script>
-</body>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6/dist/fancybox/fancybox.umd.js" defer></script>
+        <script src="{$basePath}/js/main.js" defer></script>
+    </body>
 </html>
