@@ -1,45 +1,71 @@
-# Fourhands on Nette + Latte
+# fourhands.cz
 
-## What is implemented
-- Nette 3 application skeleton with Latte templates.
-- Public site (`Front:Homepage`) rendered from database content.
-- Bilingual routing (`/cs` and `/en`).
-- Admin module with login and CRUD:
-  - Content blocks
-  - Events
-  - Media items
-- Extended admin auth model (users, roles, users-to-roles, login logs)
-- SQL migration with base schema and admin user.
-- Import script to pull content from live old site into DB.
+Firemní webová prezentace a vlastní redakční systém (CMS) společnosti Fourhands vytvořený pomocí frameworku Nette.
 
-## Project structure
-- `www/index.php` - front controller
-- `app/FrontModule` - public site (presenters + templates)
-- `app/AdminModule` - admin panel (presenters + templates)
-- `app/Common` - shared presenters and router
-- `app/Model` - repositories
-- `db/006_borovice_schema.sql` - baseline DB schema
-- `db/007_sync_fourhands_to_borovice_schema.sql` - schema sync for `fourhands`
-- `bin/import-static-content-borovice.php` - import from `https://fourhands.cz`
+## O projektu
 
-## Install
-1. Install dependencies:
-   ```bash
-   composer install
-   ```
-2. Import DB schema:
-   ```bash
-   mysql -u root fourhands < db/007_sync_fourhands_to_borovice_schema.sql
-   ```
-3. Import full existing content from old live site:
-   ```bash
-   php bin/import-static-content-borovice.php
-   ```
-4. Ensure Apache document root points to `www/`.
+Projekt fourhands.cz představuje moderní webovou aplikaci určenou pro prezentaci služeb společnosti Fourhands. Součástí řešení je veřejná část webu a vlastní administrace pro správu obsahu, událostí a médií.
 
-## Admin login
-- URL: `/admin/sign`
-- Username or email: `admin`
-- Password: `ChangeMe123!`
+Aplikace je postavena na frameworku Nette a využívá šablonovací systém Latte. Administrace umožňuje pohodlnou správu jednotlivých sekcí webu bez nutnosti zásahu do zdrojového kódu.
 
-Change the password immediately after first login by updating `users.password`.
+## Hlavní funkce
+
+* Správa obsahu webu
+* Správa událostí
+* Správa médií a obrázků
+* Vlastní administrátorské rozhraní
+* Responzivní design
+* Vícejazyčná podpora
+* SEO optimalizovaná struktura
+
+## Použité technologie
+
+### Backend
+
+* PHP 8
+* Nette Framework
+* Latte Templates
+* MySQL
+
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript
+* Font Awesome
+
+## Struktura projektu
+
+```text
+app/
+├── AdminModule/
+├── FrontModule/
+├── Model/
+├── Security/
+
+config/
+├── common.neon
+├── local.neon
+
+www/
+├── css/
+├── images/
+
+vendor/
+```
+
+## Architektura
+
+Projekt využívá architekturu MVC poskytovanou frameworkem Nette.
+
+Klíčové části aplikace:
+
+* FrontModule – veřejná část webu
+* AdminModule – administrátorské rozhraní
+* ContentRepository – správa obsahu
+* EventRepository – správa událostí
+* MediaRepository – správa médií
+
+## Autor
+
+Daniil Andrushko
