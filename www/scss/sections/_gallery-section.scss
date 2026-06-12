@@ -85,6 +85,7 @@
 .homepage-gallery img {
   height: 100%;
   width: auto;
+  max-width: none;
   display: block;
   transition: transform .6s ease;
 }
