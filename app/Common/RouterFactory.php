@@ -23,6 +23,14 @@ final class RouterFactory
             'action' => 'default',
         ]);
 
+        foreach (['clenky' => 'Clenky', 'galerie' => 'Galerie', 'videa' => 'Videa'] as $slug => $presenter) {
+            $router->addRoute('[<locale=cs cs|en>/]' . $slug, [
+                'module' => 'Front',
+                'presenter' => $presenter,
+                'action' => 'default',
+            ]);
+        }
+
         $router->addRoute('[<locale=cs cs|en>/]<presenter>/<action>[/<id>]', [
             'module' => 'Front',
             'presenter' => 'Homepage',

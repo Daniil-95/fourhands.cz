@@ -1,0 +1,7 @@
+@use "../base/variables" as *;
+
+.contact { background: $color-background-light; }
+.contact__visual { min-height: 720px; background-position: center; background-size: cover; }
+.contact__content { padding: 85px max(6vw, 45px); }
+.contact__details { display: flex; flex-wrap: wrap; gap: 12px 28px; margin-top: 24px; color: $color-primary; font-size: 14px; }
+@media (max-width: 991.98px) { .contact__visual { min-height: 440px; } .contact__content { padding: 70px 24px; } }

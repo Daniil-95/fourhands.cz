@@ -1,0 +1,7 @@
+@use "../base/variables" as *;
+
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 22px; min-height: 54px; padding: 14px 25px; border: 1px solid $color-primary; background: $color-primary; color: $color-white; cursor: pointer; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; transition: $transition; }
+.button:hover { border-color: $color-primary-hover; background: $color-primary-hover; transform: translateY(-2px); }
+.button--small { min-height: 42px; padding: 8px 20px; }
+.button--outline { background: transparent; color: $color-primary; }
+.button--outline:hover { color: $color-white; }

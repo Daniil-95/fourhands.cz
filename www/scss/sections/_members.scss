@@ -1,0 +1,9 @@
+@use "../base/variables" as *;
+
+.member { padding: 80px 0; border-bottom: 1px solid $color-border; }
+.member:first-child { padding-top: 0; }
+.member:last-child { border: 0; }
+.member img { width: 100%; max-height: 720px; object-fit: cover; }
+.member--reverse { flex-direction: row-reverse; }
+.member__facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+.member__facts span { padding: 8px 14px; border: 1px solid $color-border; color: $color-primary; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
