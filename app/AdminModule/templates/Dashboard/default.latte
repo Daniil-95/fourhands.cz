@@ -1,4 +1,45 @@
 ﻿{block content}
     <h2>Přehled</h2>
-    <p>Pomocí menu můžete upravovat obsah webu.</p>
+    <div class="dashboard-cards">
+        <div class="card">
+            <div class="card-number">{$contentCount}</div>
+            <div class="card-label">Bloků obsahu</div>
+            <a n:href=":Admin:Content:default" class="card-link">Spravovat</a>
+        </div>
+        <div class="card">
+            <div class="card-number">{$eventCount}</div>
+            <div class="card-label">Událostí</div>
+            <a n:href=":Admin:Event:default" class="card-link">Spravovat</a>
+        </div>
+        <div class="card">
+            <div class="card-number">{$mediaCount}</div>
+            <div class="card-label">Médií</div>
+            <a n:href=":Admin:Media:default" class="card-link">Spravovat</a>
+        </div>
+        <div class="card">
+            <div class="card-number">{$testimonialCount}</div>
+            <div class="card-label">Referencí</div>
+            <a n:href=":Admin:Testimonial:default" class="card-link">Spravovat</a>
+        </div>
+        <div class="card">
+            <div class="card-number">{$navigationCount}</div>
+            <div class="card-label">Položek menu</div>
+            <a n:href=":Admin:Navigation:default" class="card-link">Spravovat</a>
+        </div>
+        <div class="card">
+            <div class="card-number">{$settingCount}</div>
+            <div class="card-label">Nastavení</div>
+            <a n:href=":Admin:Setting:default" class="card-link">Spravovat</a>
+        </div>
+    </div>
+
+    <div class="quick-actions">
+        <h3>Rychlé akce</h3>
+        <div class="action-buttons">
+            <a class="btn" n:href=":Admin:Content:edit">Přidat blok obsahu</a>
+            <a class="btn" n:href=":Admin:Event:edit">Přidat událost</a>
+            <a class="btn" n:href=":Admin:Media:edit">Přidat médium</a>
+            <a class="btn" n:href=":Admin:Testimonial:edit">Přidat referenci</a>
+        </div>
+    </div>
 {/block}

@@ -8,7 +8,9 @@
             <th>Jazyk</th>
             <th>Klíč</th>
             <th>Název</th>
+            <th>Skupina</th>
             <th>Pořadí</th>
+            <th>Stav</th>
             <th>Akce</th>
         </tr>
         </thead>
@@ -16,12 +18,14 @@
         <tr n:foreach="$items as $item">
             <td>{$item->id}</td>
             <td>{$item->lang}</td>
-            <td>{$item->code}</td>
-            <td>{$item->code}</td>
+            <td><code>{$item->code}</code></td>
+            <td>{$item->title ? $item->title : $item->code}</td>
+            <td><span class="badge badge-group badge-group-{$item->category}">{$item->category}</span></td>
             <td>{$item->sort_order}</td>
+            <td>{if $item->active}<span class="badge badge-active">Aktivní</span>{else}<span class="badge badge-inactive">Neaktivní</span>{/if}</td>
             <td>
                 <a n:href="edit id => $item->id">Upravit</a>
-                <a n:href="delete id => $item->id, _token => $csrfToken" onclick="return confirm('Smazat tento blok?')">Smazat</a>
+                <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat tento blok?')">Smazat</a>
             </td>
         </tr>
         </tbody>

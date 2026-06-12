@@ -1,0 +1,33 @@
+{block content}
+    <h2>Nastavení webu</h2>
+    <p><a class="btn" n:href="edit">Přidat nastavení</a></p>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Jazyk</th>
+            <th>Skupina</th>
+            <th>Klíč</th>
+            <th>Popisek</th>
+            <th>Hodnota</th>
+            <th>Pořadí</th>
+            <th>Akce</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr n:foreach="$items as $item">
+            <td>{$item->id}</td>
+            <td>{$item->lang}</td>
+            <td><span class="badge badge-group badge-group-{$item->group_name}">{$item->group_name}</span></td>
+            <td><code>{$item->key_name}</code></td>
+            <td>{$item->label}</td>
+            <td>{$item->value_text|truncate:60}</td>
+            <td>{$item->sort_order}</td>
+            <td>
+                <a n:href="edit id => $item->id">Upravit</a>
+                <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat toto nastavení?')">Smazat</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+{/block}

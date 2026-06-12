@@ -24,6 +24,12 @@ final class MediaPresenter extends BaseAdminPresenter
         $this->template->items = $this->mediaRepository->getAll();
     }
 
+    public function renderEdit(): void
+    {
+        $this->template->editingId = $this->editingId;
+        $this->template->editingType = $this->editingType;
+    }
+
     /** @throws AbortException */
     public function actionEdit(?int $id = null): void
     {
@@ -47,6 +53,10 @@ final class MediaPresenter extends BaseAdminPresenter
                 'active' => $item->active,
                 'alt_text' => $item->alt_text ?? '',
             ]);
+
+            $this->template->currentImagePath = $item->image_path;
+        } else {
+            $this->template->currentImagePath = null;
         }
     }
 

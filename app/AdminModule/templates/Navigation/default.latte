@@ -1,13 +1,13 @@
-﻿{block content}
-    <h2>Události</h2>
-    <p><a class="btn" n:href="edit">Přidat událost</a></p>
+{block content}
+    <h2>Navigační menu</h2>
+    <p><a class="btn" n:href="edit">Přidat položku</a></p>
     <table>
         <thead>
         <tr>
             <th>ID</th>
             <th>Jazyk</th>
-            <th>Datum</th>
-            <th>Popis</th>
+            <th>Název</th>
+            <th>URL</th>
             <th>Pořadí</th>
             <th>Stav</th>
             <th>Akce</th>
@@ -17,13 +17,13 @@
         <tr n:foreach="$items as $item">
             <td>{$item->id}</td>
             <td>{$item->lang}</td>
-            <td>{$item->publish_date|date:'j. n. Y'}</td>
-            <td>{$item->title|truncate:70}</td>
+            <td>{$item->title}</td>
+            <td><code>{$item->url}</code></td>
             <td>{$item->sort_order}</td>
             <td>{if $item->active}<span class="badge badge-active">Aktivní</span>{else}<span class="badge badge-inactive">Neaktivní</span>{/if}</td>
             <td>
                 <a n:href="edit id => $item->id">Upravit</a>
-                <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat tuto událost?')">Smazat</a>
+                <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat tuto položku menu?')">Smazat</a>
             </td>
         </tr>
         </tbody>

@@ -3,22 +3,22 @@
 namespace App\AdminModule\Presenters;
 
 use App\Common\BaseAdminPresenter;
-use App\Model\EventRepository;
+use App\Model\SettingRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 
-final class EventPresenter extends BaseAdminPresenter
+final class SettingPresenter extends BaseAdminPresenter
 {
     private ?int $editingId = null;
 
-    public function __construct(private EventRepository $eventRepository)
+    public function __construct(private SettingRepository $settingRepository)
     {
         parent::__construct();
     }
 
     public function renderDefault(): void
     {
-        $this->template->items = $this->eventRepository->getAll();
+        $this->template->items = $this->settingRepository->getAll();
     }
 
     public function renderEdit(): void
@@ -32,52 +32,55 @@ final class EventPresenter extends BaseAdminPresenter
         $this->editingId = $id;
 
         if ($id !== null) {
-            $item = $this->eventRepository->getById($id);
+            $item = $this->settingRepository->getById($id);
             if (!$item) {
-                $this->error('Událost nenalezena.');
+                $this->error('Nastavení nenalezeno.');
             }
 
-            $this['eventForm']->setDefaults([
+            $this['settingForm']->setDefaults([
                 'lang' => $item->lang,
-                'event_date' => $item->publish_date ? $item->publish_date->format('Y-m-d') : '',
-                'description' => $item->title,
+                'group_name' => $item->group_name,
+                'key_name' => $item->key_name,
+                'label' => $item->label,
+                'value_text' => $item->value_text,
                 'sort_order' => $item->sort_order,
-                'active' => (bool) $item->active,
             ]);
         }
     }
 
-    protected function createComponentEventForm(): Form
+    protected function createComponentSettingForm(): Form
     {
         $form = new Form();
         $form->addProtection();
         $form->addSelect('lang', 'Jazyk', ['cs' => 'Čeština', 'en' => 'Angličtina'])->setRequired();
-        $form->addText('event_date', 'Datum')->setHtmlType('date')->setRequired();
-        $form->addTextArea('description', 'Název a popis akce')->setRequired()->setHtmlAttribute('rows', 5);
+        $form->addSelect('group_name', 'Skupina', [
+            'general' => 'Obecné',
+            'contact' => 'Kontakt',
+            'social' => 'Sociální sítě',
+            'seo' => 'SEO',
+        ])->setRequired();
+        $form->addText('key_name', 'Technický klíč')->setRequired()->addRule($form::Pattern, 'Použijte pouze malá písmena, čísla a podtržítko.', '[a-z0-9_]+');
+        $form->addText('label', 'Popisek')->setRequired();
+        $form->addTextArea('value_text', 'Hodnota')->setHtmlAttribute('rows', 3);
         $form->addInteger('sort_order', 'Pořadí')->setDefaultValue(100);
-        $form->addCheckbox('active', 'Publikovat')->setDefaultValue(true);
         $form->addSubmit('save', 'Uložit');
 
-        $form->onSuccess[] = $this->eventFormSucceeded(...);
+        $form->onSuccess[] = $this->settingFormSucceeded(...);
         return $form;
     }
 
-    private function eventFormSucceeded(Form $form, \stdClass $values): void
+    private function settingFormSucceeded(Form $form, \stdClass $values): void
     {
-        $date = null;
-        if (is_string($values->event_date) && trim($values->event_date) !== '') {
-            $date = $values->event_date;
-        }
-
-        $this->eventRepository->save([
+        $this->settingRepository->save([
             'lang' => $values->lang,
-            'event_date' => $date,
-            'description' => $values->description,
+            'group_name' => $values->group_name,
+            'key_name' => $values->key_name,
+            'label' => $values->label,
+            'value_text' => $values->value_text,
             'sort_order' => $values->sort_order ?? 100,
-            'active' => $values->active,
         ], $this->editingId);
 
-        $this->flashMessage('Akce byla uložena.', 'success');
+        $this->flashMessage('Nastavení bylo uloženo.', 'success');
         $this->redirect('default');
     }
 
@@ -89,8 +92,8 @@ final class EventPresenter extends BaseAdminPresenter
             $this->error('Neplatný bezpečnostní token.', 403);
         }
 
-        $this->eventRepository->delete($id);
-        $this->flashMessage('Akce byla smazána.', 'success');
+        $this->settingRepository->delete($id);
+        $this->flashMessage('Nastavení bylo smazáno.', 'success');
         $this->redirect('default');
     }
 
@@ -101,8 +104,8 @@ final class EventPresenter extends BaseAdminPresenter
         $form->addHidden('id')->setRequired();
         $form->addSubmit('delete', 'Smazat');
         $form->onSuccess[] = function (Form $form, \stdClass $values): void {
-            $this->eventRepository->delete((int) $values->id);
-            $this->flashMessage('Akce byla smazána.', 'success');
+            $this->settingRepository->delete((int) $values->id);
+            $this->flashMessage('Nastavení bylo smazáno.', 'success');
             $this->redirect('default');
         };
         return $form;

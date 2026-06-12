@@ -21,6 +21,11 @@ final class ContentPresenter extends BaseAdminPresenter
         $this->template->items = $this->contentRepository->getAll();
     }
 
+    public function renderEdit(): void
+    {
+        $this->template->editingId = $this->editingId;
+    }
+
     /** @throws AbortException */
     public function actionEdit(?int $id = null): void
     {
@@ -35,7 +40,7 @@ final class ContentPresenter extends BaseAdminPresenter
             $this['contentForm']->setDefaults([
                 'lang' => $item->lang,
                 'key_name' => $item->code,
-                'title' => $item->code,
+                'title' => $item->title ?: $item->code,
                 'category' => $item->category,
                 'content_html' => $item->content,
                 'sort_order' => $item->sort_order,

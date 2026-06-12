@@ -1,0 +1,5 @@
+{block content}
+    <h2>{if $editingId}Upravit nastavení{else}Nové nastavení{/if}</h2>
+    <p><a n:href="default" class="btn-back">&larr; Zpět na přehled</a></p>
+    {control settingForm}
+{/block}

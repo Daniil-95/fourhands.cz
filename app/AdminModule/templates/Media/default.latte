@@ -8,8 +8,9 @@
             <th>Jazyk</th>
             <th>Typ</th>
             <th>Název</th>
-            <th>Obrázek</th>
+            <th>Náhled</th>
             <th>URL</th>
+            <th>Stav</th>
             <th>Akce</th>
         </tr>
         </thead>
@@ -17,13 +18,21 @@
         <tr n:foreach="$items as $item">
             <td>{$item->id}</td>
             <td>{$item->lang}</td>
-            <td>{$item->type}</td>
+            <td>{if $item->type === 'photo'}<span class="badge badge-type-photo">Fotografie</span>{else}<span class="badge badge-type-video">Video</span>{/if}</td>
             <td>{$item->title}</td>
-            <td>{$item->image_path}</td>
+            <td>
+                {if $item->type === 'photo' && $item->image_path}
+                    <img src="{$basePath}/{$item->image_path}" alt="{$item->title}" class="media-thumb">
+                {/if}
+                {if $item->type === 'video' && $item->image_path}
+                    <img src="{$basePath}/{$item->image_path}" alt="{$item->title}" class="media-thumb">
+                {/if}
+            </td>
             <td>{$item->url|truncate:40}</td>
+            <td>{if $item->active}<span class="badge badge-active">Aktivní</span>{else}<span class="badge badge-inactive">Neaktivní</span>{/if}</td>
             <td>
                 <a n:href="edit id => $item->id">Upravit</a>
-                <a n:href="delete id => $item->id, _token => $csrfToken" onclick="return confirm('Smazat toto médium?')">Smazat</a>
+                <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat toto médium?')">Smazat</a>
             </td>
         </tr>
         </tbody>

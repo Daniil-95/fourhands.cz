@@ -1,4 +1,13 @@
 ﻿{block content}
-    <h2>Upravit médium</h2>
+    <h2>{if $editingId}Upravit médium{else}Nové médium{/if}</h2>
+    <p><a n:href="default" class="btn-back">&larr; Zpět na přehled</a></p>
+
+    {if $currentImagePath}
+    <div class="preview-box">
+        <strong>Aktuální obrázek:</strong><br>
+        <img src="{$basePath}/{$currentImagePath}" alt="Náhled" class="media-preview">
+    </div>
+    {/if}
+
     {control mediaForm}
 {/block}

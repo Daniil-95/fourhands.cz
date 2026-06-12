@@ -3,22 +3,22 @@
 namespace App\AdminModule\Presenters;
 
 use App\Common\BaseAdminPresenter;
-use App\Model\EventRepository;
+use App\Model\NavigationRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 
-final class EventPresenter extends BaseAdminPresenter
+final class NavigationPresenter extends BaseAdminPresenter
 {
     private ?int $editingId = null;
 
-    public function __construct(private EventRepository $eventRepository)
+    public function __construct(private NavigationRepository $navigationRepository)
     {
         parent::__construct();
     }
 
     public function renderDefault(): void
     {
-        $this->template->items = $this->eventRepository->getAll();
+        $this->template->items = $this->navigationRepository->getAll();
     }
 
     public function renderEdit(): void
@@ -32,52 +32,47 @@ final class EventPresenter extends BaseAdminPresenter
         $this->editingId = $id;
 
         if ($id !== null) {
-            $item = $this->eventRepository->getById($id);
+            $item = $this->navigationRepository->getById($id);
             if (!$item) {
-                $this->error('Událost nenalezena.');
+                $this->error('Položka menu nenalezena.');
             }
 
-            $this['eventForm']->setDefaults([
+            $this['navigationForm']->setDefaults([
                 'lang' => $item->lang,
-                'event_date' => $item->publish_date ? $item->publish_date->format('Y-m-d') : '',
-                'description' => $item->title,
+                'title' => $item->title,
+                'url' => $item->url,
                 'sort_order' => $item->sort_order,
                 'active' => (bool) $item->active,
             ]);
         }
     }
 
-    protected function createComponentEventForm(): Form
+    protected function createComponentNavigationForm(): Form
     {
         $form = new Form();
         $form->addProtection();
         $form->addSelect('lang', 'Jazyk', ['cs' => 'Čeština', 'en' => 'Angličtina'])->setRequired();
-        $form->addText('event_date', 'Datum')->setHtmlType('date')->setRequired();
-        $form->addTextArea('description', 'Název a popis akce')->setRequired()->setHtmlAttribute('rows', 5);
+        $form->addText('title', 'Název položky')->setRequired();
+        $form->addText('url', 'URL adresa')->setRequired()->addRule($form::Pattern, 'Zadejte platnou URL začínající /', '^\/.*');
         $form->addInteger('sort_order', 'Pořadí')->setDefaultValue(100);
-        $form->addCheckbox('active', 'Publikovat')->setDefaultValue(true);
+        $form->addCheckbox('active', 'Aktivní')->setDefaultValue(true);
         $form->addSubmit('save', 'Uložit');
 
-        $form->onSuccess[] = $this->eventFormSucceeded(...);
+        $form->onSuccess[] = $this->navigationFormSucceeded(...);
         return $form;
     }
 
-    private function eventFormSucceeded(Form $form, \stdClass $values): void
+    private function navigationFormSucceeded(Form $form, \stdClass $values): void
     {
-        $date = null;
-        if (is_string($values->event_date) && trim($values->event_date) !== '') {
-            $date = $values->event_date;
-        }
-
-        $this->eventRepository->save([
+        $this->navigationRepository->save([
             'lang' => $values->lang,
-            'event_date' => $date,
-            'description' => $values->description,
+            'title' => $values->title,
+            'url' => $values->url,
             'sort_order' => $values->sort_order ?? 100,
             'active' => $values->active,
         ], $this->editingId);
 
-        $this->flashMessage('Akce byla uložena.', 'success');
+        $this->flashMessage('Položka menu byla uložena.', 'success');
         $this->redirect('default');
     }
 
@@ -89,8 +84,8 @@ final class EventPresenter extends BaseAdminPresenter
             $this->error('Neplatný bezpečnostní token.', 403);
         }
 
-        $this->eventRepository->delete($id);
-        $this->flashMessage('Akce byla smazána.', 'success');
+        $this->navigationRepository->delete($id);
+        $this->flashMessage('Položka menu byla smazána.', 'success');
         $this->redirect('default');
     }
 
@@ -101,8 +96,8 @@ final class EventPresenter extends BaseAdminPresenter
         $form->addHidden('id')->setRequired();
         $form->addSubmit('delete', 'Smazat');
         $form->onSuccess[] = function (Form $form, \stdClass $values): void {
-            $this->eventRepository->delete((int) $values->id);
-            $this->flashMessage('Akce byla smazána.', 'success');
+            $this->navigationRepository->delete((int) $values->id);
+            $this->flashMessage('Položka menu byla smazána.', 'success');
             $this->redirect('default');
         };
         return $form;
