@@ -31,5 +31,9 @@ final class DashboardPresenter extends BaseAdminPresenter
         $this->template->testimonialCount = count($this->testimonialRepository->getAll());
         $this->template->navigationCount = count($this->navigationRepository->getAll());
         $this->template->settingCount = count($this->settingRepository->getAll());
+
+        $this->template->latestContent = $this->contentRepository->getLatest(5);
+        $this->template->latestMedia = $this->mediaRepository->getLatest(5);
+        $this->template->latestEvents = array_slice($this->eventRepository->getAll(), 0, 5);
     }
 }

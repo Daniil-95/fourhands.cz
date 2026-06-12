@@ -58,6 +58,37 @@ final class MediaRepository
         return $items;
     }
 
+    public function getLatest(int $limit = 5): array
+    {
+        $items = [];
+
+        foreach ($this->db->table('images')->order('id DESC')->limit($limit)->fetchAll() as $row) {
+            $items[] = (object) [
+                'id' => (int) $row->id,
+                'lang' => (string) $row->lang,
+                'type' => 'photo',
+                'title' => (string) ($row->title ?? ''),
+                'image_path' => $this->normalizePath((string) ($row->file ?? '')),
+                'active' => (bool) $row->active,
+            ];
+        }
+
+        if (count($items) < $limit) {
+            foreach ($this->db->table('videos')->order('id DESC')->limit($limit - count($items))->fetchAll() as $row) {
+                $items[] = (object) [
+                    'id' => self::VIDEO_ID_OFFSET + (int) $row->id,
+                    'lang' => (string) $row->lang,
+                    'type' => 'video',
+                    'title' => (string) ($row->title ?? ''),
+                    'image_path' => '',
+                    'active' => (bool) $row->active,
+                ];
+            }
+        }
+
+        return $items;
+    }
+
     public function getById(int $id): ?object
     {
         if ($id >= self::VIDEO_ID_OFFSET) {

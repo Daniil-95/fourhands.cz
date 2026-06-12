@@ -13,12 +13,17 @@
             language: 'cs',
             height: 400,
             plugins: 'link image lists code table media',
-            toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image | code',
+            toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image | code',
+            toolbar_mode: 'wrap',
             menubar: false,
             branding: false,
             promotion: false,
             statusbar: true,
-            content_style: 'body { font-family: "Segoe UI", sans-serif; font-size: 14px; }'
+            content_style: 'body { font-family: "Segoe UI", sans-serif; font-size: 14px; }',
+            mobile: {
+                height: 300,
+                toolbar_mode: 'scrolling'
+            }
         });
     </script>
 {/block}

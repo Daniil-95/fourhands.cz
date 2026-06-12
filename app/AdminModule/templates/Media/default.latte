@@ -1,6 +1,9 @@
 ﻿{block content}
-    <h2>Média</h2>
-    <p><a class="btn" n:href="edit">Přidat médium</a></p>
+    <div class="page-header">
+        <h2>Média</h2>
+        <a class="btn" n:href="edit">Přidat médium</a>
+    </div>
+    <div class="table-container">
     <table>
         <thead>
         <tr>
@@ -16,11 +19,11 @@
         </thead>
         <tbody>
         <tr n:foreach="$items as $item">
-            <td>{$item->id}</td>
-            <td>{$item->lang}</td>
-            <td>{if $item->type === 'photo'}<span class="badge badge-type-photo">Fotografie</span>{else}<span class="badge badge-type-video">Video</span>{/if}</td>
-            <td>{$item->title}</td>
-            <td>
+            <td data-label="ID">{$item->id}</td>
+            <td data-label="Jazyk">{$item->lang}</td>
+            <td data-label="Typ">{if $item->type === 'photo'}<span class="badge badge-type-photo">Fotografie</span>{else}<span class="badge badge-type-video">Video</span>{/if}</td>
+            <td data-label="Název">{$item->title}</td>
+            <td data-label="Náhled">
                 {if $item->type === 'photo' && $item->image_path}
                     <img src="{$basePath}/{$item->image_path}" alt="{$item->title}" class="media-thumb">
                 {/if}
@@ -28,13 +31,14 @@
                     <img src="{$basePath}/{$item->image_path}" alt="{$item->title}" class="media-thumb">
                 {/if}
             </td>
-            <td>{$item->url|truncate:40}</td>
-            <td>{if $item->active}<span class="badge badge-active">Aktivní</span>{else}<span class="badge badge-inactive">Neaktivní</span>{/if}</td>
-            <td>
+            <td data-label="URL">{$item->url|truncate:40}</td>
+            <td data-label="Stav">{if $item->active}<span class="badge badge-active">Aktivní</span>{else}<span class="badge badge-inactive">Neaktivní</span>{/if}</td>
+            <td data-label="Akce" class="actions-cell">
                 <a n:href="edit id => $item->id">Upravit</a>
                 <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat toto médium?')">Smazat</a>
             </td>
         </tr>
         </tbody>
     </table>
+    </div>
 {/block}

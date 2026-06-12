@@ -1,6 +1,9 @@
 {block content}
-    <h2>Navigační menu</h2>
-    <p><a class="btn" n:href="edit">Přidat položku</a></p>
+    <div class="page-header">
+        <h2>Navigační menu</h2>
+        <a class="btn" n:href="edit">Přidat položku</a>
+    </div>
+    <div class="table-container">
     <table>
         <thead>
         <tr>
@@ -15,17 +18,18 @@
         </thead>
         <tbody>
         <tr n:foreach="$items as $item">
-            <td>{$item->id}</td>
-            <td>{$item->lang}</td>
-            <td>{$item->title}</td>
-            <td><code>{$item->url}</code></td>
-            <td>{$item->sort_order}</td>
-            <td>{if $item->active}<span class="badge badge-active">Aktivní</span>{else}<span class="badge badge-inactive">Neaktivní</span>{/if}</td>
-            <td>
+            <td data-label="ID">{$item->id}</td>
+            <td data-label="Jazyk">{$item->lang}</td>
+            <td data-label="Název">{$item->title}</td>
+            <td data-label="URL"><code>{$item->url}</code></td>
+            <td data-label="Pořadí">{$item->sort_order}</td>
+            <td data-label="Stav">{if $item->active}<span class="badge badge-active">Aktivní</span>{else}<span class="badge badge-inactive">Neaktivní</span>{/if}</td>
+            <td data-label="Akce" class="actions-cell">
                 <a n:href="edit id => $item->id">Upravit</a>
                 <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat tuto položku menu?')">Smazat</a>
             </td>
         </tr>
         </tbody>
     </table>
+    </div>
 {/block}

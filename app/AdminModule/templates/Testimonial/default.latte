@@ -1,6 +1,9 @@
 {block content}
-    <h2>Reference</h2>
-    <p><a class="btn" n:href="edit">Přidat referenci</a></p>
+    <div class="page-header">
+        <h2>Reference</h2>
+        <a class="btn" n:href="edit">Přidat referenci</a>
+    </div>
+    <div class="table-container">
     <table>
         <thead>
         <tr>
@@ -16,18 +19,19 @@
         </thead>
         <tbody>
         <tr n:foreach="$items as $item">
-            <td>{$item->id}</td>
-            <td>{$item->lang}</td>
-            <td>{$item->client_name}</td>
-            <td>{$item->project_name|truncate:40}</td>
-            <td>{$item->quote_text|truncate:80}</td>
-            <td>{$item->sort_order}</td>
-            <td>{if $item->active}<span class="badge badge-active">Aktivní</span>{else}<span class="badge badge-inactive">Neaktivní</span>{/if}</td>
-            <td>
+            <td data-label="ID">{$item->id}</td>
+            <td data-label="Jazyk">{$item->lang}</td>
+            <td data-label="Klient">{$item->client_name}</td>
+            <td data-label="Projekt">{$item->project_name|truncate:40}</td>
+            <td data-label="Text">{$item->quote_text|truncate:80}</td>
+            <td data-label="Pořadí">{$item->sort_order}</td>
+            <td data-label="Stav">{if $item->active}<span class="badge badge-active">Aktivní</span>{else}<span class="badge badge-inactive">Neaktivní</span>{/if}</td>
+            <td data-label="Akce" class="actions-cell">
                 <a n:href="edit id => $item->id">Upravit</a>
                 <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat tuto referenci?')">Smazat</a>
             </td>
         </tr>
         </tbody>
     </table>
+    </div>
 {/block}

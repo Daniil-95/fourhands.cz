@@ -1,5 +1,6 @@
 ﻿{block content}
     <h2>Přehled</h2>
+
     <div class="dashboard-cards">
         <div class="card">
             <div class="card-number">{$contentCount}</div>
@@ -30,6 +31,50 @@
             <div class="card-number">{$settingCount}</div>
             <div class="card-label">Nastavení</div>
             <a n:href=":Admin:Setting:default" class="card-link">Spravovat</a>
+        </div>
+    </div>
+
+    <div class="dashboard-widgets">
+        <div class="widget">
+            <h3>Naposledy přidaný obsah</h3>
+            {foreach $latestContent as $item}
+                <div class="widget-item">
+                    <span class="widget-item-title">{$item->title ? $item->title : $item->code}</span>
+                    <span class="widget-item-meta">{$item->lang}</span>
+                    <a n:href=":Admin:Content:edit id => $item->id">Upravit</a>
+                </div>
+            {/foreach}
+            {if !count($latestContent)}
+                <div class="widget-empty">Žádný obsah</div>
+            {/if}
+        </div>
+
+        <div class="widget">
+            <h3>Naposledy přidaná média</h3>
+            {foreach $latestMedia as $item}
+                <div class="widget-item">
+                    <span class="widget-item-title">{$item->title}</span>
+                    <span class="widget-item-meta">{$item->type}</span>
+                    <a n:href=":Admin:Media:edit id => $item->id">Upravit</a>
+                </div>
+            {/foreach}
+            {if !count($latestMedia)}
+                <div class="widget-empty">Žádná média</div>
+            {/if}
+        </div>
+
+        <div class="widget">
+            <h3>Poslední události</h3>
+            {foreach $latestEvents as $item}
+                <div class="widget-item">
+                    <span class="widget-item-title">{$item->title|truncate:40}</span>
+                    <span class="widget-item-meta">{if $item->publish_date}{$item->publish_date|date:'j. n. Y'}{/if}</span>
+                    <a n:href=":Admin:Event:edit id => $item->id">Upravit</a>
+                </div>
+            {/foreach}
+            {if !count($latestEvents)}
+                <div class="widget-empty">Žádné události</div>
+            {/if}
         </div>
     </div>
 

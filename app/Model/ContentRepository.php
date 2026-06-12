@@ -59,6 +59,11 @@ final class ContentRepository
         return $this->db->table('text_snippets')->order('lang ASC, category ASC, sort_order ASC, code ASC')->fetchAll();
     }
 
+    public function getLatest(int $limit = 5): array
+    {
+        return $this->db->table('text_snippets')->order('id DESC')->limit($limit)->fetchAll();
+    }
+
     public function getById(int $id): ?ActiveRow
     {
         return $this->db->table('text_snippets')->get($id);
