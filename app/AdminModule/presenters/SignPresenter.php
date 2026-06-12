@@ -27,7 +27,7 @@ final class SignPresenter extends BaseAdminPresenter
     public function actionOut(): void
     {
         $this->getUser()->logout();
-            $this->flashMessage('Byli jste odhlášeni.', 'info');
+        $this->flashMessage('Byli jste odhlášeni.', 'info');
         $this->redirect('default');
     }
 

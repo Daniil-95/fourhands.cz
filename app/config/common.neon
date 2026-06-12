@@ -7,9 +7,6 @@ application:
         Admin: App\AdminModule\Presenters\*Presenter
         Front: App\FrontModule\Presenters\*Presenter
 
-session:
-    expiration: 30 days
-
 services:
     router: App\Common\RouterFactory::createRouter
 

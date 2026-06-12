@@ -77,6 +77,19 @@ final class ContentPresenter extends BaseAdminPresenter
         $this->redirect('default');
     }
 
+    /** @throws AbortException */
+    public function actionDelete(int $id): void
+    {
+        $token = $this->getParameter('_token');
+        if (!is_string($token) || !$this->checkCsrfToken($token)) {
+            $this->error('Neplatný bezpečnostní token.', 403);
+        }
+
+        $this->contentRepository->delete($id);
+        $this->flashMessage('Obsah byl smazán.', 'success');
+        $this->redirect('default');
+    }
+
     protected function createComponentDeleteForm(): Form
     {
         $form = new Form();

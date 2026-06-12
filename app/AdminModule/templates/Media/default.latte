@@ -23,7 +23,7 @@
             <td>{$item->url|truncate:40}</td>
             <td>
                 <a n:href="edit id => $item->id">Upravit</a>
-                <a n:href="delete id => $item->id" onclick="return confirm('Smazat toto médium?')">Smazat</a>
+                <a n:href="delete id => $item->id, _token => $csrfToken" onclick="return confirm('Smazat toto médium?')">Smazat</a>
             </td>
         </tr>
         </tbody>

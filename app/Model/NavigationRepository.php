@@ -26,7 +26,7 @@ final class NavigationRepository
         return $this->db->table('navigation_items')->get($id);
     }
 
-    public function save(array $data, ?int $id): void
+    public function save(array $data, ?int $id = null): void
     {
         $payload = [
             'lang' => $data['lang'],

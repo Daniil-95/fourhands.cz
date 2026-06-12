@@ -76,6 +76,19 @@ final class EventPresenter extends BaseAdminPresenter
         $this->redirect('default');
     }
 
+    /** @throws AbortException */
+    public function actionDelete(int $id): void
+    {
+        $token = $this->getParameter('_token');
+        if (!is_string($token) || !$this->checkCsrfToken($token)) {
+            $this->error('Neplatný bezpečnostní token.', 403);
+        }
+
+        $this->eventRepository->delete($id);
+        $this->flashMessage('Akce byla smazána.', 'success');
+        $this->redirect('default');
+    }
+
     protected function createComponentDeleteForm(): Form
     {
         $form = new Form();

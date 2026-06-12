@@ -21,7 +21,7 @@
             <td>{$item->sort_order}</td>
             <td>
                 <a n:href="edit id => $item->id">Upravit</a>
-                <a n:href="delete id => $item->id" onclick="return confirm('Smazat tento blok?')">Smazat</a>
+                <a n:href="delete id => $item->id, _token => $csrfToken" onclick="return confirm('Smazat tento blok?')">Smazat</a>
             </td>
         </tr>
         </tbody>

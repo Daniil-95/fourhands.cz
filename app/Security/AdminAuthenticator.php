@@ -95,7 +95,7 @@ final class AdminAuthenticator implements Authenticator
             $this->db->table('log_users_login')->insert([
                 'users_id' => $userId,
                 'remote_ip' => (string) ($this->httpRequest->getRemoteAddress() ?? ''),
-                'remote_host' => mb_substr((string) ($this->httpRequest->getHeader('Host') ?? $usernameInput), 0, 255),
+                'remote_host' => mb_substr((string) ($this->httpRequest->getRemoteHost() ?? $usernameInput), 0, 255),
             ]);
         } catch (\Throwable $e) {
             // Keep authentication flow independent from optional logging.

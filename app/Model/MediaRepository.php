@@ -69,7 +69,7 @@ final class MediaRepository
 
             return (object) [
                 'id' => $id,
-                'lang' => 'cs',
+                'lang' => (string) ($row->lang ?? 'cs'),
                 'type' => 'video',
                 'title' => (string) ($row->title ?? ''),
                 'description' => '',
@@ -88,7 +88,7 @@ final class MediaRepository
 
         return (object) [
             'id' => (int) $row->id,
-            'lang' => 'cs',
+            'lang' => (string) ($row->lang ?? 'cs'),
             'type' => 'photo',
             'title' => (string) ($row->title ?? ''),
             'description' => (string) ($row->subtitle ?? ''),

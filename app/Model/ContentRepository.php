@@ -54,18 +54,6 @@ final class ContentRepository
         return $items;
     }
 
-    public function getReferences(string $locale): array
-    {
-        $items = [];
-        foreach ($this->getByLocale($locale) as $key => $item) {
-            if (str_starts_with($key, 'reference')) {
-                $items[] = $item;
-            }
-        }
-
-        return $items;
-    }
-
     public function getAll(): array
     {
         return $this->db->table('text_snippets')->order('lang ASC, category ASC, sort_order ASC, code ASC')->fetchAll();

@@ -30,7 +30,7 @@ final class SettingRepository
         return $this->db->table('site_settings')->get($id);
     }
 
-    public function save(array $data, ?int $id): void
+    public function save(array $data, ?int $id = null): void
     {
         $payload = [
             'lang' => $data['lang'],
