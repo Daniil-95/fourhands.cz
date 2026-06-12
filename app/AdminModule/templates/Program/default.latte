@@ -22,7 +22,7 @@
             <td data-label="ID">{$item->id}</td>
             <td data-label="Jazyk">{$item->lang}</td>
             <td data-label="Název">{$item->title}</td>
-            <td data-label="Ikona">{$item->icon}</td>
+            <td data-label="Ikona"><span class="badge program-icon program-icon--{$item->icon}"></span> <code>{$item->icon}</code></td>
             <td data-label="Popis">{$item->description|truncate:60}</td>
             <td data-label="Pořadí">{$item->sort_order}</td>
             <td data-label="Stav">{if $item->active}<span class="badge badge-active">Aktivní</span>{else}<span class="badge badge-inactive">Neaktivní</span>{/if}</td>

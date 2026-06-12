@@ -64,23 +64,23 @@
                     <div class="col-md-6 col-xl-3 reveal" n:foreach="$programs as $program">
                         <article class="program-card">
                             <div class="program-card__image"><img src="{$basePath}/images/{$program->image_path}" width="600" height="400" alt="{$program->title}" loading="lazy"></div>
-                            <div class="program-card__icon">{$program->icon}</div>
+                            <div class="program-card__icon"><span class="program-icon program-icon--{$program->icon}"></span></div>
                             <div class="program-card__body"><h3>{$program->title}</h3>
                                 <p>{$program->description}</p><a href="#kontakt">{_'More information'} <span>→</span></a>
                             </div>
                         </article>
                     </div>
-                {else}
+                    {else}
                     {var $fallbackPrograms = [
-                        ['Svatby', 'Romantická hudba pro obřad, hostinu i večerní zábavu.', 'kids5-thumb.jpg', '♡'],
-                        ['Firemní akce', 'Elegantní doprovod pro večírky, gala večery a eventy.', 'kids8-thumb.jpg', '◇'],
-                        ['Koncerty', 'Vlastní koncertní programy na prestižních místech.', 'D55806FE-109C-441B-98E7-8035F609E16F.jpg', '♩'],
-                        ['Soukromé akce', 'Hudba na narozeniny, výročí a jiné výjimečné události.', 'kids7-thumb.jpg', '☆']
+                        ['Svatby', 'Romantická hudba pro obřad, hostinu i večerní zábavu.', 'kids5-thumb.jpg', 'heart'],
+                        ['Firemní akce', 'Elegantní doprovod pro večírky, gala večery a eventy.', 'kids8-thumb.jpg', 'diamond'],
+                        ['Koncerty', 'Vlastní koncertní programy na prestižních místech.', 'D55806FE-109C-441B-98E7-8035F609E16F.jpg', 'note'],
+                        ['Soukromé akce', 'Hudba na narozeniny, výročí a jiné výjimečné události.', 'kids7-thumb.jpg', 'star']
                     ]}
                     <div class="col-md-6 col-xl-3 reveal" n:foreach="$fallbackPrograms as $program">
                         <article class="program-card">
                             <div class="program-card__image"><img src="{$basePath}/images/{$program[2]}" width="600" height="400" alt="{_ $program[0]}" loading="lazy"></div>
-                            <div class="program-card__icon">{$program[3]}</div>
+                            <div class="program-card__icon"><span class="program-icon program-icon--{$program[3]}"></span></div>
                             <div class="program-card__body"><h3>{_ $program[0]}</h3>
                                 <p>{_ $program[1]}</p><a href="#kontakt">{_'More information'} <span>→</span></a>
                             </div>

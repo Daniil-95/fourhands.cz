@@ -62,7 +62,7 @@
         <nav class="site-nav" data-menu>
             {if $navigation}
                 {foreach $navigation as $navItem}
-                    <a href="{if str_starts_with($navItem->url, '/')}{link :Front:Homepage:default, locale => $locale}{$navItem->url}{else}{$navItem->url}{/if}">{$navItem->title}</a>
+                    <a href="{if str_starts_with($navItem->url, '/')}{link :Front:Homepage:default, locale => $locale}{$navItem->url|trim:'/'}{else}{$navItem->url}{/if}">{$navItem->title}</a>
                 {/foreach}
             {else}
                 <a href="{link :Front:Homepage:default, locale => $locale}#uvod">{_'Home'}</a>

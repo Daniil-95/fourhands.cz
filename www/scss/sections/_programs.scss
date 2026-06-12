@@ -3,3 +3,16 @@
 .program-grid {
   justify-content: center;
 }
+
+.program-icon {
+  display: block;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  font-size: 20px;
+
+  &--heart::after { content: "\2665"; }
+  &--diamond::after { content: "\2666"; }
+  &--note::after { content: "\266B"; }
+  &--star::after { content: "\2605"; }
+}

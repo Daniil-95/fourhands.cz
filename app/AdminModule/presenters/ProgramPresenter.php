@@ -56,7 +56,12 @@ final class ProgramPresenter extends BaseAdminPresenter
         $form->addSelect('lang', 'Jazyk', ['cs' => 'Čeština', 'en' => 'Angličtina'])->setRequired();
         $form->addText('title', 'Název')->setRequired();
         $form->addTextArea('description', 'Popis')->setHtmlAttribute('rows', 3);
-        $form->addText('icon', 'Ikona (znak)')->setDefaultValue('♫')->setRequired();
+        $form->addSelect('icon', 'Ikona', [
+            'heart' => '♥ Srdce',
+            'diamond' => '♦ Kosočtverec',
+            'note' => '♫ Nota',
+            'star' => '★ Hvězda',
+        ])->setRequired();
         $form->addText('image_path', 'Cesta k obrázku')->setDefaultValue('images/');
         $form->addInteger('sort_order', 'Pořadí')->setDefaultValue(100);
         $form->addCheckbox('active', 'Aktivní')->setDefaultValue(true);
