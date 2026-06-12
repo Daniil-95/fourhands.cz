@@ -4,7 +4,31 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#8F1125">
-    <title>{ifset title}{include title|stripHtml} | {/ifset}Fourhands</title>
+
+    {var $metaTitle = $siteSettings['meta_title'] ?? 'Fourhands'}
+    {var $metaDescription = $siteSettings['meta_description'] ?? ''}
+    {var $ogTitle = $siteSettings['og_title'] ?? $metaTitle}
+    {var $ogDescription = $siteSettings['og_description'] ?? $metaDescription}
+    {var $ogImage = $siteSettings['og_image'] ? $basePath . '/' . $siteSettings['og_image'] : ''}
+    {var $seoKeywords = $siteSettings['seo_keywords'] ?? ''}
+    {var $seoCanonical = $siteSettings['seo_canonical'] ?? ''}
+
+    <title>{ifset title}{include title|stripHtml} | {/ifset}{$metaTitle}</title>
+
+    {if $metaDescription}
+        <meta name="description" content="{$metaDescription}">
+    {/if}
+    {if $seoKeywords}
+        <meta name="keywords" content="{$seoKeywords}">
+    {/if}
+    {if $seoCanonical}
+        <link rel="canonical" href="{$seoCanonical}">
+    {/if}
+    <meta property="og:title" content="{ifset title}{include title|stripHtml} | {/ifset}{$ogTitle}">
+    <meta property="og:description" content="{$ogDescription}">
+    <meta property="og:type" content="website">
+    {if $ogImage}<meta property="og:image" content="{$ogImage}">{/if}
+    <meta name="twitter:card" content="summary_large_image">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +45,7 @@
 
     <link rel="stylesheet" href="{$basePath}/css/style.css">
 
-    <link rel="icon" href="{$basePath}/images/icons.png" type="image/x-icon" sizes="32x32">
+    <link rel="icon" href="{$basePath}/{var $favicon = $siteSettings['hero_image'] ?? 'images/icons.png'}{$favicon}" type="image/x-icon" sizes="32x32">
 
     {block head}{/block}
 </head>
@@ -36,14 +60,20 @@
             <span></span><span></span>
         </button>
         <nav class="site-nav" data-menu>
-            <a href="{link :Front:Homepage:default, locale => $locale}#uvod">{_'Home'}</a>
-            <a href="{link :Front:Homepage:default, locale => $locale}#o-duu">{_'About us'}</a>
-            <a n:href=":Front:Clenky:default locale => $locale">{_'Members'}</a>
-            <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Programs'}</a>
-            <a n:href=":Front:Galerie:default locale => $locale">{_'Gallery'}</a>
-            <a n:href=":Front:Videa:default locale => $locale">{_'Videos'}</a>
-            <a href="{link :Front:Homepage:default, locale => $locale}#reference">{_'References'}</a>
-            <a href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Contact'}</a>
+            {if $navigation}
+                {foreach $navigation as $navItem}
+                    <a href="{if str_starts_with($navItem->url, '/')}{link :Front:Homepage:default, locale => $locale}{$navItem->url}{else}{$navItem->url}{/if}">{$navItem->title}</a>
+                {/foreach}
+            {else}
+                <a href="{link :Front:Homepage:default, locale => $locale}#uvod">{_'Home'}</a>
+                <a href="{link :Front:Homepage:default, locale => $locale}#o-duu">{_'About us'}</a>
+                <a n:href=":Front:Clenky:default locale => $locale">{_'Members'}</a>
+                <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Programs'}</a>
+                <a n:href=":Front:Galerie:default locale => $locale">{_'Gallery'}</a>
+                <a n:href=":Front:Videa:default locale => $locale">{_'Videos'}</a>
+                <a href="{link :Front:Homepage:default, locale => $locale}#reference">{_'References'}</a>
+                <a href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Contact'}</a>
+            {/if}
             <a class="button button--small" href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Inquiry'}</a>
             <a class="lang-switch" n:href="this locale => $switchLocale">{if $locale == 'cs'}EN{else}CS{/if}</a>
         </nav>
@@ -65,9 +95,9 @@
                 <p>{_'Piano duo for weddings, concerts and events that deserve an exceptional musical atmosphere.'}</p>
 
                 <div class="socials">
-                    <a href="#" aria-label="{_'Facebook'}">f</a>
-                    <a href="#" aria-label="{_'Instagram'}">ig</a>
-                    <a href="#" aria-label="{_'YouTube'}">yt</a>
+                    <a href="{$siteSettings['facebook'] ?: '#'}" aria-label="{_'Facebook'}">f</a>
+                    <a href="{$siteSettings['instagram'] ?: '#'}" aria-label="{_'Instagram'}">ig</a>
+                    <a href="{$siteSettings['youtube'] ?: '#'}" aria-label="{_'YouTube'}">yt</a>
                 </div>
             </div>
             <div class="col-6 col-lg-2">
@@ -84,12 +114,19 @@
                 <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Concerts'}</a>
                 <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Private events'}</a>
             </div>
-            <div class="col-lg-3"><h3>{_'Contact'}</h3><a href="tel:+420777123456">+420 777 123 456</a><a
-                        href="mailto:info@fourhands.cz">info@fourhands.cz</a><span>{_'Prague, Czech Republic'}</span></div>
+            <div class="col-lg-3">
+                <h3>{_'Contact'}</h3>
+                <a href="tel:+420777123456">{$siteSettings['phone'] ?: '+420 777 123 456'}</a>
+                <a href="mailto:{$siteSettings['email'] ?: 'info@fourhands.cz'}">{$siteSettings['email'] ?: 'info@fourhands.cz'}</a>
+                <span>{$siteSettings['address'] ?: 'Praha, Česká republika'}</span>
+            </div>
         </div>
         <div class="site-footer__bottom">
-            <span>© Fourhands</span>
-            <div><a href="#">{_'GDPR'}</a><a href="#">{_'Cookies'}</a></div>
+            <span>{$siteSettings['footer_copyright'] ?: '© Fourhands'}</span>
+            <div>
+                <a href="{$siteSettings['gdpr_url'] ?: '#'}">{_'GDPR'}</a>
+                <a href="{$siteSettings['cookies_url'] ?: '#'}">{_'Cookies'}</a>
+            </div>
         </div>
     </div>
 </footer>

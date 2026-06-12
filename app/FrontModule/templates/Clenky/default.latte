@@ -1,3 +1,6 @@
+{var $katerinaImage = $siteSettings['member_katerina_image'] ? $basePath . '/' . $siteSettings['member_katerina_image'] : $basePath . '/images/katerina.jpg'}
+{var $irenaImage = $siteSettings['member_irena_image'] ? $basePath . '/' . $siteSettings['member_irena_image'] : $basePath . '/images/Irena.jpg'}
+
 {block title}{_'Members of the duo'}{/block}
 {block content}
     <section class="page-hero">
@@ -10,7 +13,7 @@
     <section class="section members">
         <div class="container">
             <article class="member row align-items-start gy-5">
-                <div class="col-lg-5"><img src="{$basePath}/images/katerina.jpg" width="600" height="750" alt="{_'Kateřina Konopová'}" loading="lazy"></div>
+                <div class="col-lg-5"><img src="{$katerinaImage}" width="600" height="750" alt="{_'Kateřina Konopová'}" loading="lazy"></div>
                 <div class="col-lg-7"><p class="eyebrow">{_'Pianist'}</p>
                     <h2>{$content['artist_katerina']['title'] ?? 'Kateřina Konopová'}</h2>
                     <div class="rich-text">{$content['artist_katerina']['content_html'] ?? ''|noescape}</div>
@@ -20,7 +23,7 @@
                 </div>
             </article>
             <article class="member member--reverse row align-items-start gy-5">
-                <div class="col-lg-5"><img src="{$basePath}/images/Irena.jpg" width="600" height="750" alt="{_'Irena Andruško'}" loading="lazy"></div>
+                <div class="col-lg-5"><img src="{$irenaImage}" width="600" height="750" alt="{_'Irena Andruško'}" loading="lazy"></div>
                 <div class="col-lg-7"><p class="eyebrow">{_'Pianist'}</p>
                     <h2>{$content['artist_irena']['title'] ?? 'Irena Andruško'}</h2>
                     <div class="rich-text">{$content['artist_irena']['content_html'] ?? ''|noescape}</div>

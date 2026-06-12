@@ -1,35 +1,55 @@
+{var $heroImage = $siteSettings['hero_image'] ? $basePath . '/'. $siteSettings['hero_image'] : $basePath . '/images/story.jpg'}
+{var $heroHeading = $siteSettings['hero_heading'] ?: 'FOURHANDS'}
+{var $heroLead = $siteSettings['hero_lead'] ?: 'Klavírní duo pro výjimečné okamžiky vašeho života.'}
+{var $heroCta = $siteSettings['hero_cta'] ?: 'Nezávazná poptávka'}
+{var $heroScroll = $siteSettings['hero_scroll'] ?: 'Objevte nás'}
+{var $aboutImage = $siteSettings['about_image'] ? $basePath . '/' . $siteSettings['about_image'] : $basePath . '/images/slider2.jpg'}
+{var $aboutEyebrow = $siteSettings['about_eyebrow'] ?: 'O nás'}
+{var $aboutHeading = $siteSettings['about_heading'] ?: 'Hudba, která spojuje a vytváří emoce'}
+{var $aboutCta = $siteSettings['about_cta'] ?: 'Poznejte nás'}
+{var $stat1Number = $siteSettings['stat_1_number'] ?: '10+'}
+{var $stat1Label = $siteSettings['stat_1_label'] ?: 'let praxe'}
+{var $stat2Number = $siteSettings['stat_2_number'] ?: '150+'}
+{var $stat2Label = $siteSettings['stat_2_label'] ?: 'koncertů'}
+{var $stat3Number = $siteSettings['stat_3_number'] ?: '1000+'}
+{var $stat3Label = $siteSettings['stat_3_label'] ?: 'spokojených hostů'}
+{var $contactPhone = $siteSettings['phone'] ?: '+420 777 123 456'}
+{var $contactEmail = $siteSettings['email'] ?: 'info@fourhands.cz'}
+{var $contactAddress = $siteSettings['address'] ?: 'Praha, Česká republika'}
+{var $contactImage = $siteSettings['hero_image'] ? $basePath . '/' . $siteSettings['hero_image'] : $basePath . '/images/story.jpg'}
+
 {block title}{_'Piano duo for exceptional moments'}{/block}
 {block head}
-<link rel="preload" as="image" href="{$basePath}/images/story.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="{$heroImage}" fetchpriority="high">
 {/block}
 {block content}
-    <section class="hero" id="uvod" style="--hero-image:url('{$basePath}/images/story.jpg')">
+    <section class="hero" id="uvod" style="--hero-image:url('{$heroImage}')">
         <div class="container hero__content reveal">
             <p class="eyebrow eyebrow--light">{_'Piano Duo'}</p>
-            <h1>FOURHANDS</h1>
-            <p class="hero__lead">{_'Piano duo for the exceptional moments of your life'}</p>
-            <a class="button" href="#kontakt">{_'Non-binding inquiry'} <span>→</span></a>
+            <h1>{$heroHeading}</h1>
+            <p class="hero__lead">{$heroLead}</p>
+            <a class="button" href="#kontakt">{$heroCta} <span>→</span></a>
         </div>
-        <a class="hero__scroll" href="#o-duu">{_'Discover us'} <span>↓</span></a>
+        <a class="hero__scroll" href="#o-duu">{$heroScroll} <span>↓</span></a>
     </section>
 
     <section class="section about" id="o-duu">
         <div class="container">
             <div class="row align-items-center gy-5">
                 <div class="col-lg-6 reveal">
-<div class="about__image"><img src="{$basePath}/images/slider2.jpg" width="1200" height="529" alt="{_'Piano duo Fourhands'}">
-            </div>
+                    <div class="about__image"><img src="{$aboutImage}" width="1200" height="529" alt="{_'Piano duo Fourhands'}">
+                    </div>
                 </div>
                 <div class="col-lg-6 reveal">
-                    <p class="eyebrow">{_'About us'}</p>
-                    <h2>{_'Music that connects and creates emotions'}</h2>
+                    <p class="eyebrow">{$aboutEyebrow}</p>
+                    <h2>{$aboutHeading}</h2>
                     <div class="rich-text">{$content['about']['content_html'] ?? '<p>Jsme klavírní duo Fourhands. Spojujeme vášeň pro hudbu, cit pro detail a radost z toho, když se hudba stává součástí důležitých životních okamžiků.</p>'|noescape}</div>
                     <div class="stats">
-                        <div><strong>10+</strong><span>{_'years of playing'}</span></div>
-                        <div><strong>150+</strong><span>{_'concerts'}</span></div>
-                        <div><strong>1000+</strong><span>{_'satisfied guests'}</span></div>
+                        <div><strong>{$stat1Number}</strong><span>{$stat1Label}</span></div>
+                        <div><strong>{$stat2Number}</strong><span>{$stat2Label}</span></div>
+                        <div><strong>{$stat3Number}</strong><span>{$stat3Label}</span></div>
                     </div>
-                    <a class="button" n:href=":Front:Clenky:default locale => $locale">{_'Get to know us'} <span>→</span></a>
+                    <a class="button" n:href=":Front:Clenky:default locale => $locale">{$aboutCta} <span>→</span></a>
                 </div>
             </div>
         </div>
@@ -40,21 +60,33 @@
             <div class="section-heading reveal"><p class="eyebrow">{_'Our programs'}</p>
                 <h2>{_'Music for every occasion'}</h2></div>
             <div class="row gy-4 program-grid">
-                {var $programs = [
-                ['Svatby', 'Romantická hudba pro obřad, hostinu i večerní zábavu.', 'kids5-thumb.jpg', '♡'],
-                ['Firemní akce', 'Elegantní doprovod pro večírky, gala večery a eventy.', 'kids8-thumb.jpg', '◇'],
-                ['Koncerty', 'Vlastní koncertní programy na prestižních místech.', 'D55806FE-109C-441B-98E7-8035F609E16F.jpg', '♩'],
-                ['Soukromé akce', 'Hudba na narozeniny, výročí a jiné výjimečné události.', 'kids7-thumb.jpg', '☆']
-                ]}
-                <div class="col-md-6 col-xl-3 reveal" n:foreach="$programs as $program">
-                    <article class="program-card">
-                        <div class="program-card__image"><img src="{$basePath}/images/{$program[2]}" width="600" height="400" alt="{_ $program[0]}" loading="lazy"></div>
-                        <div class="program-card__icon">{$program[3]}</div>
-                        <div class="program-card__body"><h3>{_ $program[0]}</h3>
-                            <p>{_ $program[1]}</p><a href="#kontakt">{_'More information'} <span>→</span></a>
-                        </div>
-                    </article>
-                </div>
+                {if $programs}
+                    <div class="col-md-6 col-xl-3 reveal" n:foreach="$programs as $program">
+                        <article class="program-card">
+                            <div class="program-card__image"><img src="{$basePath}/images/{$program->image_path}" width="600" height="400" alt="{$program->title}" loading="lazy"></div>
+                            <div class="program-card__icon">{$program->icon}</div>
+                            <div class="program-card__body"><h3>{$program->title}</h3>
+                                <p>{$program->description}</p><a href="#kontakt">{_'More information'} <span>→</span></a>
+                            </div>
+                        </article>
+                    </div>
+                {else}
+                    {var $fallbackPrograms = [
+                        ['Svatby', 'Romantická hudba pro obřad, hostinu i večerní zábavu.', 'kids5-thumb.jpg', '♡'],
+                        ['Firemní akce', 'Elegantní doprovod pro večírky, gala večery a eventy.', 'kids8-thumb.jpg', '◇'],
+                        ['Koncerty', 'Vlastní koncertní programy na prestižních místech.', 'D55806FE-109C-441B-98E7-8035F609E16F.jpg', '♩'],
+                        ['Soukromé akce', 'Hudba na narozeniny, výročí a jiné výjimečné události.', 'kids7-thumb.jpg', '☆']
+                    ]}
+                    <div class="col-md-6 col-xl-3 reveal" n:foreach="$fallbackPrograms as $program">
+                        <article class="program-card">
+                            <div class="program-card__image"><img src="{$basePath}/images/{$program[2]}" width="600" height="400" alt="{_ $program[0]}" loading="lazy"></div>
+                            <div class="program-card__icon">{$program[3]}</div>
+                            <div class="program-card__body"><h3>{_ $program[0]}</h3>
+                                <p>{_ $program[1]}</p><a href="#kontakt">{_'More information'} <span>→</span></a>
+                            </div>
+                        </article>
+                    </div>
+                {/if}
             </div>
         </div>
     </section>
@@ -120,14 +152,36 @@
         </div>
     </section>
 
+    {if $events['upcoming']}
+    <section class="section section--light" id="udalosti">
+        <div class="container">
+            <div class="section-heading reveal">
+                <p class="eyebrow">{_'Events'}</p>
+                <h2>{_'Upcoming performances'}</h2>
+            </div>
+            <div class="row gy-3 reveal">
+                <div class="col-md-6" n:foreach="$events['upcoming'] as $event">
+                    <article class="event-card">
+                        <time datetime="{$event['event_date']->format('Y-m-d')}">{$event['event_date']|date:'j. n. Y'}</time>
+                        <h3>{$event['description']}</h3>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+    {/if}
+
     <section class="contact" id="kontakt">
         <div class="container-fluid">
             <div class="row g-0">
-                <div class="col-lg-5 contact__visual" style="background-image:url('{$basePath}/images/story.jpg')"></div>
+                <div class="col-lg-5 contact__visual" style="background-image:url('{$contactImage}')"></div>
                 <div class="col-lg-7 contact__content reveal">
                     <p class="eyebrow">{_'Contact'}</p>
                     <h2>{_'Planning an event?'}<br>{_'We would be happy to play for you.'}</h2>
-                    <div class="contact__details"><a href="tel:+420777123456">+420 777 123 456</a><a href="mailto:info@fourhands.cz">info@fourhands.cz</a><span>{_'Prague, Czech Republic'}</span>
+                    <div class="contact__details">
+                        <a href="tel:+420777123456">{$contactPhone}</a>
+                        <a href="mailto:{$contactEmail}">{$contactEmail}</a>
+                        <span>{$contactAddress}</span>
                     </div>
                     {foreach $flashes as $flash}
                         <div class="flash {$flash->type}">{$flash->message}</div>

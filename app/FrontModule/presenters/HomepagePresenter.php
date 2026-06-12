@@ -6,6 +6,7 @@ use App\Common\BasePresenter;
 use App\Model\ContentRepository;
 use App\Model\EventRepository;
 use App\Model\MediaRepository;
+use App\Model\ProgramRepository;
 use App\Model\TestimonialRepository;
 use Nette\Application\UI\Form;
 
@@ -15,6 +16,7 @@ final class HomepagePresenter extends BasePresenter
         private ContentRepository $contentRepository,
         private EventRepository $eventRepository,
         private MediaRepository $mediaRepository,
+        private ProgramRepository $programRepository,
         private TestimonialRepository $testimonialRepository,
     ) {
         parent::__construct();
@@ -27,6 +29,7 @@ final class HomepagePresenter extends BasePresenter
         $this->template->events = $this->eventRepository->getByLocale($locale);
         $this->template->photos = $this->mediaRepository->getByLocaleAndType($locale, 'photo');
         $this->template->videos = $this->mediaRepository->getByLocaleAndType($locale, 'video');
+        $this->template->programs = $this->programRepository->getActiveByLocale($locale);
         $this->template->references = $this->testimonialRepository->getActiveByLocale($locale);
     }
 

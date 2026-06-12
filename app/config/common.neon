@@ -18,4 +18,5 @@ services:
     - App\Model\MediaRepository
     - App\Model\NavigationRepository
     - App\Model\SettingRepository
+    - App\Model\ProgramRepository
     - App\Model\TestimonialRepository

@@ -1,0 +1,5 @@
+{block content}
+    <h2>{if $editingId}Upravit program{else}Nový program{/if}</h2>
+    <p><a n:href="default" class="btn-back">&larr; Zpět na přehled</a></p>
+    {control programForm}
+{/block}
