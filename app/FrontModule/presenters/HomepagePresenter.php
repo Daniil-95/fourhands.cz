@@ -33,20 +33,21 @@ final class HomepagePresenter extends BasePresenter
     protected function createComponentInquiryForm(): Form
     {
         $form = new Form();
-        $form->addText('name', 'Jméno a příjmení')->setRequired();
-        $form->addEmail('email', 'E-mail')->setRequired();
-        $form->addSelect('eventType', 'Typ akce', [
-            'wedding' => 'Svatba',
-            'corporate' => 'Firemní akce',
-            'concert' => 'Koncert',
-            'private' => 'Soukromá akce',
-        ])->setPrompt('Vyberte typ akce');
-        $form->addText('date', 'Datum akce')->setHtmlType('date');
-        $form->addTextArea('message', 'Vaše zpráva')->setRequired();
-        $form->addSubmit('send', 'Odeslat poptávku');
-        $form->onSuccess[] = function (): void {
-            $this->flashMessage('Děkujeme za poptávku. Brzy se vám ozveme.', 'success');
-            $this->redirect('this#kontakt');
+        $form->addText('name', $this->trans('Name and surname'))->setRequired();
+        $form->addEmail('email', $this->trans('Email'))->setRequired();
+        $form->addSelect('eventType', $this->trans('Event type'), [
+            'wedding' => $this->trans('Wedding'),
+            'corporate' => $this->trans('Corporate event'),
+            'concert' => $this->trans('Concert'),
+            'private' => $this->trans('Private event'),
+        ])->setPrompt($this->trans('Select event type'));
+        $form->addText('date', $this->trans('Event date'))->setHtmlType('date');
+        $form->addTextArea('message', $this->trans('Your message'))->setRequired();
+        $form->addSubmit('send', $this->trans('Send inquiry'));
+        $presenter = $this;
+        $form->onSuccess[] = function () use ($presenter): void {
+            $presenter->flashMessage($presenter->trans('Thank you for your inquiry. We will get back to you soon.'), 'success');
+            $presenter->redirect('this#kontakt');
         };
 
         return $form;

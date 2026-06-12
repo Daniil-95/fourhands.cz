@@ -16,23 +16,23 @@
 <body>
 <header class="site-header" data-header>
     <div class="container-fluid site-header__inner">
-        <a class="brand" n:href=":Front:Homepage:default locale => $locale" aria-label="Fourhands domů">
+        <a class="brand" n:href=":Front:Homepage:default locale => $locale" aria-label="{_'Fourhands home'}">
             <span class="brand__name">FOURHANDS</span>
-            <span class="brand__sub">KLAVÍRNÍ DUO</span>
+            <span class="brand__sub">{_'Piano Duo'}</span>
         </a>
-        <button class="menu-toggle" type="button" aria-label="Otevřít menu" aria-expanded="false" data-menu-toggle>
+        <button class="menu-toggle" type="button" aria-label="{_'Open menu'}" aria-expanded="false" data-menu-toggle>
             <span></span><span></span>
         </button>
         <nav class="site-nav" data-menu>
-            <a href="{link :Front:Homepage:default, locale => $locale}#uvod">Úvod</a>
-            <a href="{link :Front:Homepage:default, locale => $locale}#o-duu">O duu</a>
-            <a n:href=":Front:Clenky:default locale => $locale">Členky</a>
-            <a href="{link :Front:Homepage:default, locale => $locale}#programy">Programy</a>
-            <a n:href=":Front:Galerie:default locale => $locale">Galerie</a>
-            <a n:href=":Front:Videa:default locale => $locale">Videa</a>
-            <a href="{link :Front:Homepage:default, locale => $locale}#reference">Reference</a>
-            <a href="{link :Front:Homepage:default, locale => $locale}#kontakt">Kontakt</a>
-            <a class="button button--small" href="{link :Front:Homepage:default, locale => $locale}#kontakt">Poptávka</a>
+            <a href="{link :Front:Homepage:default, locale => $locale}#uvod">{_'Home'}</a>
+            <a href="{link :Front:Homepage:default, locale => $locale}#o-duu">{_'About us'}</a>
+            <a n:href=":Front:Clenky:default locale => $locale">{_'Members'}</a>
+            <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Programs'}</a>
+            <a n:href=":Front:Galerie:default locale => $locale">{_'Gallery'}</a>
+            <a n:href=":Front:Videa:default locale => $locale">{_'Videos'}</a>
+            <a href="{link :Front:Homepage:default, locale => $locale}#reference">{_'References'}</a>
+            <a href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Contact'}</a>
+            <a class="button button--small" href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Inquiry'}</a>
             <a class="lang-switch" n:href="this locale => $switchLocale">{if $locale == 'cs'}EN{else}CS{/if}</a>
         </nav>
     </div>
@@ -46,37 +46,37 @@
             <div class="col-lg-4">
                 <a class="brand brand--footer" n:href=":Front:Homepage:default locale => $locale">
                     <span class="brand__name">FOURHANDS</span>
-                    <span class="brand__sub">KLAVÍRNÍ DUO</span>
+                    <span class="brand__sub">{_'Piano Duo'}</span>
                 </a>
 
-                <p>Klavírní duo pro svatby, koncerty a události, které si zaslouží výjimečnou hudební atmosféru.</p>
+                <p>{_'Piano duo for weddings, concerts and events that deserve an exceptional musical atmosphere.'}</p>
 
                 <div class="socials">
-                    <a href="#" aria-label="Facebook">f</a>
-                    <a href="#" aria-label="Instagram">ig</a>
-                    <a href="#" aria-label="YouTube">yt</a>
+                    <a href="#" aria-label="{_'Facebook'}">f</a>
+                    <a href="#" aria-label="{_'Instagram'}">ig</a>
+                    <a href="#" aria-label="{_'YouTube'}">yt</a>
                 </div>
             </div>
             <div class="col-6 col-lg-2">
-                <h3>Navigace</h3>
-                <a href="{link :Front:Homepage:default, locale => $locale}#o-duu">O duu</a>
-                <a n:href=":Front:Clenky:default locale => $locale">Členky</a>
-                <a n:href=":Front:Galerie:default locale => $locale">Galerie</a>
-                <a n:href=":Front:Videa:default locale => $locale">Videa</a>
+                <h3>{_'Navigation'}</h3>
+                <a href="{link :Front:Homepage:default, locale => $locale}#o-duu">{_'About us'}</a>
+                <a n:href=":Front:Clenky:default locale => $locale">{_'Members'}</a>
+                <a n:href=":Front:Galerie:default locale => $locale">{_'Gallery'}</a>
+                <a n:href=":Front:Videa:default locale => $locale">{_'Videos'}</a>
             </div>
             <div class="col-6 col-lg-3">
-                <h3>Programy</h3>
-                <a href="{link :Front:Homepage:default, locale => $locale}#programy">Svatby</a>
-                <a href="{link :Front:Homepage:default, locale => $locale}#programy">Firemní akce</a>
-                <a href="{link :Front:Homepage:default, locale => $locale}#programy">Koncerty</a>
-                <a href="{link :Front:Homepage:default, locale => $locale}#programy">Soukromé akce</a>
+                <h3>{_'Programs'}</h3>
+                <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Weddings'}</a>
+                <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Corporate events'}</a>
+                <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Concerts'}</a>
+                <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Private events'}</a>
             </div>
-            <div class="col-lg-3"><h3>Kontakt</h3><a href="tel:+420777123456">+420 777 123 456</a><a
-                        href="mailto:info@fourhands.cz">info@fourhands.cz</a><span>Praha, Česká republika</span></div>
+            <div class="col-lg-3"><h3>{_'Contact'}</h3><a href="tel:+420777123456">+420 777 123 456</a><a
+                        href="mailto:info@fourhands.cz">info@fourhands.cz</a><span>{_'Prague, Czech Republic'}</span></div>
         </div>
         <div class="site-footer__bottom">
             <span>© Fourhands</span>
-            <div><a href="#">GDPR</a><a href="#">Cookies</a></div>
+            <div><a href="#">{_'GDPR'}</a><a href="#">{_'Cookies'}</a></div>
         </div>
     </div>
 </footer>

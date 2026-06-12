@@ -1,32 +1,32 @@
-{block title}Klavírní duo pro výjimečné okamžiky{/block}
+{block title}{_'Piano duo for exceptional moments'}{/block}
 {block content}
     <section class="hero" id="uvod" style="--hero-image:url('{$basePath}/images/story.jpg')">
         <div class="container hero__content reveal">
-            <p class="eyebrow eyebrow--light">Klavírní duo</p>
+            <p class="eyebrow eyebrow--light">{_'Piano Duo'}</p>
             <h1>FOURHANDS</h1>
-            <p class="hero__lead">Klavírní duo pro výjimečné<br>okamžiky vašeho života</p>
-            <a class="button" href="#kontakt">Nezávazná poptávka <span>→</span></a>
+            <p class="hero__lead">{_'Piano duo for the exceptional moments of your life'}</p>
+            <a class="button" href="#kontakt">{_'Non-binding inquiry'} <span>→</span></a>
         </div>
-        <a class="hero__scroll" href="#o-duu">Objevte nás <span>↓</span></a>
+        <a class="hero__scroll" href="#o-duu">{_'Discover us'} <span>↓</span></a>
     </section>
 
     <section class="section about" id="o-duu">
         <div class="container">
             <div class="row align-items-center gy-5">
                 <div class="col-lg-6 reveal">
-                    <div class="about__image"><img src="{$basePath}/images/slider2.jpg" alt="Klavírní duo Fourhands">
+                    <div class="about__image"><img src="{$basePath}/images/slider2.jpg" alt="{_'Piano duo Fourhands'}">
                     </div>
                 </div>
                 <div class="col-lg-6 reveal">
-                    <p class="eyebrow">O duu</p>
-                    <h2>Hudba, která propojuje a vytváří emoce</h2>
+                    <p class="eyebrow">{_'About us'}</p>
+                    <h2>{_'Music that connects and creates emotions'}</h2>
                     <div class="rich-text">{$content['about']['content_html'] ?? '<p>Jsme klavírní duo Fourhands. Spojujeme vášeň pro hudbu, cit pro detail a radost z toho, když se hudba stává součástí důležitých životních okamžiků.</p>'|noescape}</div>
                     <div class="stats">
-                        <div><strong>10+</strong><span>let hraní</span></div>
-                        <div><strong>150+</strong><span>koncertů</span></div>
-                        <div><strong>1000+</strong><span>spokojených hostů</span></div>
+                        <div><strong>10+</strong><span>{_'years of playing'}</span></div>
+                        <div><strong>150+</strong><span>{_'concerts'}</span></div>
+                        <div><strong>1000+</strong><span>{_'satisfied guests'}</span></div>
                     </div>
-                    <a class="button" n:href=":Front:Clenky:default locale => $locale">Poznejte nás <span>→</span></a>
+                    <a class="button" n:href=":Front:Clenky:default locale => $locale">{_'Get to know us'} <span>→</span></a>
                 </div>
             </div>
         </div>
@@ -34,8 +34,8 @@
 
     <section class="section section--light" id="programy">
         <div class="container">
-            <div class="section-heading reveal"><p class="eyebrow">Naše programy</p>
-                <h2>Hudba pro každou příležitost</h2></div>
+            <div class="section-heading reveal"><p class="eyebrow">{_'Our programs'}</p>
+                <h2>{_'Music for every occasion'}</h2></div>
             <div class="row gy-4 program-grid">
                 {var $programs = [
                 ['Svatby', 'Romantická hudba pro obřad, hostinu i večerní zábavu.', 'kids5-thumb.jpg', '♡'],
@@ -45,10 +45,10 @@
                 ]}
                 <div class="col-md-6 col-xl-3 reveal" n:foreach="$programs as $program">
                     <article class="program-card">
-                        <div class="program-card__image"><img src="{$basePath}/images/{$program[2]}" alt="{$program[0]}"></div>
+                        <div class="program-card__image"><img src="{$basePath}/images/{$program[2]}" alt="{_ $program[0]}"></div>
                         <div class="program-card__icon">{$program[3]}</div>
-                        <div class="program-card__body"><h3>{$program[0]}</h3>
-                            <p>{$program[1]}</p><a href="#kontakt">Více informací <span>→</span></a>
+                        <div class="program-card__body"><h3>{_ $program[0]}</h3>
+                            <p>{_ $program[1]}</p><a href="#kontakt">{_'More information'} <span>→</span></a>
                         </div>
                     </article>
                 </div>
@@ -58,8 +58,8 @@
 
     <section class="section videos" id="videa">
         <div class="container">
-            <div class="section-heading reveal"><p class="eyebrow">Video prezentace</p>
-                <h2>Poslechněte si nás</h2></div>
+            <div class="section-heading reveal"><p class="eyebrow">{_'Video presentation'}</p>
+                <h2>{_'Listen to us'}</h2></div>
             <div class="slider-shell reveal">
                 <div class="swiper video-swiper">
                     <div class="swiper-wrapper">
@@ -71,28 +71,28 @@
                         </div>
                     </div>
                 </div>
-                <button class="slider-arrow slider-arrow--prev video-prev" aria-label="Předchozí video">←</button>
-                <button class="slider-arrow slider-arrow--next video-next" aria-label="Další video">→</button>
+                <button class="slider-arrow slider-arrow--prev video-prev" aria-label="{_'Previous video'}">←</button>
+                <button class="slider-arrow slider-arrow--next video-next" aria-label="{_'Next video'}">→</button>
             </div>
-            <div class="section-action"><a class="button" n:href=":Front:Videa:default locale => $locale">Zobrazit všechna videa <span>→</span></a></div>
+            <div class="section-action"><a class="button" n:href=":Front:Videa:default locale => $locale">{_'Show all videos'} <span>→</span></a></div>
         </div>
     </section>
 
     <section class="section section--light" id="galerie">
         <div class="container-fluid">
-            <div class="section-heading reveal"><p class="eyebrow">Fotogalerie</p>
-                <h2>Okamžiky v obrazech</h2></div>
+            <div class="section-heading reveal"><p class="eyebrow">{_'Photo gallery'}</p>
+                <h2>{_'Moments in pictures'}</h2></div>
             <div class="gallery-preview reveal">
                 {foreach ($photos|slice: 0, 5) as $photo}<a n:href=":Front:Galerie:default locale => $locale"><img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title']}"></a>{/foreach}
             </div>
-            <div class="section-action"><a class="button button--outline" n:href=":Front:Galerie:default locale => $locale">Zobrazit celou galerii <span>→</span></a></div>
+            <div class="section-action"><a class="button button--outline" n:href=":Front:Galerie:default locale => $locale">{_'Show entire gallery'} <span>→</span></a></div>
         </div>
     </section>
 
     <section class="section references" id="reference">
         <div class="container">
-            <div class="section-heading section-heading--light reveal"><p class="eyebrow eyebrow--light">Reference</p>
-                <h2>Co o nás říkají naši klienti</h2></div>
+            <div class="section-heading section-heading--light reveal"><p class="eyebrow eyebrow--light">{_'References'}</p>
+                <h2>{_'What our clients say about us'}</h2></div>
             <div class="swiper reference-swiper reveal">
                 <div class="swiper-wrapper">
                     {if $references}
@@ -122,9 +122,9 @@
             <div class="row g-0">
                 <div class="col-lg-5 contact__visual" style="background-image:url('{$basePath}/images/story.jpg')"></div>
                 <div class="col-lg-7 contact__content reveal">
-                    <p class="eyebrow">Kontakt</p>
-                    <h2>Plánujete akci?<br>Rády vám zahrajeme.</h2>
-                    <div class="contact__details"><a href="tel:+420777123456">+420 777 123 456</a><a href="mailto:info@fourhands.cz">info@fourhands.cz</a><span>Praha, Česká republika</span>
+                    <p class="eyebrow">{_'Contact'}</p>
+                    <h2>{_'Planning an event?'}<br>{_'We would be happy to play for you.'}</h2>
+                    <div class="contact__details"><a href="tel:+420777123456">+420 777 123 456</a><a href="mailto:info@fourhands.cz">info@fourhands.cz</a><span>{_'Prague, Czech Republic'}</span>
                     </div>
                     {foreach $flashes as $flash}
                         <div class="flash {$flash->type}">{$flash->message}</div>
