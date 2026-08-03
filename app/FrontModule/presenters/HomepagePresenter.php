@@ -5,6 +5,7 @@ namespace App\FrontModule\Presenters;
 use App\Common\BasePresenter;
 use App\Model\ContentRepository;
 use App\Model\EventRepository;
+use App\Model\InquiryRepository;
 use App\Model\MediaRepository;
 use App\Model\ProgramRepository;
 use App\Model\TestimonialRepository;
@@ -18,6 +19,7 @@ final class HomepagePresenter extends BasePresenter
         private MediaRepository $mediaRepository,
         private ProgramRepository $programRepository,
         private TestimonialRepository $testimonialRepository,
+        private InquiryRepository $inquiryRepository,
     ) {
         parent::__construct();
     }
@@ -36,6 +38,7 @@ final class HomepagePresenter extends BasePresenter
     protected function createComponentInquiryForm(): Form
     {
         $form = new Form();
+        $form->addProtection();
         $form->addText('name', $this->trans('Name and surname'))->setRequired();
         $form->addEmail('email', $this->trans('Email'))->setRequired();
         $form->addSelect('eventType', $this->trans('Event type'), [
@@ -47,12 +50,50 @@ final class HomepagePresenter extends BasePresenter
         $form->addText('date', $this->trans('Event date'))->setHtmlType('date');
         $form->addTextArea('message', $this->trans('Your message'))->setRequired();
         $form->addSubmit('send', $this->trans('Send inquiry'));
-        $presenter = $this;
-        $form->onSuccess[] = function () use ($presenter): void {
-            $presenter->flashMessage($presenter->trans('Thank you for your inquiry. We will get back to you soon.'), 'success');
-            $presenter->redirect('this#kontakt');
-        };
+        $form->onSuccess[] = [$this, 'inquiryFormSucceeded'];
 
         return $form;
+    }
+
+    public function inquiryFormSucceeded(Form $form, \stdClass $values): void
+    {
+        $data = [
+            'name' => $values->name,
+            'email' => $values->email,
+            'eventType' => $values->eventType,
+            'date' => $values->date,
+            'message' => $values->message,
+            'locale' => $this->getLocale(),
+        ];
+
+        $this->inquiryRepository->save($data);
+        $this->sendInquiryNotification($data);
+
+        $this->flashMessage($this->trans('Thank you for your inquiry. We will get back to you soon.'), 'success');
+        $this->redirect('this#kontakt');
+    }
+
+    private function sendInquiryNotification(array $data): bool
+    {
+        $siteSettings = $this->getTemplate()->siteSettings ?? [];
+        $recipient = $siteSettings['email'] ?? 'info@fourhands.cz';
+        $fromEmail = filter_var($data['email'], FILTER_VALIDATE_EMAIL) ? $data['email'] : ($siteSettings['email'] ?? 'info@fourhands.cz');
+        $subject = $this->trans('New inquiry from website');
+        $body = sprintf(
+            "%s\n%s\n\n%s\n%s\n%s\n\n%s\n\n%s\n",
+            $this->trans('New inquiry received'),
+            '=========================','Name: ' . $data['name'],
+            'Email: ' . $data['email'],
+            'Event type: ' . ($data['eventType'] ?: '-'),
+            'Event date: ' . ($data['date'] ?: '-'),
+            'Message: ' . $data['message'],
+        );
+        $headers = [];
+        $headers[] = 'Content-Type: text/plain; charset=utf-8';
+        $headers[] = 'From: ' . $fromEmail;
+        $headers[] = 'Reply-To: ' . $fromEmail;
+        $headers[] = 'X-Mailer: PHP/' . phpversion();
+
+        return @mail($recipient, $subject, $body, implode("\r\n", $headers));
     }
 }

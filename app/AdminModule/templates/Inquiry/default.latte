@@ -1,0 +1,43 @@
+{block content}
+    <div class="page-header">
+        <h2>Zprávy z kontaktního formuláře</h2>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Jazyk</th>
+                    <th>Jméno</th>
+                    <th>E-mail</th>
+                    <th>Typ akce</th>
+                    <th>Datum</th>
+                    <th>Zpráva</th>
+                    <th>Vytvořeno</th>
+                    <th>Akce</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr n:foreach="$items as $item">
+                    <td data-label="ID">{$item->id}</td>
+                    <td data-label="Jazyk">{$item->lang}</td>
+                    <td data-label="Jméno">{$item->name}</td>
+                    <td data-label="E-mail"><a href="mailto:{$item->email}">{$item->email}</a></td>
+                    <td data-label="Typ akce">{$item->event_type ?: '-'} </td>
+                    <td data-label="Datum">{$item->event_date ?: '-'}</td>
+                    <td data-label="Zpráva">{$item->message|truncate:80}</td>
+                    <td data-label="Vytvořeno">{$item->created|date:'j. n. Y H:i'}</td>
+                    <td class="actions-cell" data-label="Akce">
+                        <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat tuto zprávu?')">Smazat</a>
+                    </td>
+                </tr>
+                {if !count($items)}
+                    <tr>
+                        <td colspan="9" class="table-empty">Žádné zprávy</td>
+                    </tr>
+                {/if}
+            </tbody>
+        </table>
+    </div>
+{/block}

@@ -20,3 +20,4 @@ services:
     - App\Model\SettingRepository
     - App\Model\ProgramRepository
     - App\Model\TestimonialRepository
+    - App\Model\InquiryRepository
