@@ -48,6 +48,11 @@
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
+  <component name="PhpUnit">
+    <phpunit_settings>
+      <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/vendor/autoload.php" />
+    </phpunit_settings>
+  </component>
   <component name="Psalm">
     <Psalm_settings>
       <psalm_fixer_by_interpreter asDefaultInterpreter="true" interpreter_id="730500be-d1dc-4ac2-8ca8-4fa1971af0d7" timeout="60000" />
