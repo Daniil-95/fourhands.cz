@@ -18,7 +18,7 @@ final class TestimonialPresenter extends BaseAdminPresenter
 
     public function renderDefault(): void
     {
-        $this->template->items = $this->testimonialRepository->getAll();
+        $this->template->items = $this->filterByAdminContentLang($this->testimonialRepository->getAll());
     }
 
     public function renderEdit(): void
@@ -45,6 +45,10 @@ final class TestimonialPresenter extends BaseAdminPresenter
                 'event_date' => $item->event_date ? $item->event_date->format('Y-m-d') : '',
                 'sort_order' => $item->sort_order,
                 'active' => (bool) $item->active,
+            ]);
+        } else {
+            $this['testimonialForm']->setDefaults([
+                'lang' => $this->getAdminContentLang(),
             ]);
         }
     }
@@ -79,7 +83,7 @@ final class TestimonialPresenter extends BaseAdminPresenter
         ], $this->editingId);
 
         $this->flashMessage('Reference byla uložena.', 'success');
-        $this->redirect('default');
+        $this->redirectToDefaultWithContentLang($values->lang);
     }
 
     /** @throws AbortException */
@@ -92,7 +96,7 @@ final class TestimonialPresenter extends BaseAdminPresenter
 
         $this->testimonialRepository->delete($id);
         $this->flashMessage('Reference byla smazána.', 'success');
-        $this->redirect('default');
+        $this->redirectToDefaultWithContentLang();
     }
 
     protected function createComponentDeleteForm(): Form
@@ -104,7 +108,7 @@ final class TestimonialPresenter extends BaseAdminPresenter
         $form->onSuccess[] = function (Form $form, \stdClass $values): void {
             $this->testimonialRepository->delete((int) $values->id);
             $this->flashMessage('Reference byla smazána.', 'success');
-            $this->redirect('default');
+            $this->redirectToDefaultWithContentLang();
         };
         return $form;
     }

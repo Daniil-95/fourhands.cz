@@ -65,15 +65,35 @@
                 <nav class="site-nav" data-menu>
                     {if $navigation}
                         {foreach $navigation as $navItem}
-                            <a href="{if str_starts_with($navItem->url, '/')}{link :Front:Homepage:default, locale => $locale}{$navItem->url|trim:'/'}{else}{$navItem->url}{/if}">{$navItem->title}</a>
+                            {var $normalizedUrl = trim((string) $navItem->url, '/')}
+                            {var $menuLabel = (string) $navItem->title}
+                            {if in_array($normalizedUrl, ['#uvod', 'uvod', ''], true)}
+                                {var $menuLabel = 'Home'}
+                            {elseif in_array($normalizedUrl, ['#o-duu', 'o-nas'], true)}
+                                {var $menuLabel = 'About us'}
+                            {elseif in_array($normalizedUrl, ['clenky', 'umelkyne'], true)}
+                                {var $menuLabel = 'Artists'}
+                            {elseif in_array($normalizedUrl, ['#programy', 'repertoar', 'koncertni-program'], true)}
+                                {var $menuLabel = 'Concert program'}
+                            {elseif in_array($normalizedUrl, ['galerie', 'fotogalerie'], true)}
+                                {var $menuLabel = 'Gallery'}
+                            {elseif in_array($normalizedUrl, ['videa', 'video-galerie'], true)}
+                                {var $menuLabel = 'Videos'}
+                            {elseif $normalizedUrl === 'z-podia'}
+                                {var $menuLabel = 'From the stage'}
+                            {elseif in_array($normalizedUrl, ['#kontakt', 'kontakt'], true)}
+                                {var $menuLabel = 'Contact'}
+                            {/if}
+                            <a href="{if str_starts_with($navItem->url, '/')}{link :Front:Homepage:default, locale => $locale}{$navItem->url|trim:'/'}{else}{$navItem->url}{/if}">{_ $menuLabel}</a>
                         {/foreach}
                     {else}
                         <a href="{link :Front:Homepage:default, locale => $locale}#uvod">{_'Home'}</a>
-                        <a n:href=":Front:Onas:default locale => $locale">{_'About us'}</a>
-                        <a n:href=":Front:Clenky:default locale => $locale">{_'Artists'}</a>
-                        <a n:href=":Front:Repertoar:default locale => $locale">{_'Repertoire'}</a>
-                        <a n:href=":Front:Zpodia:default locale => $locale">{_'From the stage'}</a>
-                        <a n:href=":Front:Videa:default locale => $locale">{_'Video gallery'}</a>
+                        <a n:href=":Front:About:default locale => $locale">{_'About us'}</a>
+                        <a n:href=":Front:Artists:default locale => $locale">{_'Artists'}</a>
+                        <a n:href=":Front:Repertoire:default locale => $locale">{_'Concert program'}</a>
+                        <a n:href=":Front:Gallery:default locale => $locale">{_'Gallery'}</a>
+                        <a n:href=":Front:Videos:default locale => $locale">{_'Videos'}</a>
+                        <a n:href=":Front:FromStage:default locale => $locale">{_'From the stage'}</a>
                         <a href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Contact'}</a>
                     {/if}
                     <a class="button button--small" href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Contact'}</a>
@@ -104,11 +124,11 @@
                     </div>
                     <div class="col-6 col-lg-2">
                         <h3>{_'Navigation'}</h3>
-                        <a n:href=":Front:Onas:default locale => $locale">{_'About us'}</a>
-                        <a n:href=":Front:Clenky:default locale => $locale">{_'Artists'}</a>
-                        <a n:href=":Front:Repertoar:default locale => $locale">{_'Repertoire'}</a>
-                        <a n:href=":Front:Zpodia:default locale => $locale">{_'From the stage'}</a>
-                        <a n:href=":Front:Videa:default locale => $locale">{_'Video gallery'}</a>
+                        <a n:href=":Front:About:default locale => $locale">{_'About us'}</a>
+                        <a n:href=":Front:Artists:default locale => $locale">{_'Artists'}</a>
+                        <a n:href=":Front:Repertoire:default locale => $locale">{_'Concert program'}</a>
+                        <a n:href=":Front:FromStage:default locale => $locale">{_'From the stage'}</a>
+                        <a n:href=":Front:Videos:default locale => $locale">{_'Videos'}</a>
                     </div>
                     <div class="col-6 col-lg-3">
                         <h3>{_'Programs'}</h3>

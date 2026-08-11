@@ -5,7 +5,7 @@ namespace App\FrontModule\Presenters;
 use App\Common\BasePresenter;
 use App\Model\EventRepository;
 
-final class ArchivUdalostiPresenter extends BasePresenter
+final class EventsArchivePresenter extends BasePresenter
 {
     public function __construct(private EventRepository $eventRepository)
     {

@@ -5,7 +5,7 @@ namespace App\FrontModule\Presenters;
 use App\Common\BasePresenter;
 use App\Model\MediaRepository;
 
-final class VideaPresenter extends BasePresenter
+final class VideosPresenter extends BasePresenter
 {
     public function __construct(private MediaRepository $mediaRepository)
     {

@@ -21,6 +21,7 @@ abstract class BaseAdminPresenter extends BasePresenter
         }
 
         $this->template->csrfToken = $this->getCsrfToken();
+        $this->template->adminContentLang = $this->getAdminContentLang();
     }
 
     protected function getCsrfToken(): string
@@ -36,5 +37,30 @@ abstract class BaseAdminPresenter extends BasePresenter
     {
         $section = $this->getSession()->getSection('admin');
         return isset($section->csrfToken) && hash_equals($section->csrfToken, $token);
+    }
+
+    protected function getAdminContentLang(): string
+    {
+        $lang = $this->getParameter('lang');
+        return is_string($lang) && in_array($lang, ['cs', 'en'], true) ? $lang : 'cs';
+    }
+
+    /**
+     * @param array<int, mixed> $items
+     * @return array<int, mixed>
+     */
+    protected function filterByAdminContentLang(array $items): array
+    {
+        $lang = $this->getAdminContentLang();
+
+        return array_values(array_filter($items, static function ($item) use ($lang): bool {
+            return isset($item->lang) && (string) $item->lang === $lang;
+        }));
+    }
+
+    protected function redirectToDefaultWithContentLang(?string $lang = null, array $extraParams = []): void
+    {
+        $targetLang = in_array($lang, ['cs', 'en'], true) ? $lang : $this->getAdminContentLang();
+        $this->redirect('default', array_merge(['lang' => $targetLang], $extraParams));
     }
 }

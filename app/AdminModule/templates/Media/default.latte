@@ -1,44 +1,96 @@
 ﻿{block content}
     <div class="page-header">
-        <h2>Média</h2>
-        <a class="btn" n:href="edit">Přidat médium</a>
+        <div>
+            <h2>Média</h2>
+            <p class="muted">Spravujte fotogalerii a video odkazy odděleně. Pro videa přidávejte především YouTube URL.</p>
+        </div>
+        <div class="media-toolbar">
+            <a class="btn btn-secondary {if $activeTab === 'all'}is-active{/if}" n:href="default">Vše</a>
+            <a class="btn btn-secondary {if $activeTab === 'photo'}is-active{/if}" n:href="default type => 'photo'">Fotogalerie</a>
+            <a class="btn btn-secondary {if $activeTab === 'video'}is-active{/if}" n:href="default type => 'video'">Videa</a>
+        </div>
     </div>
-    <div class="table-container">
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Jazyk</th>
-            <th>Typ</th>
-            <th>Název</th>
-            <th>Náhled</th>
-            <th>URL</th>
-            <th>Stav</th>
-            <th>Akce</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr n:foreach="$items as $item">
-            <td data-label="ID">{$item->id}</td>
-            <td data-label="Jazyk">{$item->lang}</td>
-            <td data-label="Typ">{if $item->type === 'photo'}<span class="badge badge-type-photo">Fotografie</span>{else}<span class="badge badge-type-video">Video</span>{/if}</td>
-            <td data-label="Název">{$item->title}</td>
-            <td data-label="Náhled">
-                {if $item->type === 'photo' && $item->image_path}
-                    <img src="{$basePath}/{$item->image_path}" alt="{$item->title}" class="media-thumb">
-                {/if}
-                {if $item->type === 'video' && $item->image_path}
-                    <img src="{$basePath}/{$item->image_path}" alt="{$item->title}" class="media-thumb">
-                {/if}
-            </td>
-            <td data-label="URL">{$item->url|truncate:40}</td>
-            <td data-label="Stav">{if $item->active}<span class="badge badge-active">Aktivní</span>{else}<span class="badge badge-inactive">Neaktivní</span>{/if}</td>
-            <td data-label="Akce" class="actions-cell">
-                <a n:href="edit id => $item->id">Upravit</a>
-                <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat toto médium?')">Smazat</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    </div>
+
+    {if $activeTab !== 'video'}
+    <section class="media-section">
+        <div class="media-section__head">
+            <div>
+                <h3>Fotogalerie</h3>
+                <p class="muted">Nahrávejte fotografie, nastavte pořadí a upravte jejich názvy.</p>
+            </div>
+            <a class="btn" n:href="edit type => 'photo'">Přidat fotografii</a>
+        </div>
+        <div class="media-grid">
+            {foreach $photos as $item}
+                <article class="media-card">
+                    <div class="media-card__image-wrap">
+                        {if $item->image_path}
+                            <img src="{$basePath}/{$item->image_path}" alt="{$item->title}" class="media-card__image">
+                        {else}
+                            <div class="media-card__placeholder">Bez náhledu</div>
+                        {/if}
+                    </div>
+                    <div class="media-card__body">
+                        <h4>{$item->title}</h4>
+                        <div class="media-meta">
+                            <span><strong>Jazyk:</strong> {$item->lang}</span>
+                            <span><strong>Pořadí:</strong> {$item->sort_order}</span>
+                            <span><strong>Stav:</strong> {if $item->active}Aktivní{else}Neaktivní{/if}</span>
+                        </div>
+                        <div class="media-card__actions">
+                            <a class="btn btn-secondary" n:href="edit id => $item->id">Upravit</a>
+                            <a class="btn-delete" n:href="delete id => $item->id, type => 'photo', _token => $csrfToken" onclick="return confirm('Smazat toto médium?')">Smazat</a>
+                        </div>
+                    </div>
+                </article>
+            {/foreach}
+            {if !count($photos)}
+                <p class="table-empty">Zatím nejsou přidány žádné fotografie.</p>
+            {/if}
+        </div>
+    </section>
+    {/if}
+
+    {if $activeTab !== 'photo'}
+    <section class="media-section">
+        <div class="media-section__head">
+            <div>
+                <h3>Video galerie</h3>
+                <p class="muted">Přidávejte odkazy na YouTube videa. Náhled se načte automaticky, pokud je URL správná.</p>
+            </div>
+            <a class="btn" n:href="edit type => 'video'">Přidat video odkaz</a>
+        </div>
+        <div class="media-grid media-grid--video">
+            {foreach $videos as $item}
+                <article class="media-card media-card--video">
+                    <div class="media-card__image-wrap">
+                        {var $preview = $item->image_path ? ($basePath . '/' . $item->image_path) : ($item->youtube_thumb ?? '')}
+                        {if $preview}
+                            <img src="{$preview}" alt="{$item->title}" class="media-card__image">
+                        {else}
+                            <div class="media-card__placeholder">YouTube náhled nenalezen</div>
+                        {/if}
+                    </div>
+                    <div class="media-card__body">
+                        <h4>{$item->title}</h4>
+                        <div class="media-meta">
+                            <span><strong>Jazyk:</strong> {$item->lang}</span>
+                            <span><strong>Pořadí:</strong> {$item->sort_order}</span>
+                            <span><strong>Stav:</strong> {if $item->active}Aktivní{else}Neaktivní{/if}</span>
+                        </div>
+                        <p class="media-url" title="{$item->url}">{$item->url|truncate:65}</p>
+                        <div class="media-card__actions">
+                            <a class="btn btn-secondary" n:href="edit id => $item->id">Upravit</a>
+                            <a class="btn-delete" n:href="delete id => $item->id, type => 'video', _token => $csrfToken" onclick="return confirm('Smazat toto médium?')">Smazat</a>
+                        </div>
+                    </div>
+                </article>
+            {/foreach}
+            {if !count($videos)}
+                <p class="table-empty">Zatím nejsou přidána žádná videa.</p>
+            {/if}
+        </div>
+    </section>
+    {/if}
+
 {/block}

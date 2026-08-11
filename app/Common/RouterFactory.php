@@ -17,7 +17,28 @@ final class RouterFactory
             'action' => 'default',
         ]);
 
-        foreach (['clenky' => 'Clenky', 'umelkyne' => 'Clenky', 'galerie' => 'Galerie', 'fotogalerie' => 'Galerie', 'videa' => 'Videa', 'video-galerie' => 'Videa', 'z-podia' => 'Zpodia', 'repertoar' => 'Repertoar', 'koncertni-program' => 'Repertoar', 'archiv-udalosti' => 'ArchivUdalosti', 'kontakt' => 'Homepage', 'o-nas' => 'Onas'] as $slug => $presenter) {
+        foreach ([
+            'artists' => 'Artists',
+            'clenky' => 'Artists',
+            'umelkyne' => 'Artists',
+            'gallery' => 'Gallery',
+            'galerie' => 'Gallery',
+            'fotogalerie' => 'Gallery',
+            'videos' => 'Videos',
+            'videa' => 'Videos',
+            'video-galerie' => 'Videos',
+            'from-stage' => 'FromStage',
+            'z-podia' => 'FromStage',
+            'repertoire' => 'Repertoire',
+            'repertoar' => 'Repertoire',
+            'koncertni-program' => 'Repertoire',
+            'events-archive' => 'EventsArchive',
+            'archiv-udalosti' => 'EventsArchive',
+            'contact' => 'Homepage',
+            'kontakt' => 'Homepage',
+            'about' => 'About',
+            'o-nas' => 'About',
+        ] as $slug => $presenter) {
             $router->addRoute('[<locale=cs cs|en>/]' . $slug, [
                 'module' => 'Front',
                 'presenter' => $presenter,

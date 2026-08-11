@@ -41,7 +41,7 @@
                     <p class="eyebrow">{$aboutEyebrow}</p>
                     <h2>{$aboutHeading}</h2>
                     <div class="rich-text">{$content['about']['content_html'] ?? '<p>Jsme klavírní duo Fourhands. Spojujeme vášeň pro hudbu, cit pro detail a radost z toho, když se hudba stává součástí důležitých životních okamžiků.</p>'|noescape}</div>
-                    <a class="button" n:href=":Front:Onas:default locale => $locale">{$aboutCta} <span>→</span></a>
+                    <a class="button" n:href=":Front:About:default locale => $locale">{$aboutCta} <span>→</span></a>
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="section-action">
-                    <a class="button button--outline" n:href=":Front:ArchivUdalosti:default locale => $locale">{_'Event archive'}<span>→</span></a>
+                    <a class="button button--outline" n:href=":Front:EventsArchive:default locale => $locale">{_'Event archive'}<span>→</span></a>
                 </div>
             </div>
         </section>
@@ -111,7 +111,7 @@
                 {/if}
             </div>
             <div class="section-action">
-                <a class="button button--outline" n:href=":Front:ArchivUdalosti:default locale => $locale">{_'Event archive'}<span>→</span></a>
+                <a class="button button--outline" n:href=":Front:EventsArchive:default locale => $locale">{_'Event archive'}<span>→</span></a>
             </div>
         </div>
     </section>
@@ -135,7 +135,7 @@
                 <button class="slider-arrow slider-arrow--next video-next" aria-label="{_'Next video'}">→</button>
             </div>
             <div class="section-action">
-                <a class="button button--outline button--outline-light" n:href=":Front:Videa:default locale => $locale">{_'Show all videos'}<span>→</span></a>
+                <a class="button button--outline button--outline-light" n:href=":Front:Videos:default locale => $locale">{_'Show all videos'}<span>→</span></a>
             </div>
         </div>
     </section>
@@ -161,7 +161,7 @@
                     </div>
                 </div>
                 <div class="section-action">
-                    <a class="button button--outline" n:href=":Front:Galerie:default locale => $locale">{_'Show entire gallery'}<span>→</span></a>
+                    <a class="button button--outline" n:href=":Front:Gallery:default locale => $locale">{_'Show entire gallery'}<span>→</span></a>
                 </div>
             {/if}
         </div>

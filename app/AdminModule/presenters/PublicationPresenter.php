@@ -18,7 +18,7 @@ final class PublicationPresenter extends BaseAdminPresenter
 
     public function renderDefault(): void
     {
-        $this->template->items = $this->publicationRepository->getAll();
+        $this->template->items = $this->filterByAdminContentLang($this->publicationRepository->getAll());
     }
 
     public function renderEdit(): void
@@ -47,6 +47,10 @@ final class PublicationPresenter extends BaseAdminPresenter
                 'publish_date' => $item->publish_date ? $item->publish_date->format('Y-m-d') : '',
                 'sort_order' => $item->sort_order,
                 'active' => (bool) $item->active,
+            ]);
+        } else {
+            $this['publicationForm']->setDefaults([
+                'lang' => $this->getAdminContentLang(),
             ]);
         }
     }
@@ -85,7 +89,7 @@ final class PublicationPresenter extends BaseAdminPresenter
         ], $this->editingId);
 
         $this->flashMessage('Publikace byla uložena.', 'success');
-        $this->redirect('default');
+        $this->redirectToDefaultWithContentLang($values->lang);
     }
 
     /** @throws AbortException */
@@ -98,6 +102,6 @@ final class PublicationPresenter extends BaseAdminPresenter
 
         $this->publicationRepository->delete($id);
         $this->flashMessage('Publikace byla smazána.', 'success');
-        $this->redirect('default');
+        $this->redirectToDefaultWithContentLang();
     }
 }

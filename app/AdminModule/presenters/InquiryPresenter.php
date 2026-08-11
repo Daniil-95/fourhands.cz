@@ -16,7 +16,7 @@ final class InquiryPresenter extends BaseAdminPresenter
 
     public function renderDefault(): void
     {
-        $this->template->items = $this->inquiryRepository->getAll();
+        $this->template->items = $this->filterByAdminContentLang($this->inquiryRepository->getAll());
     }
 
     /** @throws AbortException */
@@ -29,7 +29,7 @@ final class InquiryPresenter extends BaseAdminPresenter
 
         $this->inquiryRepository->delete($id);
         $this->flashMessage('Zpráva byla smazána.', 'success');
-        $this->redirect('default');
+        $this->redirectToDefaultWithContentLang();
     }
 
     protected function createComponentDeleteForm(): Form
@@ -41,7 +41,7 @@ final class InquiryPresenter extends BaseAdminPresenter
         $form->onSuccess[] = function (Form $form, \stdClass $values): void {
             $this->inquiryRepository->delete((int) $values->id);
             $this->flashMessage('Zpráva byla smazána.', 'success');
-            $this->redirect('default');
+            $this->redirectToDefaultWithContentLang();
         };
         return $form;
     }

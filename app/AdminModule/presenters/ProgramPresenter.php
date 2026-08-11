@@ -18,7 +18,7 @@ final class ProgramPresenter extends BaseAdminPresenter
 
     public function renderDefault(): void
     {
-        $this->template->items = $this->programRepository->getAll();
+        $this->template->items = $this->filterByAdminContentLang($this->programRepository->getAll());
     }
 
     public function renderEdit(): void
@@ -45,6 +45,10 @@ final class ProgramPresenter extends BaseAdminPresenter
                 'image_path' => $item->image_path,
                 'sort_order' => $item->sort_order,
                 'active' => (bool) $item->active,
+            ]);
+        } else {
+            $this['programForm']->setDefaults([
+                'lang' => $this->getAdminContentLang(),
             ]);
         }
     }
@@ -84,7 +88,7 @@ final class ProgramPresenter extends BaseAdminPresenter
         ], $this->editingId);
 
         $this->flashMessage('Program byl uložen.', 'success');
-        $this->redirect('default');
+        $this->redirectToDefaultWithContentLang($values->lang);
     }
 
     /** @throws AbortException */
@@ -97,6 +101,6 @@ final class ProgramPresenter extends BaseAdminPresenter
 
         $this->programRepository->delete($id);
         $this->flashMessage('Program byl smazán.', 'success');
-        $this->redirect('default');
+        $this->redirectToDefaultWithContentLang();
     }
 }

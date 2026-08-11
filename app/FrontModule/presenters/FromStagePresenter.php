@@ -5,7 +5,7 @@ namespace App\FrontModule\Presenters;
 use App\Common\BasePresenter;
 use App\Model\PublicationRepository;
 
-final class ZpodiaPresenter extends BasePresenter
+final class FromStagePresenter extends BasePresenter
 {
     public function __construct(private PublicationRepository $publicationRepository)
     {

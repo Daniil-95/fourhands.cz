@@ -9,7 +9,7 @@
         <a class="btn" n:href="edit">Přidat publikaci</a>
     </div>
 
-    <div class="table-shell">
+    <div class="table-container">
         <table>
             <thead>
             <tr>
@@ -27,7 +27,7 @@
                     <td>{$item->source}</td>
                     <td>{$item->publish_date|date:'j. n. Y'}</td>
                     <td>{if $item->active}Ano{else}Ne{/if}</td>
-                    <td>
+                    <td class="actions-cell" data-label="Akce">
                         <a class="btn btn-secondary" n:href="edit id => $item->id">Upravit</a>
                         <a class="btn-delete" n:href="delete id => $item->id, _token => $csrfToken" onclick="return confirm('Smazat tuto publikaci?')">Smazat</a>
                     </td>

@@ -36,18 +36,22 @@
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> Události
                     </a>
 
-                <a n:href=":Admin:Testimonial:default" class="{if $presenter->getName() === 'Admin:Testimonial'}active{/if}">
-                    <span class="nav-icon" aria-hidden="true">&#9632;</span> Reference
-                </a>
+                    <a n:href=":Admin:Testimonial:default" class="{if $presenter->getName() === 'Admin:Testimonial'}active{/if}">
+                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Reference
+                    </a>
 
-                <a n:href=":Admin:Program:default" class="{if $presenter->getName() === 'Admin:Program'}active{/if}">
-                    <span class="nav-icon" aria-hidden="true">&#9632;</span> Programy
-                </a>
+                    <a n:href=":Admin:Program:default" class="{if $presenter->getName() === 'Admin:Program'}active{/if}">
+                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Programy
+                    </a>
 
                     <a n:href=":Admin:Publication:default" class="{if $presenter->getName() === 'Admin:Publication'}active{/if}">
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> Z pódia
                     </a>
 
+                    <span class="nav-section">Média</span>
+
+                    <a n:href=":Admin:Media:default" class="{if $presenter->getName() === 'Admin:Media'}active{/if}">
+                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Média
                     </a>
 
                     <span class="nav-section">Nastavení</span>
@@ -64,8 +68,9 @@
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> Zprávy
                     </a>
 
-                    <span class="nav-section">Nástroje</span>
+                </nav>
 
+                <div class="sidebar-footer">
                     <a n:href=":Front:Homepage:default" target="_blank">
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> Otevřít web
                     </a>
@@ -73,7 +78,7 @@
                     <a n:href=":Admin:Sign:out">
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> Odhlásit se
                     </a>
-                </nav>
+                </div>
             </aside>
 
             <main class="main" id="main-content">
@@ -83,7 +88,14 @@
                     </div>
                 </div>
 
-                {include content}
+                <div class="admin-content">
+                    <div class="admin-lang-switch" n:if="$presenter->getAction() !== 'default' || $presenter->getName() !== 'Admin:Dashboard'">
+                        <span>Jazyk obsahu:</span>
+                        <a n:href="this lang => 'cs'" class="{if $adminContentLang === 'cs'}is-active{/if}">Čeština</a>
+                        <a n:href="this lang => 'en'" class="{if $adminContentLang === 'en'}is-active{/if}">English</a>
+                    </div>
+                    {include content}
+                </div>
             </main>
         </div>
 

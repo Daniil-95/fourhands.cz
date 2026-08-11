@@ -18,7 +18,7 @@ final class NavigationPresenter extends BaseAdminPresenter
 
     public function renderDefault(): void
     {
-        $this->template->items = $this->navigationRepository->getAll();
+        $this->template->items = $this->filterByAdminContentLang($this->navigationRepository->getAll());
     }
 
     public function renderEdit(): void
@@ -43,6 +43,10 @@ final class NavigationPresenter extends BaseAdminPresenter
                 'url' => $item->url,
                 'sort_order' => $item->sort_order,
                 'active' => (bool) $item->active,
+            ]);
+        } else {
+            $this['navigationForm']->setDefaults([
+                'lang' => $this->getAdminContentLang(),
             ]);
         }
     }
@@ -73,7 +77,7 @@ final class NavigationPresenter extends BaseAdminPresenter
         ], $this->editingId);
 
         $this->flashMessage('Položka menu byla uložena.', 'success');
-        $this->redirect('default');
+        $this->redirectToDefaultWithContentLang($values->lang);
     }
 
     /** @throws AbortException */
@@ -86,7 +90,7 @@ final class NavigationPresenter extends BaseAdminPresenter
 
         $this->navigationRepository->delete($id);
         $this->flashMessage('Položka menu byla smazána.', 'success');
-        $this->redirect('default');
+        $this->redirectToDefaultWithContentLang();
     }
 
     protected function createComponentDeleteForm(): Form
@@ -98,7 +102,7 @@ final class NavigationPresenter extends BaseAdminPresenter
         $form->onSuccess[] = function (Form $form, \stdClass $values): void {
             $this->navigationRepository->delete((int) $values->id);
             $this->flashMessage('Položka menu byla smazána.', 'success');
-            $this->redirect('default');
+            $this->redirectToDefaultWithContentLang();
         };
         return $form;
     }

@@ -18,7 +18,7 @@ final class EventPresenter extends BaseAdminPresenter
 
     public function renderDefault(): void
     {
-        $this->template->items = $this->eventRepository->getAll();
+        $this->template->items = $this->filterByAdminContentLang($this->eventRepository->getAll());
     }
 
     public function renderEdit(): void
@@ -43,6 +43,10 @@ final class EventPresenter extends BaseAdminPresenter
                 'description' => $item->title,
                 'sort_order' => $item->sort_order,
                 'active' => (bool) $item->active,
+            ]);
+        } else {
+            $this['eventForm']->setDefaults([
+                'lang' => $this->getAdminContentLang(),
             ]);
         }
     }
@@ -78,7 +82,7 @@ final class EventPresenter extends BaseAdminPresenter
         ], $this->editingId);
 
         $this->flashMessage('Akce byla uložena.', 'success');
-        $this->redirect('default');
+        $this->redirectToDefaultWithContentLang($values->lang);
     }
 
     /** @throws AbortException */
@@ -91,7 +95,7 @@ final class EventPresenter extends BaseAdminPresenter
 
         $this->eventRepository->delete($id);
         $this->flashMessage('Akce byla smazána.', 'success');
-        $this->redirect('default');
+        $this->redirectToDefaultWithContentLang();
     }
 
     protected function createComponentDeleteForm(): Form
@@ -103,7 +107,7 @@ final class EventPresenter extends BaseAdminPresenter
         $form->onSuccess[] = function (Form $form, \stdClass $values): void {
             $this->eventRepository->delete((int) $values->id);
             $this->flashMessage('Akce byla smazána.', 'success');
-            $this->redirect('default');
+            $this->redirectToDefaultWithContentLang();
         };
         return $form;
     }

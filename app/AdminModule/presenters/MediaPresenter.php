@@ -13,6 +13,7 @@ final class MediaPresenter extends BaseAdminPresenter
 {
     private ?int $editingId = null;
     private ?string $editingType = null;
+    private ?string $presetType = null;
 
     public function __construct(private MediaRepository $mediaRepository)
     {
@@ -21,19 +22,38 @@ final class MediaPresenter extends BaseAdminPresenter
 
     public function renderDefault(): void
     {
-        $this->template->items = $this->mediaRepository->getAll();
+        $allItems = $this->filterByAdminContentLang($this->mediaRepository->getAll());
+        $photos = [];
+        $videos = [];
+
+        foreach ($allItems as $item) {
+            if ($item->type === 'video') {
+                $item->youtube_thumb = $this->buildYoutubeThumb((string) $item->url);
+                $videos[] = $item;
+                continue;
+            }
+
+            $photos[] = $item;
+        }
+
+        $tab = $this->getParameter('type');
+        $this->template->activeTab = is_string($tab) && in_array($tab, ['photo', 'video'], true) ? $tab : 'all';
+        $this->template->photos = $photos;
+        $this->template->videos = $videos;
     }
 
     public function renderEdit(): void
     {
         $this->template->editingId = $this->editingId;
         $this->template->editingType = $this->editingType;
+        $this->template->presetType = $this->presetType;
     }
 
     /** @throws AbortException */
-    public function actionEdit(?int $id = null): void
+    public function actionEdit(?int $id = null, ?string $type = null): void
     {
         $this->editingId = $id;
+        $this->presetType = is_string($type) && in_array($type, ['photo', 'video'], true) ? $type : null;
 
         if ($id !== null) {
             $item = $this->mediaRepository->getById($id);
@@ -57,6 +77,13 @@ final class MediaPresenter extends BaseAdminPresenter
             $this->template->currentImagePath = $item->image_path;
         } else {
             $this->template->currentImagePath = null;
+            $defaults = [
+                'lang' => $this->getAdminContentLang(),
+            ];
+            if ($this->presetType !== null) {
+                $defaults['type'] = $this->presetType;
+            }
+            $this['mediaForm']->setDefaults($defaults);
         }
     }
 
@@ -117,12 +144,13 @@ final class MediaPresenter extends BaseAdminPresenter
         ], (int) $this->getUser()->getId(), $this->editingId);
 
         $this->flashMessage('Médium bylo uloženo.', 'success');
-        $this->redirect('default');
+        $this->redirectToDefaultWithContentLang($values->lang, ['type' => $values->type]);
     }
 
     /** @throws AbortException */
     public function actionDelete(int $id): void
     {
+        $tab = $this->getParameter('type');
         $token = $this->getParameter('_token');
         if (!is_string($token) || !$this->checkCsrfToken($token)) {
             $this->error('Neplatný bezpečnostní token.', 403);
@@ -130,7 +158,7 @@ final class MediaPresenter extends BaseAdminPresenter
 
         $this->mediaRepository->delete($id);
         $this->flashMessage('Médium bylo smazáno.', 'success');
-        $this->redirect('default');
+        $this->redirectToDefaultWithContentLang(null, ['type' => is_string($tab) ? $tab : null]);
     }
 
     protected function createComponentDeleteForm(): Form
@@ -142,8 +170,23 @@ final class MediaPresenter extends BaseAdminPresenter
         $form->onSuccess[] = function (Form $form, \stdClass $values): void {
             $this->mediaRepository->delete((int) $values->id);
             $this->flashMessage('Médium bylo smazáno.', 'success');
-            $this->redirect('default');
+            $this->redirectToDefaultWithContentLang();
         };
         return $form;
+    }
+
+    private function buildYoutubeThumb(string $url): string
+    {
+        $trimmed = trim($url);
+        if ($trimmed === '') {
+            return '';
+        }
+
+        if (preg_match('~(?:youtube\.com/watch\?v=|youtu\.be/|youtube\.com/embed/)([A-Za-z0-9_-]{8,})~', $trimmed, $matches) !== 1) {
+            return '';
+        }
+
+        $videoId = $matches[1];
+        return 'https://img.youtube.com/vi/' . $videoId . '/hqdefault.jpg';
     }
 }

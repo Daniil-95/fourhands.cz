@@ -1,6 +1,24 @@
 ﻿{block content}
-    <h2>{if $editingId}Upravit médium{else}Nové médium{/if}</h2>
-    <p><a n:href="default" class="btn-back">&larr; Zpět na přehled</a></p>
+    {var $sectionType = $presetType ?? $editingType}
+    <div class="page-header">
+        <div>
+            <h2>
+                {if $editingId}
+                    Upravit {if $sectionType === 'video'}video{else}fotografii{/if}
+                {else}
+                    Nové {if $sectionType === 'video'}video{else}médium{/if}
+                {/if}
+            </h2>
+            <p class="muted">
+                {if $sectionType === 'video'}
+                    Pro videa vložte odkaz na YouTube. Náhled se zobrazí automaticky, pokud je URL platná.
+                {else}
+                    Nahrajte fotografii nebo vyplňte existující cestu k obrázku a nastavte pořadí zobrazení.
+                {/if}
+            </p>
+        </div>
+    </div>
+    <p><a n:href="default type => $sectionType, lang => $adminContentLang" class="btn-back">&larr; Zpět na přehled</a></p>
 
     {if $currentImagePath}
     <div class="preview-box">

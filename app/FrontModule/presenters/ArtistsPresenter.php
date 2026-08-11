@@ -5,7 +5,7 @@ namespace App\FrontModule\Presenters;
 use App\Common\BasePresenter;
 use App\Model\ContentRepository;
 
-final class OnasPresenter extends BasePresenter
+final class ArtistsPresenter extends BasePresenter
 {
     public function __construct(private ContentRepository $contentRepository)
     {
