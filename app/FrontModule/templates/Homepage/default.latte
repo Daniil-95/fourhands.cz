@@ -3,10 +3,6 @@
 {var $heroLead = $siteSettings['hero_lead'] ?: 'Klavírní duo pro výjimečné okamžiky vašeho života.'}
 {var $heroCta = $siteSettings['hero_cta'] ?: 'Kontakt'}
 {var $heroScroll = $siteSettings['hero_scroll'] ?: 'Objevte nás'}
-{var $aboutImage = $siteSettings['about_image'] ? $basePath . '/' . $siteSettings['about_image'] : $basePath . '/images/slider2.jpg'}
-{var $aboutEyebrow = $siteSettings['about_eyebrow'] ?: 'O nás'}
-{var $aboutHeading = $siteSettings['about_heading'] ?: 'Čtyři ruce. Jeden hudební hlas.'}
-{var $aboutCta = $siteSettings['about_cta'] ?: 'Poznejte nás'}
 {var $contactPhone = $siteSettings['phone'] ?: '+420 777 123 456'}
 {var $contactEmail = $siteSettings['email'] ?: 'info@fourhands.cz'}
 {var $contactAddress = $siteSettings['address'] ?: 'Praha, Česká republika'}
@@ -26,92 +22,46 @@
             <p class="hero__lead">{$heroLead}</p>
             <a class="button" href="#kontakt">{$heroCta} <span>→</span></a>
         </div>
-        <a class="hero__scroll" href="#o-duu">{$heroScroll} <span>↓</span></a>
+        <a class="hero__scroll" href="#programy">{$heroScroll} <span>↓</span></a>
     </section>
 
-    <section class="section about" id="o-duu">
+    <section class="section concert-programs" id="programy">
         <div class="container">
-            <div class="row gy-5">
-                <div class="col-lg-6 reveal">
-                    <div class="about__image">
-                        <img src="{$aboutImage}" width="1200" height="529" alt="{_'Piano duo Fourhands'}">
-                    </div>
-                </div>
-                <div class="col-lg-6 reveal">
-                    <p class="eyebrow">{$aboutEyebrow}</p>
-                    <h2>{$aboutHeading}</h2>
-                    <div class="rich-text">{$content['about']['content_html'] ?? '<p>Jsme klavírní duo Fourhands. Spojujeme vášeň pro hudbu, cit pro detail a radost z toho, když se hudba stává součástí důležitých životních okamžiků.</p>'|noescape}</div>
-                    <a class="button" n:href=":Front:About:default locale => $locale">{$aboutCta} <span>→</span></a>
-                </div>
+            <div class="section-heading section-heading--concert reveal">
+                <p class="eyebrow">{_'Upcoming programs'}</p>
+                <h2>{_'Where can you hear us'}</h2>
             </div>
-        </div>
-    </section>
 
-    {if $events['upcoming']}
-        <section class="section section--light" id="udalosti">
-            <div class="container">
-                <div class="section-heading reveal">
-                    <p class="eyebrow">{_'Events'}</p>
-                    <h2>{_'Upcoming performances'}</h2>
-                </div>
-                <div class="row gy-3 reveal">
-                    <div class="col-md-6" n:foreach="$events['upcoming'] as $event">
-                        <article class="event-card">
-                            <time datetime="{$event['event_date']->format('Y-m-d')}">{$event['event_date']|date:'j. n. Y'}</time>
-                            <small>{$event['event_date']|date:'F'}</small>
+            <div class="concert-programs__action reveal">
+                <a class="button button--outline-light" n:href=":Front:EventsArchive:default locale => $locale">{_'All programs'} <span>→</span></a>
+            </div>
+
+            {var $photoCount = count($photos)}
+            <div class="concert-grid reveal">
+                {if $events['upcoming']}
+                    <article class="concert-card" n:foreach="$events['upcoming'] as $event">
+                        {var $eventImage = $photoCount ? $photos[$iterator->counter0 % $photoCount]['image_path'] : 'images/story.jpg'}
+                        <div class="concert-card__image">
+                            <img src="{$basePath}/{$eventImage}" alt="{$event['description']}" loading="lazy">
+                        </div>
+                        <div class="concert-card__body">
+                            <p class="concert-card__meta">{$event['event_date']|date:'d / m / Y'}<br>{$event['event_date']|date:'H:i'}</p>
                             <h3>{$event['description']}</h3>
-                        </article>
-                    </div>
-                </div>
-                <div class="section-action">
-                    <a class="button button--outline" n:href=":Front:EventsArchive:default locale => $locale">{_'Event archive'}<span>→</span></a>
-                </div>
-            </div>
-        </section>
-    {/if}
-
-    <section class="section section--light" id="programy">
-        <div class="container">
-            <div class="section-heading reveal"><p class="eyebrow">{_'Our programs'}</p>
-                <h2>{_'Music for every occasion'}</h2></div>
-            <div class="row gy-4 program-grid">
-                {if $programs}
-                    <div class="col-md-6 col-xl-3 reveal" n:foreach="$programs as $program">
-                        <article class="program-card">
-                            <div class="program-card__image">
-                                <img src="{$basePath}/images/{$program->image_path}" width="600" height="400" alt="{$program->title}" loading="lazy">
-                            </div>
-                            <div class="program-card__icon">
-                                <span class="program-icon program-icon--{$program->icon}"></span>
-                            </div>
-                            <div class="program-card__body"><h3>{$program->title}</h3>
-                                <p>{$program->description}</p><a href="#kontakt">{_'More information'} <span>→</span></a>
-                            </div>
-                        </article>
-                    </div>
+                            <a class="concert-card__link" n:href=":Front:EventsArchive:default locale => $locale">{_'More information'} <span>→</span></a>
+                        </div>
+                    </article>
                 {else}
-                {var $fallbackPrograms = [
-                ['Svatby', 'Romantická hudba pro obřad, hostinu i večerní zábavu.', 'kids5-thumb.jpg', 'heart'],
-                ['Firemní akce', 'Elegantní doprovod pro večírky, gala večery a eventy.', 'kids8-thumb.jpg', 'diamond'],
-                ['Koncerty', 'Vlastní koncertní programy na prestižních místech.', 'D55806FE-109C-441B-98E7-8035F609E16F.jpg', 'note'],
-                ['Soukromé akce', 'Hudba na narozeniny, výročí a jiné výjimečné události.', 'kids7-thumb.jpg', 'star']
-                ]}
-                    <div class="col-md-6 col-xl-3 reveal" n:foreach="$fallbackPrograms as $program">
-                        <article class="program-card">
-                            <div class="program-card__image">
-                                <img src="{$basePath}/images/{$program[2]}" width="600" height="400" alt="{_ $program[0]}" loading="lazy">
-                            </div>
-                            <div class="program-card__icon"><span class="program-icon program-icon--{$program[3]}"></span></div>
-                            <div class="program-card__body">
-                                <h3>{_ $program[0]}</h3>
-                                <p>{_ $program[1]}</p><a href="#kontakt">{_'More information'} <span>→</span></a>
-                            </div>
-                        </article>
-                    </div>
+                    <article class="concert-card" n:foreach="$programs as $program">
+                        <div class="concert-card__image">
+                            <img src="{$basePath}/images/{$program->image_path}" alt="{$program->title}" loading="lazy">
+                        </div>
+                        <div class="concert-card__body">
+                            <p class="concert-card__meta">{_'Concert program'}</p>
+                            <h3>{$program->title}</h3>
+                            <p>{$program->description}</p>
+                        </div>
+                    </article>
                 {/if}
-            </div>
-            <div class="section-action">
-                <a class="button button--outline" n:href=":Front:EventsArchive:default locale => $locale">{_'Event archive'}<span>→</span></a>
             </div>
         </div>
     </section>

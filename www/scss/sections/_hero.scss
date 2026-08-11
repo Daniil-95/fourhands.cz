@@ -6,8 +6,9 @@
   min-height: 100vh;
   min-height: 100dvh;
   align-items: center;
-  background: linear-gradient(90deg, rgba(15, 8, 8, .82), rgba(15, 8, 8, .18) 65%), var(--hero-image) var(--hero-position, center)/cover;
+  background: linear-gradient(90deg, rgba(10, 10, 10, .9), rgba(10, 10, 10, .42) 66%), var(--hero-image) var(--hero-position, center)/cover;
   color: $color-white;
+  border-bottom: 1px solid rgba(239, 228, 209, .18);
 }
 
 .hero__content {
@@ -25,6 +26,7 @@
   font-family: $font-heading;
   font-size: clamp(22px, 3vw, 42px);
   line-height: 1.15;
+  color: #efe4d1;
 }
 
 .hero__scroll {
@@ -34,7 +36,7 @@
   display: grid;
   justify-items: center;
   gap: 8px;
-  color: #fff;
+  color: #efe4d1;
   font-size: 9px;
   letter-spacing: .16em;
   text-transform: uppercase;
@@ -42,6 +44,18 @@
 
   @include respond-down(sm) {
     bottom: 16px;
+  }
+}
+
+.hero .button {
+  border-color: #efe4d1;
+  background: #efe4d1;
+  color: #161514;
+
+  &:hover {
+    border-color: #f4ebda;
+    background: #f4ebda;
+    color: #10100f;
   }
 }
 

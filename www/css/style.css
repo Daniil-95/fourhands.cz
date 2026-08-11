@@ -35,7 +35,7 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid #8F1125;
+  outline: 2px solid #EDE1CC;
   outline-offset: 2px;
 }
 
@@ -71,7 +71,7 @@ p {
 
 .eyebrow {
   margin-bottom: 14px;
-  color: #8F1125;
+  color: #EDE1CC;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.2em;
@@ -87,12 +87,12 @@ p {
 }
 
 .rich-text a {
-  color: #8F1125;
+  color: #EDE1CC;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 .rich-text a:hover {
-  color: #A71A30;
+  color: #F5ECDC;
 }
 
 .rich-text p:last-child {
@@ -160,9 +160,9 @@ p {
   gap: 22px;
   min-height: 54px;
   padding: 14px 25px;
-  border: 1px solid #8F1125;
-  background: #8F1125;
-  color: #FFFFFF;
+  border: 1px solid #EDE1CC;
+  background: #EDE1CC;
+  color: #141412;
   cursor: pointer;
   font-size: 12px;
   font-weight: 600;
@@ -171,8 +171,9 @@ p {
   transition: 0.35s ease;
 }
 .button:hover {
-  border-color: #A71A30;
-  background: #A71A30;
+  border-color: #F5ECDC;
+  background: #F5ECDC;
+  color: #0f0f0e;
   transform: translateY(-2px);
 }
 @media (max-width: 575.98px) {
@@ -198,10 +199,10 @@ p {
 
 .button--outline {
   background: transparent;
-  color: #8F1125;
+  color: #EDE1CC;
 }
 .button--outline:hover {
-  color: #FFFFFF;
+  color: #141412;
 }
 
 .button--outline-light {
@@ -211,7 +212,7 @@ p {
 .button--outline-light:hover {
   border-color: #FFFFFF;
   background: #FFFFFF;
-  color: #610b18;
+  color: #CFC1A8;
 }
 
 .program-card {
@@ -258,7 +259,7 @@ p {
   place-items: center;
   border: 5px solid #FFFFFF;
   border-radius: 50%;
-  background: #8F1125;
+  background: #EDE1CC;
   color: #FFFFFF;
   font-size: 26px;
 }
@@ -291,7 +292,7 @@ p {
 .program-card__body a {
   display: inline-block;
   padding: 8px 0;
-  color: #8F1125;
+  color: #EDE1CC;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -460,13 +461,13 @@ p {
   border: 1px solid #E7E0D7;
   border-radius: 50%;
   background: #FFFFFF;
-  color: #8F1125;
+  color: #EDE1CC;
   cursor: pointer;
   transform: translateY(-50%);
   transition: 0.35s ease;
 }
 .slider-arrow:hover {
-  background: #8F1125;
+  background: #EDE1CC;
   color: #FFFFFF;
 }
 @media (max-width: 575.98px) {
@@ -512,7 +513,7 @@ p {
 }
 
 .references {
-  background: radial-gradient(circle at 50% 0, #b32338, #8F1125 46%, #610b18);
+  background: radial-gradient(circle at 50% 0, #b32338, #EDE1CC 46%, #CFC1A8);
 }
 
 .testimonial {
@@ -570,12 +571,12 @@ p {
   padding: 14px 15px;
   border: 1px solid #E7E0D7;
   border-radius: 0;
-  outline-color: #8F1125;
+  outline-color: #EDE1CC;
   background: #FFFFFF;
   transition: border-color 0.35s ease;
 }
 .inquiry-form input:not([type=submit]):focus, .inquiry-form select:focus, .inquiry-form textarea:focus {
-  border-color: #8F1125;
+  border-color: #EDE1CC;
 }
 
 .inquiry-form textarea {
@@ -636,7 +637,7 @@ p {
 .brand {
   display: inline-flex;
   flex-direction: column;
-  border-left: 2px solid #8F1125;
+  border-left: 2px solid #EDE1CC;
   padding-left: 10px;
   line-height: 1;
 }
@@ -761,8 +762,9 @@ p {
   min-height: 100vh;
   min-height: 100dvh;
   align-items: center;
-  background: linear-gradient(90deg, rgba(15, 8, 8, 0.82), rgba(15, 8, 8, 0.18) 65%), var(--hero-image) var(--hero-position, center)/cover;
+  background: linear-gradient(90deg, rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.42) 66%), var(--hero-image) var(--hero-position, center)/cover;
   color: #FFFFFF;
+  border-bottom: 1px solid rgba(239, 228, 209, 0.18);
 }
 
 .hero__content {
@@ -781,6 +783,7 @@ p {
   font-family: "Cormorant Garamond", serif;
   font-size: clamp(22px, 3vw, 42px);
   line-height: 1.15;
+  color: #efe4d1;
 }
 
 .hero__scroll {
@@ -790,7 +793,7 @@ p {
   display: grid;
   justify-items: center;
   gap: 8px;
-  color: #fff;
+  color: #efe4d1;
   font-size: 9px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -802,9 +805,20 @@ p {
   }
 }
 
+.hero .button {
+  border-color: #efe4d1;
+  background: #efe4d1;
+  color: #161514;
+}
+.hero .button:hover {
+  border-color: #f4ebda;
+  background: #f4ebda;
+  color: #10100f;
+}
+
 .page-hero {
   padding: 160px 0 80px;
-  background: linear-gradient(120deg, #4a0a14, #8F1125);
+  background: linear-gradient(120deg, #1b1a18, #EDE1CC);
   color: #FFFFFF;
   text-align: center;
 }
@@ -878,7 +892,7 @@ p {
 }
 
 .stats strong {
-  color: #8F1125;
+  color: #EDE1CC;
   font-family: "Cormorant Garamond", serif;
   font-size: clamp(28px, 4vw, 38px);
   font-weight: 500;
@@ -914,8 +928,118 @@ p {
   content: "★";
 }
 
+.concert-programs {
+  background: #131313;
+  color: #efe4d1;
+  border-top: 1px solid rgba(239, 228, 209, 0.1);
+  border-bottom: 1px solid rgba(239, 228, 209, 0.1);
+}
+
+.section-heading--concert {
+  margin: 0 0 1.5rem;
+  text-align: left;
+}
+.section-heading--concert .eyebrow {
+  color: rgba(239, 228, 209, 0.72);
+}
+.section-heading--concert h2 {
+  color: #efe4d1;
+  font-size: clamp(34px, 4vw, 62px);
+}
+
+.concert-programs__action {
+  margin: 0 0 1.5rem;
+  text-align: right;
+}
+@media (max-width: 767.98px) {
+  .concert-programs__action {
+    text-align: left;
+  }
+}
+
+.concert-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+@media (max-width: 991.98px) {
+  .concert-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 767.98px) {
+  .concert-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.concert-card {
+  display: grid;
+  grid-template-columns: minmax(140px, 42%) 1fr;
+  min-height: 240px;
+  border: 1px solid rgba(239, 228, 209, 0.2);
+  background: #171717;
+  transition: transform 0.28s ease, border-color 0.28s ease;
+}
+.concert-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(239, 228, 209, 0.42);
+}
+@media (max-width: 575.98px) {
+  .concert-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+.concert-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.concert-card__body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.concert-card__meta {
+  margin: 0;
+  color: rgba(239, 228, 209, 0.82);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.concert-card__body h3 {
+  margin: 0;
+  color: #efe4d1;
+  font-size: clamp(24px, 2.5vw, 36px);
+  line-height: 1.03;
+}
+
+.concert-card__body p {
+  margin: 0;
+  color: rgba(239, 228, 209, 0.88);
+}
+
+.concert-card__link {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #efe4d1;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
 .videos {
-  background: #610b18;
+  background: #CFC1A8;
 }
 .videos .section-heading {
   color: #FFFFFF;
@@ -1029,13 +1153,13 @@ p {
   flex-wrap: wrap;
   gap: 12px 28px;
   margin-top: 24px;
-  color: #8F1125;
+  color: #EDE1CC;
   font-size: 14px;
 }
 
 .site-footer {
   padding: 75px 0 20px;
-  background: #4b0913;
+  background: #131313;
   color: rgba(255, 255, 255, 0.72);
   font-size: 13px;
 }
@@ -1152,7 +1276,7 @@ p {
 .member__facts span {
   padding: 8px 14px;
   border: 1px solid #E7E0D7;
-  color: #8F1125;
+  color: #EDE1CC;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -1168,7 +1292,7 @@ p {
 }
 .event-card:hover {
   box-shadow: 0 20px 60px rgba(55, 24, 27, 0.12);
-  border-color: #8F1125;
+  border-color: #EDE1CC;
   transform: translateY(-3px);
 }
 .event-card time {
@@ -1177,7 +1301,7 @@ p {
   font-family: "Cormorant Garamond", serif;
   font-size: 36px;
   font-weight: 500;
-  color: #8F1125;
+  color: #EDE1CC;
   line-height: 1;
 }
 .event-card time + small {

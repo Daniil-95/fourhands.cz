@@ -9,7 +9,7 @@
   padding: 14px 25px;
   border: 1px solid $color-primary;
   background: $color-primary;
-  color: $color-white;
+  color: #141412;
   cursor: pointer;
   font-size: 12px;
   font-weight: 600;
@@ -20,6 +20,7 @@
   &:hover {
     border-color: $color-primary-hover;
     background: $color-primary-hover;
+    color: #0f0f0e;
     transform: translateY(-2px);
   }
 
@@ -47,7 +48,7 @@
   color: $color-primary;
 
   &:hover {
-    color: $color-white;
+    color: #141412;
   }
 }
 
