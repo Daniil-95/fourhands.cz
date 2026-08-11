@@ -15,6 +15,7 @@ final class SignPresenter extends BaseAdminPresenter
     protected function createComponentSignInForm(): Form
     {
         $form = new Form();
+        $form->addProtection('Platnost formuláře vypršela. Odešlete jej znovu.');
         $form->addText('username', 'Uživatelské jméno')->setRequired();
         $form->addPassword('password', 'Heslo')->setRequired();
         $form->addCheckbox('remember', 'Zapamatovat na 30 dní');

@@ -22,10 +22,16 @@ Aplikace je postavena na frameworku Nette a využívá šablonovací systém Lat
 
 ### Backend
 
-* PHP 8
+* PHP 8.2+
 * Nette Framework
 * Latte Templates
 * MySQL
+
+## Bezpečnost a konfigurace produkce
+
+* Produkční hesla neukládejte do repozitáře.
+* V produkci nastavte proměnnou prostředí `FOURHANDS_DB_PASSWORD`.
+* Složka `www/images/originals_backup` je záměrně blokována přes `.htaccess`.
 
 ### Frontend
 
