@@ -1,0 +1,39 @@
+{block title}Publikace / Z pódia{/block}
+
+{block content}
+    <div class="page-header">
+        <div>
+            <h2>Publikace / Z pódia</h2>
+            <p class="muted">Správa externích článků, publikací a zmínek o duu.</p>
+        </div>
+        <a class="btn" n:href="edit">Přidat publikaci</a>
+    </div>
+
+    <div class="table-shell">
+        <table>
+            <thead>
+            <tr>
+                <th>Název</th>
+                <th>Zdroj</th>
+                <th>Datum</th>
+                <th>Aktivní</th>
+                <th>Akce</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $items as $item}
+                <tr>
+                    <td>{$item->title}</td>
+                    <td>{$item->source}</td>
+                    <td>{$item->publish_date|date:'j. n. Y'}</td>
+                    <td>{if $item->active}Ano{else}Ne{/if}</td>
+                    <td>
+                        <a class="btn btn-secondary" n:href="edit id => $item->id">Upravit</a>
+                        <a class="btn-delete" n:href="delete id => $item->id, _token => $csrfToken" onclick="return confirm('Smazat tuto publikaci?')">Smazat</a>
+                    </td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    </div>
+{/block}

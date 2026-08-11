@@ -1,18 +1,12 @@
 {var $heroImage = $siteSettings['hero_image'] ? $basePath . '/' . $siteSettings['hero_image'] : $basePath . '/images/story.jpg'}
 {var $heroHeading = $siteSettings['hero_heading'] ?: 'FOURHANDS'}
 {var $heroLead = $siteSettings['hero_lead'] ?: 'Klavírní duo pro výjimečné okamžiky vašeho života.'}
-{var $heroCta = $siteSettings['hero_cta'] ?: 'Nezávazná poptávka'}
+{var $heroCta = $siteSettings['hero_cta'] ?: 'Kontakt'}
 {var $heroScroll = $siteSettings['hero_scroll'] ?: 'Objevte nás'}
 {var $aboutImage = $siteSettings['about_image'] ? $basePath . '/' . $siteSettings['about_image'] : $basePath . '/images/slider2.jpg'}
 {var $aboutEyebrow = $siteSettings['about_eyebrow'] ?: 'O nás'}
-{var $aboutHeading = $siteSettings['about_heading'] ?: 'Hudba, která spojuje a vytváří emoce'}
+{var $aboutHeading = $siteSettings['about_heading'] ?: 'Čtyři ruce. Jeden hudební hlas.'}
 {var $aboutCta = $siteSettings['about_cta'] ?: 'Poznejte nás'}
-{var $stat1Number = $siteSettings['stat_1_number'] ?: '5+'}
-{var $stat1Label = $siteSettings['stat_1_label'] ?: 'let praxe'}
-{var $stat2Number = $siteSettings['stat_2_number'] ?: '150+'}
-{var $stat2Label = $siteSettings['stat_2_label'] ?: 'koncertů'}
-{var $stat3Number = $siteSettings['stat_3_number'] ?: '1000+'}
-{var $stat3Label = $siteSettings['stat_3_label'] ?: 'spokojených hostů'}
 {var $contactPhone = $siteSettings['phone'] ?: '+420 777 123 456'}
 {var $contactEmail = $siteSettings['email'] ?: 'info@fourhands.cz'}
 {var $contactAddress = $siteSettings['address'] ?: 'Praha, Česká republika'}
@@ -47,16 +41,34 @@
                     <p class="eyebrow">{$aboutEyebrow}</p>
                     <h2>{$aboutHeading}</h2>
                     <div class="rich-text">{$content['about']['content_html'] ?? '<p>Jsme klavírní duo Fourhands. Spojujeme vášeň pro hudbu, cit pro detail a radost z toho, když se hudba stává součástí důležitých životních okamžiků.</p>'|noescape}</div>
-                    <div class="stats">
-                        <div><strong>{$stat1Number}</strong><span>{$stat1Label}</span></div>
-                        <div><strong>{$stat2Number}</strong><span>{$stat2Label}</span></div>
-                        <div><strong>{$stat3Number}</strong><span>{$stat3Label}</span></div>
-                    </div>
-                    <a class="button" n:href=":Front:Clenky:default locale => $locale">{$aboutCta} <span>→</span></a>
+                    <a class="button" n:href=":Front:Onas:default locale => $locale">{$aboutCta} <span>→</span></a>
                 </div>
             </div>
         </div>
     </section>
+
+    {if $events['upcoming']}
+        <section class="section section--light" id="udalosti">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">{_'Events'}</p>
+                    <h2>{_'Upcoming performances'}</h2>
+                </div>
+                <div class="row gy-3 reveal">
+                    <div class="col-md-6" n:foreach="$events['upcoming'] as $event">
+                        <article class="event-card">
+                            <time datetime="{$event['event_date']->format('Y-m-d')}">{$event['event_date']|date:'j. n. Y'}</time>
+                            <small>{$event['event_date']|date:'F'}</small>
+                            <h3>{$event['description']}</h3>
+                        </article>
+                    </div>
+                </div>
+                <div class="section-action">
+                    <a class="button button--outline" n:href=":Front:ArchivUdalosti:default locale => $locale">{_'Event archive'}<span>→</span></a>
+                </div>
+            </div>
+        </section>
+    {/if}
 
     <section class="section section--light" id="programy">
         <div class="container">
@@ -97,6 +109,9 @@
                         </article>
                     </div>
                 {/if}
+            </div>
+            <div class="section-action">
+                <a class="button button--outline" n:href=":Front:ArchivUdalosti:default locale => $locale">{_'Event archive'}<span>→</span></a>
             </div>
         </div>
     </section>
@@ -182,26 +197,6 @@
         </div>
     </section>
 
-    {if $events['upcoming']}
-        <section class="section section--light" id="udalosti">
-            <div class="container">
-                <div class="section-heading reveal">
-                    <p class="eyebrow">{_'Events'}</p>
-                    <h2>{_'Upcoming performances'}</h2>
-                </div>
-                <div class="row gy-3 reveal">
-                    <div class="col-md-6" n:foreach="$events['upcoming'] as $event">
-                        <article class="event-card">
-                            <time datetime="{$event['event_date']->format('Y-m-d')}">{$event['event_date']|date:'j. n. Y'}</time>
-                            <small>{$event['event_date']|date:'F'}</small>
-                            <h3>{$event['description']}</h3>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </section>
-    {/if}
-
     <section class="contact" id="kontakt">
         <div class="container-fluid">
             <div class="row g-0">
@@ -210,7 +205,7 @@
                     <p class="eyebrow">{_'Contact'}</p>
                     <h2>{_'Planning an event?'}<br>{_'We would be happy to play for you.'}</h2>
                     <div class="contact__details">
-                        {* <a href="tel:+420777123456">{$contactPhone}</a> *}
+                        <a href="tel:+420777123456">{$contactPhone}</a>
                         <a href="mailto:{$contactEmail}">{$contactEmail}</a>
                         <span>{$contactAddress}</span>
                     </div>
@@ -222,9 +217,6 @@
                     {form inquiryForm class => 'inquiry-form'}
                         <div class="form-row">
                             <label>{label name /}{input name}</label><label>{label email /}{input email}</label></div>
-                        <div class="form-row">
-                            <label>{label eventType /}{input eventType}</label><label>{label date /}{input date}</label>
-                        </div>
                         <label>{label message /}{input message}</label>{input send class => 'button'}
                     {/form}
                 </div>

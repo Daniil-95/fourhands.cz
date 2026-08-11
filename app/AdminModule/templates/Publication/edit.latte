@@ -1,0 +1,12 @@
+{block title}{if $editingId}Upravit publikaci{else}Nová publikace{/if}{/block}
+
+{block content}
+    <div class="page-header">
+        <div>
+            <h2>{if $editingId}Upravit publikaci{else}Nová publikace{/if}</h2>
+            <p class="muted">Přidejte článek, publikaci nebo zmínku z externího zdroje.</p>
+        </div>
+    </div>
+
+    {control publicationForm}
+{/block}

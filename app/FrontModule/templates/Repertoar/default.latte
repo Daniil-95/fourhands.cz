@@ -1,0 +1,18 @@
+{block title}{_'Repertoire'}{/block}
+{block content}
+    <section class="page-hero">
+        <div class="container">
+            <p class="eyebrow eyebrow--light">Repertoár</p>
+            <h1>{_'Repertoire'}</h1>
+            <p>{_'A selection of works and concert programs we regularly perform.'}</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="rich-text">
+                {$content['program']['content_html'] ?? '<p>Repertoár bude doplněn v administraci.</p>'|noescape}
+            </div>
+        </div>
+    </section>
+{/block}

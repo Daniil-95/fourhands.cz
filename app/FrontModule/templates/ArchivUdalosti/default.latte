@@ -1,0 +1,28 @@
+{block title}{_'Event archive'}{/block}
+{block content}
+    <section class="page-hero">
+        <div class="container">
+            <p class="eyebrow eyebrow--light">Archiv událostí</p>
+            <h1>{_'Event archive'}</h1>
+            <p>{_'Past performances and events.'}</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            {if $events['past']}
+                <div class="row gy-3">
+                    <div class="col-md-6" n:foreach="$events['past'] as $event">
+                        <article class="event-card event-card--archive">
+                            <time datetime="{$event['event_date']->format('Y-m-d')}">{$event['event_date']|date:'j. n. Y'}</time>
+                            <small>{$event['event_date']|date:'F'}</small>
+                            <h3>{$event['description']}</h3>
+                        </article>
+                    </div>
+                </div>
+            {else}
+                <p>{_'No past events available yet.'}</p>
+            {/if}
+        </div>
+    </section>
+{/block}

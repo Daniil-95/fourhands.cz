@@ -1,0 +1,18 @@
+{block title}{_'About us'}{/block}
+{block content}
+    <section class="page-hero">
+        <div class="container">
+            <p class="eyebrow eyebrow--light">O nás</p>
+            <h1>{_'Four hands. One musical voice.'}</h1>
+            <p>{_'A Prague-based piano duo exploring the repertoire for four hands and two pianos.'}</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="rich-text">
+                {$content['about']['content_html'] ?? '<p>Vítejte v Fourhands.</p>'|noescape}
+            </div>
+        </div>
+    </section>
+{/block}

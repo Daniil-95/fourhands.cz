@@ -21,3 +21,4 @@ services:
     - App\Model\ProgramRepository
     - App\Model\TestimonialRepository
     - App\Model\InquiryRepository
+    - App\Model\PublicationRepository

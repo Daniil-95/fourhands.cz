@@ -17,7 +17,7 @@ final class RouterFactory
             'action' => 'default',
         ]);
 
-        foreach (['clenky' => 'Clenky', 'galerie' => 'Galerie', 'videa' => 'Videa'] as $slug => $presenter) {
+        foreach (['clenky' => 'Clenky', 'galerie' => 'Galerie', 'videa' => 'Videa', 'z-podia' => 'Zpodia', 'repertoar' => 'Repertoar', 'archiv-udalosti' => 'ArchivUdalosti', 'kontakt' => 'Homepage', 'o-nas' => 'Onas'] as $slug => $presenter) {
             $router->addRoute('[<locale=cs cs|en>/]' . $slug, [
                 'module' => 'Front',
                 'presenter' => $presenter,

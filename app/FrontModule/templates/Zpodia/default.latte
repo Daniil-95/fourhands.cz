@@ -1,0 +1,39 @@
+{block title}{_'From the stage'}{/block}
+{block content}
+    <section class="page-hero">
+        <div class="container">
+            <p class="eyebrow eyebrow--light">Z pódia</p>
+            <h1>{_'From the stage'}</h1>
+            <p>{_'Articles, interviews, publications and mentions about Fourhands.'}</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            {if $publications}
+                <div class="row gy-4">
+                    <div class="col-lg-6" n:foreach="$publications as $publication">
+                        <article class="publication-card reveal">
+                            {if $publication->image_path}
+                                <img src="{$basePath}/{$publication->image_path}" alt="{$publication->title}" loading="lazy">
+                            {/if}
+                            <div class="publication-card__body">
+                                <p class="eyebrow">{$publication->source ?: 'External source'}</p>
+                                <h2>{$publication->title}</h2>
+                                <p class="publication-card__date">{$publication->publish_date|date:'j. n. Y'}</p>
+                                {if $publication->short_description}
+                                    <p>{$publication->short_description}</p>
+                                {/if}
+                                {if $publication->url}
+                                    <a class="button button--outline" href="{$publication->url}" target="_blank" rel="noopener noreferrer">{_'Read more'} <span>→</span></a>
+                                {/if}
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            {else}
+                <p>{_'No publications available yet.'}</p>
+            {/if}
+        </div>
+    </section>
+{/block}

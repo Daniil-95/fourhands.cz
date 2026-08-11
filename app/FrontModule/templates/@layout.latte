@@ -69,15 +69,14 @@
                         {/foreach}
                     {else}
                         <a href="{link :Front:Homepage:default, locale => $locale}#uvod">{_'Home'}</a>
-                        <a href="{link :Front:Homepage:default, locale => $locale}#o-duu">{_'About us'}</a>
+                        <a n:href=":Front:Onas:default locale => $locale">{_'About us'}</a>
                         <a n:href=":Front:Clenky:default locale => $locale">{_'Members'}</a>
-                        <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Programs'}</a>
-                        <a n:href=":Front:Galerie:default locale => $locale">{_'Gallery'}</a>
-                        <a n:href=":Front:Videa:default locale => $locale">{_'Videos'}</a>
-                        <a href="{link :Front:Homepage:default, locale => $locale}#reference">{_'References'}</a>
+                        <a n:href=":Front:Repertoar:default locale => $locale">{_'Repertoire'}</a>
+                        <a n:href=":Front:Zpodia:default locale => $locale">{_'From the stage'}</a>
+                        <a n:href=":Front:Videa:default locale => $locale">{_'Video gallery'}</a>
                         <a href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Contact'}</a>
                     {/if}
-                    <a class="button button--small" href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Inquiry'}</a>
+                    <a class="button button--small" href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Contact'}</a>
                     <a class="lang-switch" n:href="this locale => $switchLocale">{if $locale == 'cs'}EN{else}CS{/if}</a>
                 </nav>
                 <div class="site-nav-backdrop" data-menu-backdrop></div>
@@ -98,17 +97,18 @@
                         <p>{_'Piano duo for weddings, concerts and events that deserve an exceptional musical atmosphere.'}</p>
 
                         <div class="socials">
-                            <a href="{$siteSettings['facebook'] ?: '#'}" aria-label="{_'Facebook'}">f</a>
-                            {* <a href="{$siteSettings['instagram'] ?: '#'}" aria-label="{_'Instagram'}">ig</a> *}
-                            <a href="{$siteSettings['youtube'] ?: '#'}" aria-label="{_'YouTube'}">yt</a>
+                            <a href="{$siteSettings['facebook'] ?: '#'}" aria-label="{_'Facebook'}" target="_blank" rel="noopener noreferrer">f</a>
+                            <a href="{$siteSettings['instagram'] ?: '#'}" aria-label="{_'Instagram'}" target="_blank" rel="noopener noreferrer">ig</a>
+                            <a href="{$siteSettings['youtube'] ?: '#'}" aria-label="{_'YouTube'}" target="_blank" rel="noopener noreferrer">yt</a>
                         </div>
                     </div>
                     <div class="col-6 col-lg-2">
                         <h3>{_'Navigation'}</h3>
-                        <a href="{link :Front:Homepage:default, locale => $locale}#o-duu">{_'About us'}</a>
+                        <a n:href=":Front:Onas:default locale => $locale">{_'About us'}</a>
                         <a n:href=":Front:Clenky:default locale => $locale">{_'Members'}</a>
-                        <a n:href=":Front:Galerie:default locale => $locale">{_'Gallery'}</a>
-                        <a n:href=":Front:Videa:default locale => $locale">{_'Videos'}</a>
+                        <a n:href=":Front:Repertoar:default locale => $locale">{_'Repertoire'}</a>
+                        <a n:href=":Front:Zpodia:default locale => $locale">{_'From the stage'}</a>
+                        <a n:href=":Front:Videa:default locale => $locale">{_'Video gallery'}</a>
                     </div>
                     <div class="col-6 col-lg-3">
                         <h3>{_'Programs'}</h3>

@@ -41,15 +41,8 @@ final class HomepagePresenter extends BasePresenter
         $form->addProtection();
         $form->addText('name', $this->trans('Name and surname'))->setRequired();
         $form->addEmail('email', $this->trans('Email'))->setRequired();
-        $form->addSelect('eventType', $this->trans('Event type'), [
-            'wedding' => $this->trans('Wedding'),
-            'corporate' => $this->trans('Corporate event'),
-            'concert' => $this->trans('Concert'),
-            'private' => $this->trans('Private event'),
-        ])->setPrompt($this->trans('Select event type'));
-        $form->addText('date', $this->trans('Event date'))->setHtmlType('date');
         $form->addTextArea('message', $this->trans('Your message'))->setRequired();
-        $form->addSubmit('send', $this->trans('Send inquiry'));
+        $form->addSubmit('send', $this->trans('Send'));
         $form->onSuccess[] = [$this, 'inquiryFormSucceeded'];
 
         return $form;
@@ -60,8 +53,6 @@ final class HomepagePresenter extends BasePresenter
         $data = [
             'name' => $values->name,
             'email' => $values->email,
-            'eventType' => $values->eventType,
-            'date' => $values->date,
             'message' => $values->message,
             'locale' => $this->getLocale(),
         ];
@@ -84,8 +75,6 @@ final class HomepagePresenter extends BasePresenter
             $this->trans('New inquiry received'),
             '=========================','Name: ' . $data['name'],
             'Email: ' . $data['email'],
-            'Event type: ' . ($data['eventType'] ?: '-'),
-            'Event date: ' . ($data['date'] ?: '-'),
             'Message: ' . $data['message'],
         );
         $headers = [];
