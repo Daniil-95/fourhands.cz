@@ -2,4 +2,5 @@
 /temp/
 /log/
 /.idea/
+/node_modules/
 /app/config/local.neon
