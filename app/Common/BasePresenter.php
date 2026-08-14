@@ -23,6 +23,9 @@ abstract class BasePresenter extends Presenter
     {
         parent::startup();
 
+        // Start the session before template rendering to prevent late CSRF session init.
+        $this->getSession()->start();
+
         $locale = $this->getParameter('locale');
         if (!is_string($locale) || !in_array($locale, ['cs', 'en'], true)) {
             $locale = 'cs';
