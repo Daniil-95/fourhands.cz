@@ -1,6 +1,18 @@
 /vendor/
 /temp/
 /log/
-/.idea/
 /node_modules/
+
+# Local environment config
 /app/config/local.neon
+
+# IDE files
+/.idea/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Generated artifacts in source SCSS folder
+/www/scss/*.css
+/www/scss/*.map
