@@ -7,13 +7,38 @@
         <title>Přihlášení do administrace</title>
         <link rel="stylesheet" href="{$basePath}/css/admin.css">
     </head>
-    <body>
-        <div class="signin-wrap">
-            <h1>Fourhands Administrace</h1>
+    <body class="signin-page">
+        <div class="signin-wrap" role="main" aria-labelledby="signin-title">
+            <h1 id="signin-title">Fourhands Administrace</h1>
             <div n:foreach="$flashes as $flash" class="flash {$flash->type}">
                 {$flash->message}
             </div>
-            {control signInForm}
+
+            {form signInForm class => 'signin-form'}
+                <div n:if="$form->hasErrors()" class="signin-errors" role="alert">
+                    <ul>
+                        <li n:foreach="$form->getErrors() as $error">{$error}</li>
+                    </ul>
+                </div>
+
+                <div class="signin-field">
+                    {label username /}
+                    {input username autocomplete => 'username'}
+                </div>
+
+                <div class="signin-field">
+                    {label password /}
+                    {input password autocomplete => 'current-password'}
+                </div>
+
+                <div class="signin-remember">
+                    {input remember}
+                </div>
+
+                <div class="signin-submit">
+                    {input send}
+                </div>
+            {/form}
         </div>
     </body>
 </html>

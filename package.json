@@ -1,0 +1,11 @@
+{
+  "name": "fourhands",
+  "private": true,
+  "devDependencies": {
+    "sass": "1.80.0"
+  },
+  "scripts": {
+    "build:css": "sass www/scss/admin.scss:www/css/admin.css www/scss/style.scss:www/css/style.css --style=expanded --source-map",
+    "watch:css": "sass --watch www/scss/admin.scss:www/css/admin.css www/scss/style.scss:www/css/style.css --style=expanded --source-map"
+  }
+}

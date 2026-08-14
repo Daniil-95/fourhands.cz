@@ -10,6 +10,9 @@ final class SignPresenter extends BaseAdminPresenter
 {
     public function renderDefault(): void
     {
+        if ($this->getUser()->isLoggedIn() && $this->getUser()->isInRole('admin')) {
+            $this->redirect(':Admin:Dashboard:default');
+        }
     }
 
     protected function createComponentSignInForm(): Form
