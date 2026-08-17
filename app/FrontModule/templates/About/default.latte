@@ -11,7 +11,7 @@
     </section>
 
     <section class="section">
-        <div class="container about-story {if !$aboutImage}about-story--no-image{/if}">
+        <div class="container about-story reveal reveal--left {if !$aboutImage}about-story--no-image{/if}">
             <div class="about-story__media" n:if="$aboutImage">
                 <img src="{$basePath}/{$aboutImage}" alt="{$contentSection?->title}" loading="lazy">
             </div>

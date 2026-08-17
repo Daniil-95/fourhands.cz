@@ -43,15 +43,29 @@ document.addEventListener('keydown', (e) => {
 menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
 
 // ─── Scroll-triggered reveal animations ──────────────────
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+const revealElements = [...document.querySelectorAll('.reveal')];
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+revealElements.forEach((element) => {
+    const siblings = [...(element.parentElement?.children ?? [])]
+        .filter((sibling) => sibling.classList.contains('reveal'));
+    const index = Math.min(Math.max(siblings.indexOf(element), 0), 5);
+    element.style.setProperty('--reveal-delay', `${index * 70}ms`);
+});
+
+if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    revealElements.forEach((element) => element.classList.add('is-visible'));
+} else {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    revealElements.forEach((element) => observer.observe(element));
+}
 
 // ─── Swiper: Video carousel ──────────────────────────────
 if (window.Swiper && document.querySelector('.video-swiper')) {

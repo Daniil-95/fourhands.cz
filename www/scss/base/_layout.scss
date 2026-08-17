@@ -34,14 +34,43 @@
 }
 
 .reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity .8s ease, transform .8s ease;
-}
-
-.reveal.is-visible {
+  --reveal-delay: 0ms;
   opacity: 1;
   transform: none;
+}
+
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .8s ease var(--reveal-delay), transform .8s ease var(--reveal-delay);
+  will-change: opacity, transform;
+}
+
+.js .reveal.reveal--left {
+  transform: translateX(-28px);
+}
+
+.js .reveal.reveal--right {
+  transform: translateX(28px);
+}
+
+.js .reveal.reveal--scale {
+  transform: scale(.97);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal,
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 .flash {

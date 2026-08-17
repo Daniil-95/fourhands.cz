@@ -22,6 +22,7 @@
   max-height: 720px;
   aspect-ratio: 4 / 5;
   object-fit: cover;
+  transition: transform .8s ease;
 
   @include respond-down(md) {
     max-height: 480px;
@@ -29,6 +30,17 @@
 
   @include respond-down(sm) {
     max-height: 360px;
+  }
+}
+
+.member img:hover {
+  transform: scale(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-story__media img,
+  .member img {
+    transition: none;
   }
 }
 

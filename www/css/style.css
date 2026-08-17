@@ -134,16 +134,44 @@ p {
 }
 
 .reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.reveal.is-visible {
+  --reveal-delay: 0ms;
   opacity: 1;
   transform: none;
 }
 
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease var(--reveal-delay), transform 0.8s ease var(--reveal-delay);
+  will-change: opacity, transform;
+}
+
+.js .reveal.reveal--left {
+  transform: translateX(-28px);
+}
+
+.js .reveal.reveal--right {
+  transform: translateX(28px);
+}
+
+.js .reveal.reveal--scale {
+  transform: scale(0.97);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal,
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
 .flash {
   margin: 20px 0;
   padding: 12px 16px;
@@ -768,12 +796,30 @@ p {
   color: #F8F2E8;
   text-align: center;
 }
+.page-hero .container {
+  animation: page-hero-in 0.9s ease both;
+}
 @media (max-width: 575.98px) {
   .page-hero {
     padding: 120px 0 60px;
   }
 }
 
+@keyframes page-hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-hero .container {
+    animation: none;
+  }
+}
 .page-hero h1 {
   font-size: clamp(42px, 6vw, 90px);
 }
@@ -820,6 +866,11 @@ p {
   width: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.about-story__media:hover img {
+  transform: scale(1.025);
 }
 
 .about-story__text {
@@ -1097,6 +1148,7 @@ p {
   max-height: 720px;
   aspect-ratio: 4/5;
   object-fit: cover;
+  transition: transform 0.8s ease;
 }
 @media (max-width: 767.98px) {
   .member img {
@@ -1109,6 +1161,16 @@ p {
   }
 }
 
+.member img:hover {
+  transform: scale(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-story__media img,
+  .member img {
+    transition: none;
+  }
+}
 .member--reverse {
   flex-direction: row-reverse;
 }

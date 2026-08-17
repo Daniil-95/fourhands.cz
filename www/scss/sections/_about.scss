@@ -37,6 +37,11 @@
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
+  transition: transform .8s ease;
+}
+
+.about-story__media:hover img {
+  transform: scale(1.025);
 }
 
 .about-story__text {
