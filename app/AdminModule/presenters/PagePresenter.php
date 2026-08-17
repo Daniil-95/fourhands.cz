@@ -15,10 +15,21 @@ final class PagePresenter extends BaseAdminPresenter
     private ?string $editingPageKey = null;
     private ?string $editingSectionKey = null;
     private ?string $editingLang = null;
+    private bool $showBackLink = true;
 
     public function __construct(private PageSectionRepository $pageSectionRepository)
     {
         parent::__construct();
+    }
+
+    /** @throws AbortException */
+    public function actionDefault(?string $page = null): void
+    {
+        $pageKey = is_string($page) && isset(PageSectionRepository::PAGES[$page]) ? $page : 'about';
+        $sectionKeys = array_keys(PageSectionRepository::SECTIONS[$pageKey]);
+        if (count($sectionKeys) === 1) {
+            $this->redirect('section', ['page' => $pageKey, 'section' => $sectionKeys[0]]);
+        }
     }
 
     public function renderDefault(?string $page = null): void
@@ -35,6 +46,7 @@ final class PagePresenter extends BaseAdminPresenter
     {
         $this->template->editingId = $this->editingId;
         $this->template->pageKey = $this->editingPageKey;
+        $this->template->showBackLink = $this->showBackLink;
     }
 
     public function renderHero(): void
@@ -56,19 +68,7 @@ final class PagePresenter extends BaseAdminPresenter
         $this->editingSectionKey = (string) $item->section_key;
         $this->editingLang = (string) $item->lang;
 
-        $this['sectionForm']->setDefaults([
-            'title' => $item->title,
-            'subtitle' => $item->subtitle,
-            'content' => $item->content,
-            'button_text' => '',
-            'button_url' => '',
-            'image_path' => $item->image_path,
-            'active' => (bool) $item->active,
-        ]);
-
-        $this->template->pageTitle = PageSectionRepository::PAGES['homepage'];
-        $this->template->sectionTitle = PageSectionRepository::SECTIONS['homepage']['hero'];
-        $this->template->currentImagePath = $item->image_path;
+        $this->fillSectionEditor($item);
     }
 
     /** @throws AbortException */
@@ -99,18 +99,54 @@ final class PagePresenter extends BaseAdminPresenter
             $this->flashMessage('Tato sekce zatím nemá druhou jazykovou verzi.', 'warning');
         }
 
+        $this->fillSectionEditor($item);
+    }
+
+    /**
+     * Přímé editace sekce podle klíčů – používá se pro stránky s jedinou sekcí (např. O nás).
+     * @throws AbortException
+     */
+    public function actionSection(string $page, string $section): void
+    {
+        if (!isset(PageSectionRepository::SECTIONS[$page][$section])) {
+            $this->error('Sekce nenalezena.');
+        }
+
+        $item = $this->pageSectionRepository->getByPageSection($page, $section, $this->getAdminContentLang());
+        if (!$item) {
+            $this->error('Sekce pro tento jazyk nebyla nalezena.');
+        }
+
+        $this->editingId = (int) $item->id;
+        $this->editingPageKey = $page;
+        $this->editingSectionKey = $section;
+        $this->editingLang = (string) $item->lang;
+        $this->showBackLink = false;
+
+        $this->fillSectionEditor($item);
+        $this->setView('edit');
+    }
+
+    private function fillSectionEditor(\Nette\Database\Table\ActiveRow $item): void
+    {
         $this['sectionForm']->setDefaults([
             'title' => $item->title,
             'subtitle' => $item->subtitle,
             'content' => $item->content,
-            'button_text' => $item->button_text,
-            'button_url' => $item->button_url,
-            'image_path' => $item->image_path,
             'active' => (bool) $item->active,
         ]);
         $this->template->pageTitle = PageSectionRepository::PAGES[$item->page_key];
         $this->template->sectionTitle = PageSectionRepository::SECTIONS[$item->page_key][$item->section_key];
         $this->template->currentImagePath = $item->image_path;
+    }
+
+    /** Skrývat sekci má smysl jen tam, kde jich stránka má víc. */
+    private function hasVisibilityToggle(): bool
+    {
+        $pageKey = $this->editingPageKey ?? $this->getParameter('page');
+        return is_string($pageKey)
+            && isset(PageSectionRepository::SECTIONS[$pageKey])
+            && count(PageSectionRepository::SECTIONS[$pageKey]) > 1;
     }
 
     protected function createComponentSectionForm(): Form
@@ -126,19 +162,12 @@ final class PagePresenter extends BaseAdminPresenter
             $form->addTextArea('content', 'Obsah')->setHtmlAttribute('rows', 10);
         }
 
-        if ($this->getAction() === 'hero') {
-            $form->addHidden('button_text')->setDefaultValue('');
-            $form->addHidden('button_url')->setDefaultValue('');
-            $form->addHidden('image_path');
-            $form->addHidden('active')->setDefaultValue('1');
-        } else {
-            $form->addText('button_text', 'Text tlačítka');
-            $form->addText('button_url', 'Odkaz tlačítka');
-            $form->addText('image_path', 'Cesta k obrázku')->setOption('description', 'Použijte pouze pokud nechcete nahrát nový soubor.');
+        $form->addUpload('upload', 'Nový obrázek');
+
+        if ($this->hasVisibilityToggle()) {
             $form->addCheckbox('active', 'Aktivní')->setDefaultValue(true);
         }
 
-        $form->addUpload('upload', 'Nový obrázek');
         $form->addSubmit('save', 'Uložit sekci');
         $form->onSuccess[] = $this->sectionFormSucceeded(...);
         return $form;
@@ -146,6 +175,13 @@ final class PagePresenter extends BaseAdminPresenter
 
     private function sectionFormSucceeded(Form $form, \stdClass $values): void
     {
+        $current = $this->pageSectionRepository->getById((int) $this->editingId);
+        if (!$current) {
+            $this->error('Sekce nenalezena.');
+        }
+
+        $imagePath = (string) $current->image_path;
+
         /** @var FileUpload $upload */
         $upload = $values->upload;
         if ($upload->hasFile()) {
@@ -157,7 +193,7 @@ final class PagePresenter extends BaseAdminPresenter
             $extension = strtolower(pathinfo($upload->getSanitizedName(), PATHINFO_EXTENSION));
             $filename = $base . '-' . date('Ymd-His') . '.' . $extension;
             $upload->move(__DIR__ . '/../../../www/images/' . $filename);
-            $values->image_path = 'images/' . $filename;
+            $imagePath = 'images/' . $filename;
         }
 
         $lang = (string) $this->editingLang;
@@ -166,16 +202,18 @@ final class PagePresenter extends BaseAdminPresenter
             'title' => $values->title,
             'subtitle' => $values->subtitle,
             'content' => $values->content,
-            'button_text' => $values->button_text,
-            'button_url' => $values->button_url,
-            'image_path' => $values->image_path,
-            'active' => $values->active,
+            'image_path' => $imagePath,
+            'active' => $values->active ?? (bool) $current->active,
         ]);
         $this->flashMessage('Sekce byla uložena.', 'success');
         if ($this->editingPageKey === 'homepage' && $this->editingSectionKey === 'hero') {
             $this->redirect('hero', ['lang' => $lang]);
         }
 
-        $this->redirect('default', ['page' => $this->editingPageKey, 'lang' => $lang]);
+        $this->redirect('section', [
+            'page' => $this->editingPageKey,
+            'section' => $this->editingSectionKey,
+            'lang' => $lang,
+        ]);
     }
 }

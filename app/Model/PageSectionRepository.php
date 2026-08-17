@@ -17,7 +17,7 @@ final class PageSectionRepository
 
     public const SECTIONS = [
         'homepage' => ['hero' => 'Úvodní sekce'],
-        'about' => ['hero' => 'První obrazovka', 'content' => 'Obsah stránky'],
+        'about' => ['content' => 'O nás'],
         'artists' => ['hero' => 'První obrazovka', 'katerina' => 'Kateřina Konopová', 'irena' => 'Irena Andruško'],
         'repertoire' => ['hero' => 'První obrazovka', 'content' => 'Obsah stránky'],
             'from_stage' => ['hero' => 'Z pódia'],
@@ -69,8 +69,6 @@ final class PageSectionRepository
             'title' => $data['title'],
             'subtitle' => $data['subtitle'],
             'content' => $data['content'],
-            'button_text' => $data['button_text'],
-            'button_url' => $data['button_url'],
             'image_path' => $data['image_path'],
             'active' => $data['active'] ? 1 : 0,
         ]);

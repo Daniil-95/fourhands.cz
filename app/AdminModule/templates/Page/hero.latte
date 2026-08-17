@@ -11,11 +11,6 @@
     <div class="hero-editor-grid">
         <section class="hero-editor-panel">
             {form sectionForm class => 'hero-admin-form'}
-                {input button_text}
-                {input button_url}
-                {input image_path}
-                {input active}
-
                 <div class="form-error" n:if="$form->hasErrors()">
                     <p n:foreach="$form->ownErrors as $error">{$error}</p>
                 </div>
