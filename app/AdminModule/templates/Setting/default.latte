@@ -1,37 +1,37 @@
 {block content}
     <div class="page-header">
-        <h2>Nastavení webu</h2>
+        <div>
+            <h2>Nastavení webu</h2>
+            <p class="muted">Uspořádané nastavení webu pro jazyk: {$adminContentLang === 'en' ? 'English' : 'Čeština'}.</p>
+        </div>
         <a class="btn" n:href="edit">Přidat nastavení</a>
     </div>
-    <div class="table-container">
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Jazyk</th>
-            <th>Skupina</th>
-            <th>Klíč</th>
-            <th>Popisek</th>
-            <th>Hodnota</th>
-            <th>Pořadí</th>
-            <th>Akce</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr n:foreach="$items as $item">
-            <td data-label="ID">{$item->id}</td>
-            <td data-label="Jazyk">{$item->lang}</td>
-            <td data-label="Skupina"><span class="badge badge-group badge-group-{$item->group_name}">{$item->group_name}</span></td>
-            <td data-label="Klíč"><code>{$item->key_name}</code></td>
-            <td data-label="Popisek">{$item->label}</td>
-            <td data-label="Hodnota">{$item->value_text|truncate:60}</td>
-            <td data-label="Pořadí">{$item->sort_order}</td>
-            <td data-label="Akce" class="actions-cell">
-                <a n:href="edit id => $item->id">Upravit</a>
-                <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat toto nastavení?')">Smazat</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+
+    <div class="settings-groups">
+        <section n:foreach="$groups as $groupName => $groupItems" n:if="$groupItems" class="settings-group settings-group-{$groupName}">
+            <div class="settings-group-header">
+                <div>
+                    <span class="settings-group-kicker">Nastavení webu</span>
+                    <h3>{$groupLabels[$groupName]}</h3>
+                    <p>{$groupDescriptions[$groupName]}</p>
+                </div>
+                <span class="badge badge-group badge-group-{$groupName}">{count($groupItems)} položek</span>
+            </div>
+
+            <div class="settings-list">
+                <article n:foreach="$groupItems as $item" class="setting-item">
+                    <div class="setting-item-copy">
+                        <h4>{$item->label}</h4>
+                        <code>{$item->key_name}</code>
+                    </div>
+                    <p class="setting-item-value">{$item->value_text !== '' ? $item->value_text : 'Není vyplněno'}</p>
+                    <div class="setting-item-actions">
+                        <a n:href="edit id => $item->id">Upravit</a>
+                        <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat toto nastavení?')">Smazat</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
     </div>
 {/block}

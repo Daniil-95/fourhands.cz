@@ -3,8 +3,8 @@
     {var $hero = $pageSections['artists']['hero'] ?? null}
     {var $katerina = $pageSections['artists']['katerina'] ?? null}
     {var $irena = $pageSections['artists']['irena'] ?? null}
-    {var $katerinaImage = $basePath . '/' . ($katerina?->image_path ?: ($siteSettings['member_katerina_image'] ?: 'images/katerina.jpg'))}
-    {var $irenaImage = $basePath . '/' . ($irena?->image_path ?: ($siteSettings['member_irena_image'] ?: 'images/Irena.jpg'))}
+    {var $katerinaImage = $basePath . '/' . ($katerina?->image_path ?: 'images/katerina.jpg')}
+    {var $irenaImage = $basePath . '/' . ($irena?->image_path ?: 'images/Irena.jpg')}
     <section class="page-hero">
         <div class="container">
             <p class="eyebrow eyebrow--light">Fourhands</p>

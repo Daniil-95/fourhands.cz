@@ -7,7 +7,25 @@ use Nette\Database\Table\ActiveRow;
 
 final class SettingRepository
 {
-    private const HIDDEN_ADMIN_KEYS = ['hero_cta'];
+    private const HIDDEN_ADMIN_KEYS = [
+        'hero_cta',
+        'hero_image',
+        'hero_heading',
+        'hero_lead',
+        'hero_scroll',
+        'about_image',
+        'about_heading',
+        'about_eyebrow',
+        'about_cta',
+        'stat_1_number',
+        'stat_1_label',
+        'stat_2_number',
+        'stat_2_label',
+        'stat_3_number',
+        'stat_3_label',
+        'member_katerina_image',
+        'member_irena_image',
+    ];
 
     public function __construct(private Explorer $db)
     {

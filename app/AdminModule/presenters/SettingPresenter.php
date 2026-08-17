@@ -18,7 +18,30 @@ final class SettingPresenter extends BaseAdminPresenter
 
     public function renderDefault(): void
     {
-        $this->template->items = $this->filterByAdminContentLang($this->settingRepository->getAll());
+        $items = $this->filterByAdminContentLang($this->settingRepository->getAll());
+        $groupOrder = ['general', 'contact', 'social', 'seo'];
+        $groups = [];
+
+        foreach ($groupOrder as $groupName) {
+            $groups[$groupName] = array_values(array_filter(
+                $items,
+                static fn($item): bool => (string) $item->group_name === $groupName,
+            ));
+        }
+
+        $this->template->groups = $groups;
+        $this->template->groupLabels = [
+            'general' => 'Obecné nastavení',
+            'contact' => 'Kontaktní údaje',
+            'social' => 'Sociální sítě a odkazy',
+            'seo' => 'SEO a sdílení',
+        ];
+        $this->template->groupDescriptions = [
+            'general' => 'Texty a hodnoty, které se používají napříč webem.',
+            'contact' => 'Údaje, podle kterých vás návštěvníci mohou kontaktovat.',
+            'social' => 'Odkazy na sociální sítě, zásady ochrany údajů a cookies.',
+            'seo' => 'Výchozí metadata stránky a náhled při sdílení na sociálních sítích.',
+        ];
     }
 
     public function renderEdit(): void

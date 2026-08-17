@@ -1,5 +1,51 @@
 {block content}
-    <h2>{if $editingId}Upravit nastavení{else}Nové nastavení{/if}</h2>
+    <div class="page-header">
+        <div>
+            <h2>{if $editingId}Upravit nastavení{else}Nové nastavení{/if}</h2>
+            <p class="muted">Nastavení je uložené pro jazyk: {$adminContentLang === 'en' ? 'English' : 'Čeština'}.</p>
+        </div>
+    </div>
     <p><a n:href="default lang => $adminContentLang" class="btn-back">&larr; Zpět na přehled</a></p>
-    {control settingForm}
+
+    {form settingForm class => 'setting-admin-form'}
+        <div class="form-error" n:if="$form->hasErrors()">
+            <p n:foreach="$form->ownErrors as $error">{$error}</p>
+        </div>
+
+        <section class="setting-form-section">
+            <div class="setting-form-heading">
+                <span class="settings-group-kicker">Základní údaje</span>
+                <h3>Kam nastavení patří</h3>
+                <p>Vyberte jazyk a skupinu, aby bylo nastavení přehledně zařazené.</p>
+            </div>
+            <div class="setting-form-grid setting-form-grid--two">
+                <label>{label lang /}{input lang}</label>
+                <label>{label group_name /}{input group_name}</label>
+            </div>
+        </section>
+
+        <section class="setting-form-section">
+            <div class="setting-form-heading">
+                <span class="settings-group-kicker">Obsah</span>
+                <h3>Popisek a hodnota</h3>
+                <p>Popisek uvidí správce. Hodnota se použije na webu podle technického klíče.</p>
+            </div>
+            <div class="setting-form-grid">
+                <label>{label label /}{input label}</label>
+                <label>{label value_text /}{input value_text}</label>
+            </div>
+        </section>
+
+        <details class="setting-technical-details">
+            <summary>Technické údaje</summary>
+            <div class="setting-form-grid setting-form-grid--two">
+                <label>{label key_name /}{input key_name}</label>
+                <label>{label sort_order /}{input sort_order}</label>
+            </div>
+        </details>
+
+        <div class="setting-admin-actions">
+            {input save class => 'btn'}
+        </div>
+    {/form}
 {/block}
