@@ -92,7 +92,7 @@ INSERT IGNORE INTO site_settings (lang, group_name, key_name, label, value_text,
 -- Insert EN navigation items
 INSERT IGNORE INTO navigation_items (lang, title, url, sort_order, active, created) VALUES
 ('en', 'Home', '/#uvod', 10, 1, NOW()),
-('en', 'About', '/#o-duu', 20, 1, NOW()),
+('en', 'About', '/about', 20, 1, NOW()),
 ('en', 'Members', '/clenky', 30, 1, NOW()),
 ('en', 'Programs', '/#programy', 40, 1, NOW()),
 ('en', 'Gallery', '/galerie', 50, 1, NOW()),

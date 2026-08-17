@@ -81,7 +81,7 @@ INSERT IGNORE INTO site_settings (lang, group_name, key_name, label, value_text,
 
 INSERT IGNORE INTO navigation_items (lang, title, url, sort_order, active, created) VALUES
 ('cs', 'Úvod', '/#uvod', 10, 1, NOW()),
-('cs', 'O duu', '/#o-duu', 20, 1, NOW()),
+('cs', 'O nás', '/o-nas', 20, 1, NOW()),
 ('cs', 'Členky', '/clenky', 30, 1, NOW()),
 ('cs', 'Programy', '/#programy', 40, 1, NOW()),
 ('cs', 'Galerie', '/galerie', 50, 1, NOW()),

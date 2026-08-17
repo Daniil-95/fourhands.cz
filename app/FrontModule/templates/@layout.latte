@@ -67,24 +67,37 @@
                         {foreach $navigation as $navItem}
                             {var $normalizedUrl = trim((string) $navItem->url, '/')}
                             {var $menuLabel = (string) $navItem->title}
+                            {var $menuHref = (string) $navItem->url}
                             {if in_array($normalizedUrl, ['#uvod', 'uvod', ''], true)}
                                 {var $menuLabel = 'Home'}
-                            {elseif in_array($normalizedUrl, ['#o-duu', 'o-nas'], true)}
+                                {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . '#uvod'}
+                            {elseif in_array($normalizedUrl, ['#o-duu', 'o-nas', 'about'], true)}
                                 {var $menuLabel = 'About us'}
-                            {elseif in_array($normalizedUrl, ['clenky', 'umelkyne'], true)}
+                                {var $menuHref = $presenter->link(':Front:About:default', ['locale' => $locale])}
+                            {elseif in_array($normalizedUrl, ['clenky', 'umelkyne', 'artists'], true)}
                                 {var $menuLabel = 'Artists'}
-                            {elseif in_array($normalizedUrl, ['repertoar', 'koncertni-program'], true)}
+                                {var $menuHref = $presenter->link(':Front:Artists:default', ['locale' => $locale])}
+                            {elseif in_array($normalizedUrl, ['repertoar', 'koncertni-program', 'repertoire'], true)}
                                 {var $menuLabel = 'Concert program'}
-                            {elseif in_array($normalizedUrl, ['galerie', 'fotogalerie'], true)}
+                                {var $menuHref = $presenter->link(':Front:Repertoire:default', ['locale' => $locale])}
+                            {elseif in_array($normalizedUrl, ['galerie', 'fotogalerie', 'gallery'], true)}
                                 {var $menuLabel = 'Gallery'}
-                            {elseif in_array($normalizedUrl, ['videa', 'video-galerie'], true)}
+                                {var $menuHref = $presenter->link(':Front:Gallery:default', ['locale' => $locale])}
+                            {elseif in_array($normalizedUrl, ['videa', 'video-galerie', 'videos'], true)}
                                 {var $menuLabel = 'Videos'}
-                            {elseif $normalizedUrl === 'z-podia'}
+                                {var $menuHref = $presenter->link(':Front:Videos:default', ['locale' => $locale])}
+                            {elseif in_array($normalizedUrl, ['z-podia', 'from-stage'], true)}
                                 {var $menuLabel = 'From the stage'}
-                            {elseif in_array($normalizedUrl, ['#kontakt', 'kontakt'], true)}
+                                {var $menuHref = $presenter->link(':Front:FromStage:default', ['locale' => $locale])}
+                            {elseif in_array($normalizedUrl, ['#kontakt', 'kontakt', 'contact'], true)}
                                 {var $menuLabel = 'Contact'}
+                                {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . '#kontakt'}
+                            {elseif str_starts_with((string) $navItem->url, '/#')}
+                                {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . ($navItem->url|trim:'/')}
+                            {elseif str_starts_with((string) $navItem->url, '/')}
+                                {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . $navItem->url}
                             {/if}
-                            <a href="{if str_starts_with($navItem->url, '/')}{link :Front:Homepage:default, locale => $locale}{$navItem->url|trim:'/'}{else}{$navItem->url}{/if}">{_ $menuLabel}</a>
+                            <a href="{$menuHref}">{_ $menuLabel}</a>
                         {/foreach}
                     {else}
                         <a href="{link :Front:Homepage:default, locale => $locale}#uvod">{_'Home'}</a>
