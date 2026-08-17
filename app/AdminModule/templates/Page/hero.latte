@@ -4,14 +4,13 @@
     <div class="page-header">
         <div>
             <h2>{$sectionTitle}</h2>
-            <p class="muted">Spravujte hlavní texty a obrázek, které se zobrazují v úvodní části webu.</p>
+            <p class="muted">Spravujte hlavní texty a obrázek, které se zobrazují v úvodní části webu. Upravujete verzi: {$adminContentLang === 'en' ? 'English' : 'Čeština'}.</p>
         </div>
     </div>
 
     <div class="hero-editor-grid">
         <section class="hero-editor-panel">
             {form sectionForm class => 'hero-admin-form'}
-                {input lang}
                 {input button_text}
                 {input button_url}
                 {input image_path}

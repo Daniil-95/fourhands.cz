@@ -2,10 +2,10 @@
     <div class="page-header">
         <div>
             <h2>{$sectionTitle}</h2>
-            <p class="muted">Stránka: {$pageTitle}</p>
+            <p class="muted">Stránka: {$pageTitle} &middot; Jazyk: {$adminContentLang === 'en' ? 'English' : 'Čeština'}</p>
         </div>
     </div>
-    <p><a n:href="default lang => $adminContentLang" class="btn-back">&larr; Zpět ke stránkám</a></p>
+    <p><a n:href="default page => $pageKey" class="btn-back">&larr; Zpět ke stránkám</a></p>
 
     {if $currentImagePath}
         <div class="preview-box">

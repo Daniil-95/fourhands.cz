@@ -21,9 +21,8 @@ final class PagePresenter extends BaseAdminPresenter
         parent::__construct();
     }
 
-    public function renderDefault(): void
+    public function renderDefault(?string $page = null): void
     {
-        $page = $this->getParameter('page');
         $pageKey = is_string($page) && isset(PageSectionRepository::PAGES[$page]) ? $page : 'about';
         $sections = $this->pageSectionRepository->getAllGroupedByPage($this->getAdminContentLang());
         $this->template->pageKey = $pageKey;
@@ -35,6 +34,7 @@ final class PagePresenter extends BaseAdminPresenter
     public function renderEdit(): void
     {
         $this->template->editingId = $this->editingId;
+        $this->template->pageKey = $this->editingPageKey;
     }
 
     public function renderHero(): void
@@ -45,9 +45,10 @@ final class PagePresenter extends BaseAdminPresenter
     /** @throws AbortException */
     public function actionHero(): void
     {
-        $item = $this->pageSectionRepository->getByPageSection('homepage', 'hero', $this->getAdminContentLang());
+        $lang = $this->getAdminContentLang();
+        $item = $this->pageSectionRepository->getByPageSection('homepage', 'hero', $lang);
         if (!$item) {
-            $this->error('Úvodní sekce nenalezena.');
+            $this->error('Úvodní sekce pro tento jazyk nebyla nalezena.');
         }
 
         $this->editingId = (int) $item->id;
@@ -56,7 +57,6 @@ final class PagePresenter extends BaseAdminPresenter
         $this->editingLang = (string) $item->lang;
 
         $this['sectionForm']->setDefaults([
-            'lang' => $item->lang,
             'title' => $item->title,
             'subtitle' => $item->subtitle,
             'content' => $item->content,
@@ -84,8 +84,22 @@ final class PagePresenter extends BaseAdminPresenter
         $this->editingSectionKey = (string) $item->section_key;
         $this->editingLang = (string) $item->lang;
 
+        // přepínač jazyka nahoře musí otevřít odpovídající záznam druhé jazykové mutace
+        if ($this->getAdminContentLang() !== $this->editingLang && !$this->getHttpRequest()->isMethod('POST')) {
+            $sibling = $this->pageSectionRepository->getByPageSection(
+                $this->editingPageKey,
+                $this->editingSectionKey,
+                $this->getAdminContentLang(),
+            );
+            if ($sibling) {
+                $this->redirect('edit', ['id' => (int) $sibling->id]);
+            }
+            $this->lang = $this->editingLang;
+            $this->template->adminContentLang = $this->editingLang;
+            $this->flashMessage('Tato sekce zatím nemá druhou jazykovou verzi.', 'warning');
+        }
+
         $this['sectionForm']->setDefaults([
-            'lang' => $item->lang,
             'title' => $item->title,
             'subtitle' => $item->subtitle,
             'content' => $item->content,
@@ -107,10 +121,8 @@ final class PagePresenter extends BaseAdminPresenter
         $form->addText('subtitle', 'Podnadpis');
 
         if ($this->getAction() === 'hero') {
-            $form->addHidden('lang');
             $form->addText('content', 'Nadtitulek');
         } else {
-            $form->addSelect('lang', 'Jazyk', ['cs' => 'Čeština', 'en' => 'Angličtina'])->setRequired();
             $form->addTextArea('content', 'Obsah')->setHtmlAttribute('rows', 10);
         }
 
@@ -148,12 +160,9 @@ final class PagePresenter extends BaseAdminPresenter
             $values->image_path = 'images/' . $filename;
         }
 
-        $lang = ($this->editingPageKey === 'homepage' && $this->editingSectionKey === 'hero')
-            ? $this->editingLang
-            : $values->lang;
+        $lang = (string) $this->editingLang;
 
         $this->pageSectionRepository->save($this->editingId, [
-            'lang' => $lang,
             'title' => $values->title,
             'subtitle' => $values->subtitle,
             'content' => $values->content,

@@ -2,10 +2,15 @@
 
 namespace App\Common;
 
+use Nette\Application\Attributes\Persistent;
 use Nette\Utils\Random;
 
 abstract class BaseAdminPresenter extends BasePresenter
 {
+    /** Jazyk editovaného obsahu, drží se ve všech odkazech i v akci formulářů. */
+    #[Persistent]
+    public string $lang = 'cs';
+
     protected function startup(): void
     {
         parent::startup();
@@ -18,6 +23,10 @@ abstract class BaseAdminPresenter extends BasePresenter
         if ($this->getUser()->isLoggedIn() && !$this->getUser()->isInRole('admin')) {
             $this->getUser()->logout(true);
             $this->error('Nemáte oprávnění pro přístup do administrace.', 403);
+        }
+
+        if (!in_array($this->lang, ['cs', 'en'], true)) {
+            $this->lang = 'cs';
         }
 
         $this->template->csrfToken = $this->getCsrfToken();
@@ -41,8 +50,7 @@ abstract class BaseAdminPresenter extends BasePresenter
 
     protected function getAdminContentLang(): string
     {
-        $lang = $this->getParameter('lang');
-        return is_string($lang) && in_array($lang, ['cs', 'en'], true) ? $lang : 'cs';
+        return in_array($this->lang, ['cs', 'en'], true) ? $this->lang : 'cs';
     }
 
     /**

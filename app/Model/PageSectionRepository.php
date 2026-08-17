@@ -66,7 +66,6 @@ final class PageSectionRepository
     public function save(int $id, array $data): void
     {
         $this->db->table('page_sections')->where('id', $id)->update([
-            'lang' => $data['lang'],
             'title' => $data['title'],
             'subtitle' => $data['subtitle'],
             'content' => $data['content'],
