@@ -743,6 +743,90 @@ form .error,
   font-size: 13px;
 }
 
+.hero-editor-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 360px);
+  gap: var(--space-16);
+  align-items: start;
+}
+
+.hero-editor-panel,
+.hero-image-panel {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius-card);
+}
+
+.hero-admin-form {
+  max-width: none;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hero-form-row {
+  display: grid;
+  gap: var(--space-12);
+}
+.hero-form-row--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hero-form-section {
+  display: grid;
+  gap: var(--space-12);
+  padding: var(--space-16);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius-control);
+  background: var(--admin-surface-muted);
+}
+.hero-form-section h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.field-help {
+  margin: -4px 0 0;
+  color: var(--admin-text-muted);
+  font-size: 13px;
+}
+
+.hero-admin-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.checkbox-line {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin: 0;
+}
+
+.hero-image-panel {
+  display: grid;
+  gap: var(--space-12);
+  padding: var(--space-16);
+}
+.hero-image-panel h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.hero-image-preview {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--admin-border);
+}
+
 .preview-box {
   max-width: 920px;
   padding: var(--space-16);
@@ -1103,6 +1187,10 @@ code {
     max-width: 100%;
     padding: var(--space-16);
     gap: var(--space-12);
+  }
+  .hero-editor-grid,
+  .hero-form-row--two {
+    grid-template-columns: 1fr;
   }
   input[type=text],
   input[type=password],

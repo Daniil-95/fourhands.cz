@@ -8,6 +8,7 @@ use Nette\Database\Table\ActiveRow;
 final class PageSectionRepository
 {
     public const PAGES = [
+        'homepage' => 'Úvodní sekce',
         'about' => 'O nás',
         'artists' => 'Umělkyně',
         'repertoire' => 'Repertoár',
@@ -15,6 +16,7 @@ final class PageSectionRepository
     ];
 
     public const SECTIONS = [
+        'homepage' => ['hero' => 'Úvodní sekce'],
         'about' => ['hero' => 'První obrazovka', 'content' => 'Obsah stránky'],
         'artists' => ['hero' => 'První obrazovka', 'katerina' => 'Kateřina Konopová', 'irena' => 'Irena Andruško'],
         'repertoire' => ['hero' => 'První obrazovka', 'content' => 'Obsah stránky'],
@@ -48,6 +50,17 @@ final class PageSectionRepository
     public function getById(int $id): ?ActiveRow
     {
         return $this->db->table('page_sections')->get($id);
+    }
+
+    public function getByPageSection(string $pageKey, string $sectionKey, string $locale): ?ActiveRow
+    {
+        $row = $this->db->table('page_sections')
+            ->where('page_key', $pageKey)
+            ->where('section_key', $sectionKey)
+            ->where('lang', $locale)
+            ->fetch();
+
+        return $row ?: null;
     }
 
     public function save(int $id, array $data): void

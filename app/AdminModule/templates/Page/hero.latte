@@ -1,0 +1,68 @@
+{block title}{$sectionTitle}{/block}
+
+{block content}
+    <div class="page-header">
+        <div>
+            <h2>{$sectionTitle}</h2>
+            <p class="muted">Spravujte hlavní texty a obrázek, které se zobrazují v úvodní části webu.</p>
+        </div>
+    </div>
+
+    <div class="hero-editor-grid">
+        <section class="hero-editor-panel">
+            {form sectionForm class => 'hero-admin-form'}
+                {input button_text}
+                {input button_url}
+                {input image_path}
+                {input active}
+
+                <div class="form-error" n:if="$form->hasErrors()">
+                    <p n:foreach="$form->ownErrors as $error">{$error}</p>
+                </div>
+
+                <div class="hero-form-row hero-form-row--two">
+                    <label>
+                        {label lang /}
+                        {input lang}
+                    </label>
+                    <label>
+                        {label content /}
+                        {input content}
+                    </label>
+                </div>
+
+                <div class="hero-form-row hero-form-row--two">
+                    <label>
+                        Hlavní titulek
+                        {input title}
+                    </label>
+                    <label>
+                        Podtitulek
+                        {input subtitle}
+                    </label>
+                </div>
+
+                <div class="hero-form-section">
+                    <h3>Obrázek</h3>
+                    <label>
+                        {label upload /}
+                        {input upload}
+                    </label>
+                </div>
+
+                <div class="hero-admin-actions">
+                    {input save class => 'btn'}
+                </div>
+            {/form}
+        </section>
+
+        <aside class="hero-image-panel">
+            <h3>Aktuální obrázek</h3>
+            {if $currentImagePath}
+                <img src="{$basePath}/{$currentImagePath}" alt="Náhled úvodní sekce" class="hero-image-preview">
+            {else}
+                <p class="muted">Obrázek zatím není nastaven.</p>
+            {/if}
+        </aside>
+    </div>
+{/block}

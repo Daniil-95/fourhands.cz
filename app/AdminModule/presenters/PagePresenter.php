@@ -12,6 +12,8 @@ use Nette\Utils\Strings;
 final class PagePresenter extends BaseAdminPresenter
 {
     private ?int $editingId = null;
+    private ?string $editingPageKey = null;
+    private ?string $editingSectionKey = null;
 
     public function __construct(private PageSectionRepository $pageSectionRepository)
     {
@@ -34,6 +36,39 @@ final class PagePresenter extends BaseAdminPresenter
         $this->template->editingId = $this->editingId;
     }
 
+    public function renderHero(): void
+    {
+        $this->template->editingId = $this->editingId;
+    }
+
+    /** @throws AbortException */
+    public function actionHero(): void
+    {
+        $item = $this->pageSectionRepository->getByPageSection('homepage', 'hero', $this->getAdminContentLang());
+        if (!$item) {
+            $this->error('Úvodní sekce nenalezena.');
+        }
+
+        $this->editingId = (int) $item->id;
+        $this->editingPageKey = (string) $item->page_key;
+        $this->editingSectionKey = (string) $item->section_key;
+
+        $this['sectionForm']->setDefaults([
+            'lang' => $item->lang,
+            'title' => $item->title,
+            'subtitle' => $item->subtitle,
+            'content' => $item->content,
+            'button_text' => '',
+            'button_url' => '',
+            'image_path' => $item->image_path,
+            'active' => (bool) $item->active,
+        ]);
+
+        $this->template->pageTitle = PageSectionRepository::PAGES['homepage'];
+        $this->template->sectionTitle = PageSectionRepository::SECTIONS['homepage']['hero'];
+        $this->template->currentImagePath = $item->image_path;
+    }
+
     /** @throws AbortException */
     public function actionEdit(int $id): void
     {
@@ -42,6 +77,9 @@ final class PagePresenter extends BaseAdminPresenter
         if (!$item || !isset(PageSectionRepository::SECTIONS[$item->page_key][$item->section_key])) {
             $this->error('Sekce nenalezena.');
         }
+
+        $this->editingPageKey = (string) $item->page_key;
+        $this->editingSectionKey = (string) $item->section_key;
 
         $this['sectionForm']->setDefaults([
             'lang' => $item->lang,
@@ -65,12 +103,26 @@ final class PagePresenter extends BaseAdminPresenter
         $form->addSelect('lang', 'Jazyk', ['cs' => 'Čeština', 'en' => 'Angličtina'])->setRequired();
         $form->addText('title', 'Nadpis');
         $form->addText('subtitle', 'Podnadpis');
-        $form->addTextArea('content', 'Obsah')->setHtmlAttribute('rows', 10);
-        $form->addText('button_text', 'Text tlačítka');
-        $form->addText('button_url', 'Odkaz tlačítka');
+
+        if ($this->getAction() === 'hero') {
+            $form->addText('content', 'Nadtitulek');
+        } else {
+            $form->addTextArea('content', 'Obsah')->setHtmlAttribute('rows', 10);
+        }
+
+        if ($this->getAction() === 'hero') {
+            $form->addHidden('button_text')->setDefaultValue('');
+            $form->addHidden('button_url')->setDefaultValue('');
+            $form->addHidden('image_path');
+            $form->addHidden('active')->setDefaultValue('1');
+        } else {
+            $form->addText('button_text', 'Text tlačítka');
+            $form->addText('button_url', 'Odkaz tlačítka');
+            $form->addText('image_path', 'Cesta k obrázku')->setOption('description', 'Použijte pouze pokud nechcete nahrát nový soubor.');
+            $form->addCheckbox('active', 'Aktivní')->setDefaultValue(true);
+        }
+
         $form->addUpload('upload', 'Nový obrázek');
-        $form->addText('image_path', 'Cesta k obrázku')->setOption('description', 'Použijte pouze pokud nechcete nahrát nový soubor.');
-        $form->addCheckbox('active', 'Aktivní')->setDefaultValue(true);
         $form->addSubmit('save', 'Uložit sekci');
         $form->onSuccess[] = $this->sectionFormSucceeded(...);
         return $form;
@@ -103,6 +155,10 @@ final class PagePresenter extends BaseAdminPresenter
             'active' => $values->active,
         ]);
         $this->flashMessage('Sekce byla uložena.', 'success');
-        $this->redirect('default', ['lang' => $values->lang]);
+        if ($this->editingPageKey === 'homepage' && $this->editingSectionKey === 'hero') {
+            $this->redirect('hero', ['lang' => $values->lang]);
+        }
+
+        $this->redirect('default', ['page' => $this->editingPageKey, 'lang' => $values->lang]);
     }
 }

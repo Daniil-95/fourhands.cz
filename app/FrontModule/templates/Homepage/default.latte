@@ -5,7 +5,8 @@
 {var $heroImage = $hero?->image_path ? $basePath . '/' . $hero->image_path : $basePath . '/images/story.jpg'}
 {var $heroHeading = $hero?->title ?: 'FOURHANDS'}
 {var $heroLead = $hero?->subtitle ?: 'Klavírní duo pro výjimečné okamžiky vašeho života.'}
-{var $heroScroll = $hero?->content ?: 'Objevte nás'}
+{var $heroEyebrow = $hero?->content ?: ($locale === 'cs' ? 'Klavírní duo' : 'Piano Duo')}
+{var $heroScroll = $locale === 'cs' ? 'Objevte nás' : 'Discover us'}
 {var $contactPhone = $siteSettings['phone'] ?: '+420 777 123 456'}
 {var $contactEmail = $siteSettings['email'] ?: 'info@fourhands.cz'}
 {var $contactAddress = $siteSettings['address'] ?: 'Praha, Česká republika'}
@@ -20,7 +21,7 @@
 {block content}
     <section class="hero" id="uvod" style="--hero-image:url('{$heroImage}');--hero-position:center 30%">
         <div class="container hero__content reveal">
-            <p class="eyebrow eyebrow--light">{_'Piano Duo'}</p>
+            <p class="eyebrow eyebrow--light">{$heroEyebrow}</p>
             <h1>{$heroHeading}</h1>
             <p class="hero__lead">{$heroLead}</p>
         </div>

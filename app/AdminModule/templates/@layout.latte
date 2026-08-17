@@ -28,6 +28,10 @@
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> Přehled
                     </a>
 
+                    <a n:href=":Admin:Page:hero" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getAction() === 'hero'}active{/if}">
+                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Úvodní sekce
+                    </a>
+
                     <a n:href=":Admin:Page:default page => 'about'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'about'}active{/if}">
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> O nás
                     </a>
