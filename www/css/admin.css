@@ -129,19 +129,31 @@ body.sidebar-open {
 .sidebar .sidebar-header {
   padding: var(--space-24) var(--space-20) var(--space-16);
 }
-.sidebar .sidebar-header h1 {
-  margin: 0;
-  font-size: 31px;
-  line-height: 1;
+.sidebar .sidebar-header .admin-brand {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  min-height: auto;
+  padding: 0;
+  color: #fff;
+  background: transparent;
+}
+.sidebar .sidebar-header .admin-brand:hover {
+  color: #fff;
+  background: transparent;
+}
+.sidebar .sidebar-header .admin-brand__name {
   font-family: var(--heading-font);
+  font-size: 31px;
   font-weight: 500;
+  line-height: 1;
   letter-spacing: 0.3px;
 }
-.sidebar .sidebar-header .sidebar-subtitle {
-  margin-top: var(--space-8);
-  display: block;
-  color: var(--admin-sidebar-muted);
-  font-size: 13px;
+.sidebar .sidebar-header .admin-brand__sub {
+  color: #dbe3f0;
+  font-size: 12px;
+  font-weight: 500;
 }
 .sidebar nav {
   display: flex;
@@ -360,6 +372,18 @@ form,
 .dashboard-cards--pages {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-12);
+}
+.dashboard-cards--tools {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-12);
+}
+
+.page-header--compact {
+  margin-top: var(--space-32);
+}
+
+.page-card--tool {
+  min-height: 156px;
 }
 
 .card {
@@ -1320,6 +1344,9 @@ code {
   .dashboard-widgets {
     grid-template-columns: 1fr;
   }
+  .dashboard-cards--tools {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 @media (max-width: 920px) {
   .sidebar-toggle {
@@ -1354,6 +1381,8 @@ code {
     max-width: 100%;
   }
   .page-header {
+    align-items: flex-start;
+    gap: var(--space-12);
     margin-bottom: var(--space-16);
   }
   .page-header h2 {
@@ -1363,6 +1392,8 @@ code {
     font-size: 15px;
   }
   .admin-lang-switch {
+    position: relative;
+    z-index: 101;
     width: 100%;
     justify-content: space-between;
   }
@@ -1370,6 +1401,9 @@ code {
     flex: 1;
   }
   .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-cards--tools {
     grid-template-columns: 1fr;
   }
   .quick-actions .action-buttons {
@@ -1425,6 +1459,47 @@ code {
   }
   table {
     min-width: 720px;
+  }
+  form table,
+  .widget table,
+  .section-editor-grid table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+  }
+  form table th,
+  form table td,
+  .widget table th,
+  .widget table td,
+  .section-editor-grid table th,
+  .section-editor-grid table td {
+    padding: var(--space-8);
+    overflow-wrap: anywhere;
+  }
+  form table th,
+  .widget table th,
+  .section-editor-grid table th {
+    width: 32%;
+  }
+  form table tr {
+    display: block;
+    padding: var(--space-8) 0;
+    border-bottom: 1px solid #e8edf6;
+  }
+  form table tr:last-child {
+    border-bottom: 0;
+  }
+  form table th,
+  form table td {
+    display: block;
+    width: 100%;
+    border-bottom: 0;
+  }
+  form table th {
+    padding-bottom: var(--space-4);
+  }
+  form table td {
+    padding-top: var(--space-4);
   }
   .table-container,
   .table-shell {

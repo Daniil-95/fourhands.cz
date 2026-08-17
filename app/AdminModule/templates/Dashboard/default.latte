@@ -19,4 +19,21 @@
             </article>
         {/foreach}
     </div>
+
+    <div class="page-header page-header--compact">
+        <div>
+            <h2>Data a nastavení</h2>
+            <p class="muted">Rychlý přístup k ostatním částem administrace.</p>
+        </div>
+    </div>
+
+    <div class="dashboard-cards dashboard-cards--tools">
+        {foreach $quickActions as $action}
+            <article class="card page-card page-card--tool">
+                <h3>{$action['title']}</h3>
+                <p>{$action['description']}</p>
+                <a class="card-link" n:href="$action['href'], ...($action['params'] ?? [])">Otevřít sekci</a>
+            </article>
+        {/foreach}
+    </div>
 {/block}

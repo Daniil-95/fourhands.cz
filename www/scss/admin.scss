@@ -136,20 +136,34 @@ body {
     .sidebar-header {
         padding: var(--space-24) var(--space-20) var(--space-16);
 
-        h1 {
-            margin: 0;
-            font-size: 31px;
-            line-height: 1;
-            font-family: var(--heading-font);
-            font-weight: 500;
-            letter-spacing: 0.3px;
+        .admin-brand {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+            min-height: auto;
+            padding: 0;
+            color: #fff;
+            background: transparent;
+
+            &:hover {
+                color: #fff;
+                background: transparent;
+            }
         }
 
-        .sidebar-subtitle {
-            margin-top: var(--space-8);
-            display: block;
-            color: var(--admin-sidebar-muted);
-            font-size: 13px;
+        .admin-brand__name {
+            font-family: var(--heading-font);
+            font-size: 31px;
+            font-weight: 500;
+            line-height: 1;
+            letter-spacing: .3px;
+        }
+
+        .admin-brand__sub {
+            color: #dbe3f0;
+            font-size: 12px;
+            font-weight: 500;
         }
     }
 
@@ -388,6 +402,19 @@ form,
         grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: var(--space-12);
     }
+
+    &--tools {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: var(--space-12);
+    }
+}
+
+.page-header--compact {
+    margin-top: var(--space-32);
+}
+
+.page-card--tool {
+    min-height: 156px;
 }
 
 .card {
@@ -1405,6 +1432,10 @@ code {
     .dashboard-widgets {
         grid-template-columns: 1fr;
     }
+
+    .dashboard-cards--tools {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 920px) {
@@ -1447,6 +1478,8 @@ code {
     }
 
     .page-header {
+        align-items: flex-start;
+        gap: var(--space-12);
         margin-bottom: var(--space-16);
 
         h2 {
@@ -1459,6 +1492,8 @@ code {
     }
 
     .admin-lang-switch {
+        position: relative;
+        z-index: 101;
         width: 100%;
         justify-content: space-between;
 
@@ -1468,6 +1503,10 @@ code {
     }
 
     .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-cards--tools {
         grid-template-columns: 1fr;
     }
 
@@ -1536,6 +1575,49 @@ code {
 
     table {
         min-width: 720px;
+    }
+
+    form table,
+    .widget table,
+    .section-editor-grid table {
+        width: 100%;
+        min-width: 0;
+        table-layout: fixed;
+
+        th,
+        td {
+            padding: var(--space-8);
+            overflow-wrap: anywhere;
+        }
+
+        th {
+            width: 32%;
+        }
+    }
+
+    form table tr {
+        display: block;
+        padding: var(--space-8) 0;
+        border-bottom: 1px solid #e8edf6;
+
+        &:last-child {
+            border-bottom: 0;
+        }
+    }
+
+    form table th,
+    form table td {
+        display: block;
+        width: 100%;
+        border-bottom: 0;
+    }
+
+    form table th {
+        padding-bottom: var(--space-4);
+    }
+
+    form table td {
+        padding-top: var(--space-4);
     }
 
     .table-container,
