@@ -149,48 +149,50 @@ final class PagePresenter extends BaseAdminPresenter
             'title' => $item->title,
             'subtitle' => $item->subtitle,
             'content' => $item->content,
-            'active' => (bool) $item->active,
         ]);
         $this->template->pageTitle = PageSectionRepository::PAGES[$item->page_key];
         $this->template->sectionTitle = PageSectionRepository::SECTIONS[$item->page_key][$item->section_key];
         $this->template->currentImagePath = $item->image_path;
     }
 
-    /** Skrývat sekci má smysl jen tam, kde jich stránka má víc. */
-    private function hasVisibilityToggle(): bool
+    /** @return string[] */
+    private function currentSectionFields(): array
     {
-        $pageKey = $this->editingPageKey ?? $this->getParameter('page');
-        return is_string($pageKey)
-            && isset(PageSectionRepository::SECTIONS[$pageKey])
-            && count(PageSectionRepository::SECTIONS[$pageKey]) > 1;
+        $action = $this->getAction();
+        $pageKey = $action === 'hero' ? 'homepage' : ($this->editingPageKey ?? $this->getParameter('page'));
+        $sectionKey = match ($action) {
+            'hero', 'default' => 'hero',
+            default => $this->editingSectionKey ?? $this->getParameter('section'),
+        };
+
+        return PageSectionRepository::SECTION_FIELDS[$pageKey][$sectionKey] ?? ['title', 'subtitle', 'content', 'image'];
     }
 
     protected function createComponentSectionForm(): Form
     {
+        $fields = $this->currentSectionFields();
+
         $form = new Form();
         $form->addProtection();
         $form->addText('title', 'Nadpis');
-        $form->addText('subtitle', 'Podnadpis');
 
-        if ($this->getAction() === 'default') {
-            $form->addSubmit('save', 'Uložit úvodní část');
-            $form->onSuccess[] = $this->sectionFormSucceeded(...);
-            return $form;
+        if (in_array('subtitle', $fields, true)) {
+            $form->addText('subtitle', 'Podnadpis');
         }
 
-        if ($this->getAction() === 'hero') {
-            $form->addText('content', 'Nadtitulek');
-        } else {
-            $form->addTextArea('content', 'Obsah')->setHtmlAttribute('rows', 10);
+        if (in_array('content', $fields, true)) {
+            if ($this->getAction() === 'hero') {
+                $form->addText('content', 'Nadtitulek');
+            } else {
+                $form->addTextArea('content', 'Obsah')->setHtmlAttribute('rows', 10);
+            }
         }
 
-        $form->addUpload('upload', 'Nový obrázek');
-
-        if ($this->hasVisibilityToggle()) {
-            $form->addCheckbox('active', 'Aktivní')->setDefaultValue(true);
+        if (in_array('image', $fields, true)) {
+            $form->addUpload('upload', 'Nový obrázek');
         }
 
-        $form->addSubmit('save', 'Uložit sekci');
+        $form->addSubmit('save', 'Uložit');
         $form->onSuccess[] = $this->sectionFormSucceeded(...);
         return $form;
     }
@@ -222,10 +224,9 @@ final class PagePresenter extends BaseAdminPresenter
 
         $this->pageSectionRepository->save($this->editingId, [
             'title' => $values->title,
-            'subtitle' => $values->subtitle,
+            'subtitle' => $values->subtitle ?? $current->subtitle,
             'content' => $values->content ?? $current->content,
             'image_path' => $imagePath,
-            'active' => $values->active ?? (bool) $current->active,
         ]);
         $this->flashMessage('Sekce byla uložena.', 'success');
 

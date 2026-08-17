@@ -20,7 +20,16 @@ final class PageSectionRepository
         'about' => ['content' => 'O nás'],
         'artists' => ['hero' => 'První obrazovka', 'katerina' => 'Kateřina Konopová', 'irena' => 'Irena Andruško'],
         'repertoire' => ['hero' => 'První obrazovka', 'content' => 'Obsah stránky'],
-            'from_stage' => ['hero' => 'Z pódia'],
+        'from_stage' => ['hero' => 'Z pódia'],
+    ];
+
+    /** Pole, která daná sekce opravdu používá na webu – řídí formulář v administraci. */
+    public const SECTION_FIELDS = [
+        'homepage' => ['hero' => ['title', 'subtitle', 'content', 'image']],
+        'about' => ['content' => ['title', 'subtitle', 'content', 'image']],
+        'artists' => ['hero' => ['title', 'subtitle'], 'katerina' => ['title', 'content', 'image'], 'irena' => ['title', 'content', 'image']],
+        'repertoire' => ['hero' => ['title', 'subtitle'], 'content' => ['title', 'content']],
+        'from_stage' => ['hero' => ['title', 'subtitle']],
     ];
 
     public function __construct(private Explorer $db)
@@ -70,7 +79,6 @@ final class PageSectionRepository
             'subtitle' => $data['subtitle'],
             'content' => $data['content'],
             'image_path' => $data['image_path'],
-            'active' => $data['active'] ? 1 : 0,
         ]);
     }
 }

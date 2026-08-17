@@ -7,14 +7,16 @@
     </div>
     <p n:if="$showBackLink ?? true"><a n:href="default page => $pageKey" class="btn-back">&larr; Zpět ke stránkám</a></p>
 
-    {if $currentImagePath}
-        <div class="preview-box">
-            <strong>Aktuální obrázek:</strong><br>
-            <img src="{$basePath}/{$currentImagePath}" alt="Náhled" class="media-preview">
+    <div class="{if $currentImagePath}section-editor-grid{/if}">
+        <div>
+            {control sectionForm}
         </div>
-    {/if}
 
-    {control sectionForm}
+        <aside class="hero-image-panel" n:if="$currentImagePath">
+            <h3>Aktuální obrázek</h3>
+            <img src="{$basePath}/{$currentImagePath}" alt="Náhled" class="hero-image-preview">
+        </aside>
+    </div>
 {/block}
 
 {block scripts}
