@@ -1,0 +1,40 @@
+{block content}
+    <div class="page-header">
+        <div>
+            <h2>SEO a sdílení</h2>
+            <p class="muted">Metadata pro vyhledávače a náhledy při sdílení. Jazyk: {$adminContentLang === 'en' ? 'English' : 'Čeština'}.</p>
+        </div>
+    </div>
+
+    <section class="settings-group settings-group-seo seo-admin-panel">
+        <div class="settings-group-header">
+            <div>
+                <span class="settings-group-kicker">Kontrola SEO</span>
+                <h3>Výchozí metadata stránky</h3>
+                <p>Tyto hodnoty se používají v hlavní šabloně webu pro title, description, keywords a Open Graph.</p>
+            </div>
+            <span class="badge badge-group badge-group-seo">{count($seoItems)} položek</span>
+        </div>
+
+        <div class="seo-notice seo-notice--warning" n:if="$emptySeoKeys">
+            <strong>Vyžaduje pozornost</strong>
+            <span>Prázdná pole: {implode(', ', $emptySeoKeys)}.</span>
+        </div>
+        <div class="seo-notice seo-notice--success" n:if="!$emptySeoKeys">
+            Všechna SEO pole jsou vyplněná.
+        </div>
+
+        <div class="settings-list">
+            <article n:foreach="$seoItems as $item" class="setting-item">
+                <div class="setting-item-copy">
+                    <h4>{$item->label}</h4>
+                    <code>{$item->key_name}</code>
+                </div>
+                <p class="setting-item-value">{$item->value_text !== '' ? $item->value_text : 'Není vyplněno'}</p>
+                <div class="setting-item-actions">
+                    <a n:href="edit id => $item->id, from => 'seo'">Upravit</a>
+                </div>
+            </article>
+        </div>
+    </section>
+{/block}

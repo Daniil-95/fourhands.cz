@@ -11,8 +11,6 @@
                     <th>Jazyk</th>
                     <th>Jméno</th>
                     <th>E-mail</th>
-                    <th>Typ akce</th>
-                    <th>Datum</th>
                     <th>Zpráva</th>
                     <th>Vytvořeno</th>
                     <th>Akce</th>
@@ -24,8 +22,6 @@
                     <td data-label="Jazyk">{$item->lang}</td>
                     <td data-label="Jméno">{$item->name}</td>
                     <td data-label="E-mail"><a href="mailto:{$item->email}">{$item->email}</a></td>
-                    <td data-label="Typ akce">{$item->event_type ?: '-'} </td>
-                    <td data-label="Datum">{$item->event_date ?: '-'}</td>
                     <td data-label="Zpráva">{$item->message|truncate:80}</td>
                     <td data-label="Vytvořeno">{$item->created|date:'j. n. Y H:i'}</td>
                     <td class="actions-cell" data-label="Akce">
@@ -37,7 +33,7 @@
                 </tr>
                 {if !count($items)}
                     <tr>
-                        <td colspan="9" class="table-empty">Žádné zprávy</td>
+                        <td colspan="7" class="table-empty">Žádné zprávy</td>
                     </tr>
                 {/if}
             </tbody>

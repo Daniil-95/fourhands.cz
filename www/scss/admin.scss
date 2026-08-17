@@ -677,6 +677,30 @@ table {
     border-color: #e8d6a9;
 }
 
+.seo-admin-panel {
+    max-width: 1100px;
+}
+
+.seo-notice {
+    display: flex;
+    gap: var(--space-8);
+    align-items: baseline;
+    margin: var(--space-16) var(--space-24) 0;
+    padding: var(--space-12) var(--space-16);
+    border-radius: var(--radius-control);
+    font-size: 13px;
+
+    &--warning {
+        background: var(--admin-warning-bg);
+        color: var(--admin-warning-text);
+    }
+
+    &--success {
+        background: var(--admin-success-bg);
+        color: var(--admin-success-text);
+    }
+}
+
 .settings-group-header {
     display: flex;
     align-items: flex-start;

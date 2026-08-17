@@ -10,6 +10,7 @@ use Nette\Application\UI\Form;
 final class SettingPresenter extends BaseAdminPresenter
 {
     private ?int $editingId = null;
+    private string $editReturnAction = 'default';
 
     public function __construct(private SettingRepository $settingRepository)
     {
@@ -19,7 +20,7 @@ final class SettingPresenter extends BaseAdminPresenter
     public function renderDefault(): void
     {
         $items = $this->filterByAdminContentLang($this->settingRepository->getAll());
-        $groupOrder = ['general', 'contact', 'social', 'seo'];
+        $groupOrder = ['general', 'contact', 'social'];
         $groups = [];
 
         foreach ($groupOrder as $groupName) {
@@ -40,19 +41,39 @@ final class SettingPresenter extends BaseAdminPresenter
             'general' => 'Texty a hodnoty, které se používají napříč webem.',
             'contact' => 'Údaje, podle kterých vás návštěvníci mohou kontaktovat.',
             'social' => 'Odkazy na sociální sítě, zásady ochrany údajů a cookies.',
-            'seo' => 'Výchozí metadata stránky a náhled při sdílení na sociálních sítích.',
         ];
+    }
+
+    public function renderSeo(): void
+    {
+        $items = $this->filterByAdminContentLang($this->settingRepository->getAll());
+        $seoItems = array_values(array_filter(
+            $items,
+            static fn($item): bool => (string) $item->group_name === 'seo',
+        ));
+        $emptyKeys = [];
+
+        foreach ($seoItems as $item) {
+            if (trim((string) $item->value_text) === '') {
+                $emptyKeys[] = (string) $item->key_name;
+            }
+        }
+
+        $this->template->seoItems = $seoItems;
+        $this->template->emptySeoKeys = $emptyKeys;
     }
 
     public function renderEdit(): void
     {
         $this->template->editingId = $this->editingId;
+        $this->template->editReturnAction = $this->editReturnAction;
     }
 
     /** @throws AbortException */
-    public function actionEdit(?int $id = null): void
+    public function actionEdit(?int $id = null, ?string $from = null): void
     {
         $this->editingId = $id;
+        $this->editReturnAction = $from === 'seo' ? 'seo' : 'default';
 
         if ($id !== null) {
             $item = $this->settingRepository->getById($id);

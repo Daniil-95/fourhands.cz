@@ -5,7 +5,8 @@
             <p class="muted">Nastavení je uložené pro jazyk: {$adminContentLang === 'en' ? 'English' : 'Čeština'}.</p>
         </div>
     </div>
-    <p><a n:href="default lang => $adminContentLang" class="btn-back">&larr; Zpět na přehled</a></p>
+    <p n:if="$editReturnAction === 'default'"><a n:href="default lang => $adminContentLang" class="btn-back">&larr; Zpět na přehled</a></p>
+    <p n:if="$editReturnAction === 'seo'"><a n:href="seo lang => $adminContentLang" class="btn-back">&larr; Zpět k SEO</a></p>
 
     {form settingForm class => 'setting-admin-form'}
         <div class="form-error" n:if="$form->hasErrors()">
