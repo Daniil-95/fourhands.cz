@@ -117,36 +117,6 @@
         </div>
     </section>
 
-    <section class="section references" id="reference">
-        <div class="container">
-            <div class="section-heading section-heading--light reveal">
-                <p class="eyebrow eyebrow--light">{_'References'}</p>
-                <h2>{_'What our clients say about us'}</h2>
-            </div>
-            <div class="swiper reference-swiper reveal">
-                <div class="swiper-wrapper">
-                    {if $references}
-                        <article class="swiper-slide testimonial" n:foreach="$references as $reference"><span>“</span>
-                            <p>{$reference->quote_text}</p>
-                            <strong>— {$reference->client_name}{if $reference->project_name}, {$reference->project_name}{/if}</strong>
-                        </article>
-                    {else}
-                        <article class="swiper-slide testimonial"><span>“</span>
-                            <p>Fourhands vytvořily na naší svatbě kouzelnou atmosféru. Hosté byli nadšení a my na tento okamžik nezapomeneme.</p><strong>— Tereza & Martin</strong>
-                        </article>
-                        <article class="swiper-slide testimonial"><span>“</span>
-                            <p>Profesionální přístup, nádherný repertoár a dokonalá souhra. Vřele doporučujeme na každou firemní akci.</p><strong>— Event manager, Prague</strong>
-                        </article>
-                        <article class="swiper-slide testimonial"><span>“</span>
-                            <p>Elegantní, talentované a velmi milé. Hudba Fourhands dodala našemu večeru jedinečný nádech.</p><strong>— Jana K.</strong>
-                        </article>
-                    {/if}
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </div>
-    </section>
-
     <section class="contact" id="kontakt">
         <div class="container-fluid">
             <div class="row g-0">

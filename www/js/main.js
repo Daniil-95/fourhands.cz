@@ -105,14 +105,3 @@ if (window.Fancybox && document.querySelector('[data-fancybox="gallery"]')) {
     });
 }
 
-// ─── Swiper: Reference carousel ──────────────────────────
-if (window.Swiper && document.querySelector('.reference-swiper')) {
-    new Swiper('.reference-swiper', {
-        slidesPerView: 1,
-        spaceBetween: 16,
-        pagination: { el: '.reference-swiper .swiper-pagination', clickable: true },
-        breakpoints: { 768: { slidesPerView: 2 }, 1200: { slidesPerView: 3 } },
-    });
-}
-
-

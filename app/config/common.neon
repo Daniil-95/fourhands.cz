@@ -19,6 +19,5 @@ services:
     - App\Model\NavigationRepository
     - App\Model\SettingRepository
     - App\Model\ProgramRepository
-    - App\Model\TestimonialRepository
     - App\Model\InquiryRepository
     - App\Model\PublicationRepository

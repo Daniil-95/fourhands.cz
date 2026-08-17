@@ -97,5 +97,4 @@ INSERT IGNORE INTO navigation_items (lang, title, url, sort_order, active, creat
 ('en', 'Programs', '/#programy', 40, 1, NOW()),
 ('en', 'Gallery', '/galerie', 50, 1, NOW()),
 ('en', 'Videos', '/videa', 60, 1, NOW()),
-('en', 'References', '/#reference', 70, 1, NOW()),
 ('en', 'Contact', '/#kontakt', 80, 1, NOW());
