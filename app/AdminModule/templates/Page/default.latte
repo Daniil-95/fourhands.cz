@@ -6,7 +6,13 @@
         </div>
     </div>
 
-    <section class="widget">
+    <section class="widget" n:if="$hasHeroForm">
+        <h3>Úvodní část stránky</h3>
+        {control sectionForm}
+    </section>
+
+    <section class="widget" n:if="$sections">
+        <h3>Sekce stránky</h3>
         <div class="widget-list">
             {foreach $sections as $section}
                 <div class="widget-item">

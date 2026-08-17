@@ -30,16 +30,32 @@ final class PagePresenter extends BaseAdminPresenter
         if (count($sectionKeys) === 1) {
             $this->redirect('section', ['page' => $pageKey, 'section' => $sectionKeys[0]]);
         }
+
+        // úvodní sekce se edituje rovnou zde, seznam níže obsahuje jen zbylé sekce
+        $hero = $this->pageSectionRepository->getByPageSection($pageKey, 'hero', $this->getAdminContentLang());
+        if ($hero) {
+            $this->editingId = (int) $hero->id;
+            $this->editingPageKey = $pageKey;
+            $this->editingSectionKey = 'hero';
+            $this->editingLang = (string) $hero->lang;
+            $this->fillSectionEditor($hero);
+        }
     }
 
     public function renderDefault(?string $page = null): void
     {
         $pageKey = is_string($page) && isset(PageSectionRepository::PAGES[$page]) ? $page : 'about';
         $sections = $this->pageSectionRepository->getAllGroupedByPage($this->getAdminContentLang());
+        $listed = array_filter(
+            $sections[$pageKey] ?? [],
+            static fn($section): bool => (string) $section->section_key !== 'hero',
+        );
+
         $this->template->pageKey = $pageKey;
         $this->template->pageTitle = PageSectionRepository::PAGES[$pageKey];
-        $this->template->sections = $sections[$pageKey] ?? [];
+        $this->template->sections = $listed;
         $this->template->sectionLabels = PageSectionRepository::SECTIONS[$pageKey];
+        $this->template->hasHeroForm = $this->editingId !== null;
     }
 
     public function renderEdit(): void
@@ -121,7 +137,7 @@ final class PagePresenter extends BaseAdminPresenter
         $this->editingPageKey = $page;
         $this->editingSectionKey = $section;
         $this->editingLang = (string) $item->lang;
-        $this->showBackLink = false;
+        $this->showBackLink = count(PageSectionRepository::SECTIONS[$page]) > 1;
 
         $this->fillSectionEditor($item);
         $this->setView('edit');
@@ -156,6 +172,12 @@ final class PagePresenter extends BaseAdminPresenter
         $form->addText('title', 'Nadpis');
         $form->addText('subtitle', 'Podnadpis');
 
+        if ($this->getAction() === 'default') {
+            $form->addSubmit('save', 'Uložit úvodní část');
+            $form->onSuccess[] = $this->sectionFormSucceeded(...);
+            return $form;
+        }
+
         if ($this->getAction() === 'hero') {
             $form->addText('content', 'Nadtitulek');
         } else {
@@ -182,9 +204,9 @@ final class PagePresenter extends BaseAdminPresenter
 
         $imagePath = (string) $current->image_path;
 
-        /** @var FileUpload $upload */
-        $upload = $values->upload;
-        if ($upload->hasFile()) {
+        /** @var FileUpload|null $upload */
+        $upload = $values->upload ?? null;
+        if ($upload && $upload->hasFile()) {
             if (!$upload->isOk() || !$upload->isImage() || $upload->getSize() > 8 * 1024 * 1024) {
                 $form->addError('Nahrajte platný obrázek JPG, PNG, GIF nebo WebP do velikosti 8 MB.');
                 return;
@@ -201,11 +223,16 @@ final class PagePresenter extends BaseAdminPresenter
         $this->pageSectionRepository->save($this->editingId, [
             'title' => $values->title,
             'subtitle' => $values->subtitle,
-            'content' => $values->content,
+            'content' => $values->content ?? $current->content,
             'image_path' => $imagePath,
             'active' => $values->active ?? (bool) $current->active,
         ]);
         $this->flashMessage('Sekce byla uložena.', 'success');
+
+        if ($this->getAction() === 'default') {
+            $this->redirect('default', ['page' => $this->editingPageKey, 'lang' => $lang]);
+        }
+
         if ($this->editingPageKey === 'homepage' && $this->editingSectionKey === 'hero') {
             $this->redirect('hero', ['lang' => $lang]);
         }
