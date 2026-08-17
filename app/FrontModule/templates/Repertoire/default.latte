@@ -4,7 +4,7 @@
     {var $contentSection = $pageSections['repertoire']['content'] ?? null}
     <section class="page-hero">
         <div class="container">
-            <p class="eyebrow eyebrow--light">Repertoár</p>
+            <p class="eyebrow eyebrow--light">{$locale === 'cs' ? 'Repertoár' : 'Repertoire'}</p>
             <h1>{$hero?->title ?: 'Repertoár'}</h1>
             <p>{$hero?->subtitle ?: 'Hudba pro výjimečné okamžiky.'}</p>
         </div>

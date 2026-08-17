@@ -4,9 +4,9 @@
     {var $contentSection = $pageSections['about']['content'] ?? null}
     <section class="page-hero">
         <div class="container">
-            <p class="eyebrow eyebrow--light">O nás</p>
-            <h1>{$hero?->title ?: 'Four hands. One musical voice.'}</h1>
-            <p>{$hero?->subtitle ?: 'A Prague-based piano duo exploring the repertoire for four hands and two pianos.'}</p>
+            <p class="eyebrow eyebrow--light">{$locale === 'cs' ? 'O nás' : 'About us'}</p>
+            <h1>{$hero?->title ?: ($locale === 'cs' ? 'Čtyři ruce. Jeden hudební hlas.' : 'Four hands. One musical voice.')}</h1>
+            <p>{$hero?->subtitle ?: ($locale === 'cs' ? 'Pražské klavírní duo pro čtyři ruce a dva klavíry.' : 'A Prague-based piano duo exploring the repertoire for four hands and two pianos.')}</p>
         </div>
     </section>
 

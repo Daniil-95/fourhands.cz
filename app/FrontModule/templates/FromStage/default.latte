@@ -3,7 +3,7 @@
     {var $hero = $pageSections['from_stage']['hero'] ?? null}
     <section class="page-hero">
         <div class="container">
-            <p class="eyebrow eyebrow--light">Z pódia</p>
+            <p class="eyebrow eyebrow--light">{$locale === 'cs' ? 'Z pódia' : 'From the stage'}</p>
             <h1>{$hero?->title ?: 'Z pódia'}</h1>
             <p>{$hero?->subtitle ?: 'Články, rozhovory, publikace a zmínky o Fourhands.'}</p>
         </div>

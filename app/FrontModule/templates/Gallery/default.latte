@@ -4,8 +4,8 @@
     <section class="page-hero">
         <div class="container">
             <p class="eyebrow eyebrow--light">{_'Photo gallery'}</p>
-            <h1>{$hero?->title ?: 'Moments in pictures'}</h1>
-            <p>{$hero?->subtitle ?: 'Concerts, weddings and events with atmosphere.'}</p>
+            <h1>{$hero?->title ?: ($locale === 'cs' ? 'Momenty v obrazech' : 'Moments in pictures')}</h1>
+            <p>{$hero?->subtitle ?: ($locale === 'cs' ? 'Koncerty, svatby a události s atmosférou.' : 'Concerts, weddings and events with atmosphere.')}</p>
         </div>
     </section>
     <section class="section">

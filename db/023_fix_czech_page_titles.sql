@@ -1,0 +1,3 @@
+UPDATE page_sections
+SET title = CONVERT(0xC48C7479C5996920727563652E204A6564656E2068756465626EC3AD20686C6173 USING utf8mb4)
+WHERE lang = 'cs' AND page_key = 'about' AND section_key = 'hero';

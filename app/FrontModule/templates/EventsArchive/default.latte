@@ -3,7 +3,7 @@
     {var $hero = $pageSections['events']['hero'] ?? null}
     <section class="page-hero">
         <div class="container">
-            <p class="eyebrow eyebrow--light">Archiv událostí</p>
+            <p class="eyebrow eyebrow--light">{$locale === 'cs' ? 'Archiv událostí' : 'Event archive'}</p>
             <h1>{$hero?->title ?: 'Archiv událostí'}</h1>
             <p>{$hero?->subtitle ?: 'Minulá vystoupení a události.'}</p>
         </div>

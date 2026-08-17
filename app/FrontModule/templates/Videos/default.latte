@@ -3,8 +3,8 @@
     {var $hero = $pageSections['videos']['hero'] ?? null}
     <section class="page-hero">
         <div class="container"><p class="eyebrow eyebrow--light">{_'Video gallery'}</p>
-            <h1>{$hero?->title ?: 'Listen to Fourhands'}</h1>
-            <p>{$hero?->subtitle ?: 'Selection of concert performances and music samples.'}</p></div>
+            <h1>{$hero?->title ?: ($locale === 'cs' ? 'Poslouchejte Fourhands' : 'Listen to Fourhands')}</h1>
+            <p>{$hero?->subtitle ?: ($locale === 'cs' ? 'Výběr koncertních vystoupení a hudebních ukázek.' : 'Selection of concert performances and music samples.')}</p></div>
     </section>
     <section class="section">
         <div class="container">

@@ -25,8 +25,7 @@ final class PageSectionRepository
         'about' => ['hero' => 'První obrazovka', 'content' => 'Obsah stránky'],
         'artists' => ['hero' => 'První obrazovka', 'katerina' => 'Kateřina Konopová', 'irena' => 'Irena Andruško'],
         'repertoire' => ['hero' => 'První obrazovka', 'content' => 'Obsah stránky'],
-        'events' => ['hero' => 'První obrazovka'],
-        'from_stage' => ['hero' => 'První obrazovka'],
+            'from_stage' => ['hero' => 'Z pódia'],
     ];
 
     public function __construct(private Explorer $db)
