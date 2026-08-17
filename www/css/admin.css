@@ -1354,6 +1354,9 @@ code {
     align-items: center;
     justify-content: center;
   }
+  .sidebar .sidebar-header .admin-brand {
+    padding-left: 52px;
+  }
   .admin-shell {
     grid-template-columns: 1fr;
   }
@@ -1400,11 +1403,45 @@ code {
   .admin-lang-switch a {
     flex: 1;
   }
+  .sidebar-open .admin-lang-switch {
+    z-index: auto;
+  }
   .dashboard-cards {
     grid-template-columns: 1fr;
   }
   .dashboard-cards--tools {
     grid-template-columns: 1fr;
+  }
+  .widget .widget-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-8) var(--space-12);
+    padding: var(--space-12) 0;
+  }
+  .widget .widget-item .widget-item-title {
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .widget .widget-item .widget-item-meta {
+    min-width: 0;
+    grid-column: 1;
+    overflow-wrap: anywhere;
+  }
+  .widget .widget-item a {
+    grid-column: 2;
+    grid-row: 1/span 2;
+    align-self: center;
+    min-height: 36px;
+    padding: 0 var(--space-12);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--radius-control);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--admin-surface);
+    white-space: nowrap;
   }
   .quick-actions .action-buttons {
     flex-direction: column;
@@ -1441,6 +1478,43 @@ code {
   }
   .setting-form-grid--two {
     grid-template-columns: 1fr;
+  }
+  .media-card__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-8);
+  }
+  .media-card__actions .btn,
+  .media-card__actions .btn-secondary,
+  .media-card__actions .btn-delete,
+  .media-card__actions .inline-delete-form {
+    width: 100%;
+    min-width: 0;
+  }
+  .media-card__actions .inline-delete-form {
+    display: block;
+  }
+  .media-card__actions .btn,
+  .media-card__actions .btn-secondary,
+  .media-card__actions .btn-delete {
+    padding: 0 var(--space-8);
+    font-size: 13px;
+  }
+  .media-card__body {
+    padding: var(--space-12);
+  }
+  .media-card__body h4 {
+    margin-bottom: var(--space-8);
+    font-size: 20px;
+    line-height: 1.15;
+  }
+  .media-card--video .media-card__body h4 {
+    font-size: 18px;
+  }
+  .media-card--video .media-url {
+    margin-bottom: var(--space-8);
+    font-size: 11px;
+    line-height: 1.35;
   }
   input[type=text],
   input[type=password],
@@ -1503,7 +1577,63 @@ code {
   }
   .table-container,
   .table-shell {
-    overflow-x: auto;
+    overflow-x: visible;
+  }
+  .table-container table,
+  .table-shell table {
+    display: block;
+    min-width: 0;
+    background: transparent;
+  }
+  .table-container thead,
+  .table-shell thead {
+    display: none;
+  }
+  .table-container tbody,
+  .table-shell tbody {
+    display: grid;
+    gap: var(--space-12);
+  }
+  .table-container tbody tr,
+  .table-shell tbody tr {
+    display: grid;
+    gap: 0;
+    padding: var(--space-12);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--radius-control);
+    background: var(--admin-surface);
+  }
+  .table-container tbody td,
+  .table-shell tbody td {
+    display: grid;
+    grid-template-columns: minmax(72px, 32%) minmax(0, 1fr);
+    gap: var(--space-8);
+    align-items: start;
+    padding: var(--space-8) 0;
+    border-bottom: 1px solid #edf2fb;
+    overflow-wrap: anywhere;
+  }
+  .table-container tbody td::before,
+  .table-shell tbody td::before {
+    content: attr(data-label);
+    color: var(--admin-text-muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .table-container tbody td:last-child,
+  .table-shell tbody td:last-child {
+    border-bottom: 0;
+  }
+  .table-container tbody td.table-empty,
+  .table-shell tbody td.table-empty {
+    display: block;
+    text-align: center;
+  }
+  .table-container tbody td.table-empty::before,
+  .table-shell tbody td.table-empty::before {
+    content: none;
   }
   .actions-cell {
     display: flex;
