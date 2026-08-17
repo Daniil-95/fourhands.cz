@@ -16,6 +16,7 @@ window.addEventListener('scroll', updateHeader, { passive: true });
 const openMenu = () => {
     menu?.classList.add('is-open');
     backdrop?.classList.add('is-visible');
+    document.body.classList.add('menu-open');
     menuToggle?.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
 };
@@ -23,6 +24,7 @@ const openMenu = () => {
 const closeMenu = () => {
     menu?.classList.remove('is-open');
     backdrop?.classList.remove('is-visible');
+    document.body.classList.remove('menu-open');
     menuToggle?.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
 };

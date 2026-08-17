@@ -95,12 +95,41 @@
   opacity: 0;
 }
 
+.admin-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: .78;
+  transition: $transition;
+
+  span {
+    font-size: 15px;
+    line-height: 1;
+  }
+
+  &:hover {
+    opacity: 1;
+    transform: rotate(18deg);
+  }
+}
+
 @include respond-down(lg) {
   .menu-toggle {
     display: block;
     position: relative;
     z-index: 101;
     color: $color-white;
+  }
+
+  body.menu-open .menu-toggle {
+    position: fixed;
+    top: 22px;
+    right: 28px;
+    z-index: 102;
   }
 
   .site-nav {
@@ -148,6 +177,13 @@
     align-self: flex-start;
     margin-top: 8px;
     border: 0;
+    color: $color-primary;
+  }
+
+  .site-nav .admin-link {
+    align-self: flex-start;
+    margin-top: 10px;
+    border-color: rgba(239, 228, 209, .35);
     color: $color-primary;
   }
 }

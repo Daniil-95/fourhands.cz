@@ -697,12 +697,38 @@ p {
   opacity: 0;
 }
 
+.admin-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.78;
+  transition: 0.35s ease;
+}
+.admin-link span {
+  font-size: 15px;
+  line-height: 1;
+}
+.admin-link:hover {
+  opacity: 1;
+  transform: rotate(18deg);
+}
+
 @media (max-width: 991.98px) {
   .menu-toggle {
     display: block;
     position: relative;
     z-index: 101;
     color: #F8F2E8;
+  }
+  body.menu-open .menu-toggle {
+    position: fixed;
+    top: 22px;
+    right: 28px;
+    z-index: 102;
   }
   .site-nav {
     position: fixed;
@@ -744,6 +770,12 @@ p {
     align-self: flex-start;
     margin-top: 8px;
     border: 0;
+    color: #EDE1CC;
+  }
+  .site-nav .admin-link {
+    align-self: flex-start;
+    margin-top: 10px;
+    border-color: rgba(239, 228, 209, 0.35);
     color: #EDE1CC;
   }
 }
