@@ -98,7 +98,7 @@ final class MediaPresenter extends BaseAdminPresenter
         $form->addText('alt_text', 'Alternativní text obrázku');
         $form->addUpload('upload', 'Nahrát obrázek');
         $form->addText('image_path', 'Existující cesta k obrázku')->setOption('description', 'Použijte pouze pokud nechcete nahrát nový soubor.');
-        $form->addText('url', 'URL videa')->addConditionOn($form['type'], $form::Equal, 'video')->addRule($form::Url, 'Zadejte platnou URL videa.');
+        $form->addText('url', 'URL videa')->addConditionOn($form['type'], $form::Equal, 'video')->addRule($form::URL, 'Zadejte platnou URL videa.');
         $form->addInteger('sort_order', 'Pořadí')->setDefaultValue(100);
         $form->addCheckbox('active', 'Publikovat')->setDefaultValue(true);
         $form->addSubmit('save', 'Uložit');
