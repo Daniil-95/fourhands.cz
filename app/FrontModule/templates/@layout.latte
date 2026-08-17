@@ -100,13 +100,13 @@
                                 {var $menuHref = $presenter->link(':Front:Repertoire:default', ['locale' => $locale])}
                             {elseif in_array($normalizedUrl, ['udalosti', 'events', 'archiv-udalosti', 'events-archive'], true)}
                                 {var $menuLabel = 'Events'}
-                                {var $menuHref = $presenter->link(':Front:EventsArchive:default', ['locale' => $locale])}
+                                {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . '#udalosti'}
                             {elseif in_array($normalizedUrl, ['galerie', 'fotogalerie', 'gallery'], true)}
                                 {var $menuLabel = 'Gallery'}
-                                {var $menuHref = $presenter->link(':Front:Gallery:default', ['locale' => $locale])}
+                                {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . '#galerie'}
                             {elseif in_array($normalizedUrl, ['videa', 'video-galerie', 'videos'], true)}
                                 {var $menuLabel = 'Videos'}
-                                {var $menuHref = $presenter->link(':Front:Videos:default', ['locale' => $locale])}
+                                {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . '#videa'}
                             {elseif in_array($normalizedUrl, ['z-podia', 'from-stage'], true)}
                                 {var $menuLabel = 'From the stage'}
                                 {var $menuHref = $presenter->link(':Front:FromStage:default', ['locale' => $locale])}
@@ -124,16 +124,16 @@
                             <a n:href=":Front:FromStage:default locale => $locale">{if $locale === 'cs'}Z pódia{else}From the stage{/if}</a>
                         {/if}
                         {if !$hasEventsLink}
-                            <a n:href=":Front:EventsArchive:default locale => $locale">{_'Events'}</a>
+                            <a href="{link :Front:Homepage:default, locale => $locale}#udalosti">{_'Events'}</a>
                         {/if}
                     {else}
                         <a href="{link :Front:Homepage:default, locale => $locale}#uvod">{_'Home'}</a>
                         <a n:href=":Front:About:default locale => $locale">{_'About us'}</a>
                         <a n:href=":Front:Artists:default locale => $locale">{_'Artists'}</a>
                         <a n:href=":Front:Repertoire:default locale => $locale">{_'Concert program'}</a>
-                        <a n:href=":Front:EventsArchive:default locale => $locale">{_'Events'}</a>
-                        <a n:href=":Front:Gallery:default locale => $locale">{_'Gallery'}</a>
-                        <a n:href=":Front:Videos:default locale => $locale">{_'Videos'}</a>
+                        <a href="{link :Front:Homepage:default, locale => $locale}#udalosti">{_'Events'}</a>
+                        <a href="{link :Front:Homepage:default, locale => $locale}#galerie">{_'Gallery'}</a>
+                        <a href="{link :Front:Homepage:default, locale => $locale}#videa">{_'Videos'}</a>
                         <a n:href=":Front:FromStage:default locale => $locale">{_'From the stage'}</a>
                         <a href="{link :Front:Homepage:default, locale => $locale}#kontakt">{_'Contact'}</a>
                     {/if}
@@ -168,9 +168,9 @@
                         <a n:href=":Front:About:default locale => $locale">{_'About us'}</a>
                         <a n:href=":Front:Artists:default locale => $locale">{_'Artists'}</a>
                         <a n:href=":Front:Repertoire:default locale => $locale">{_'Concert program'}</a>
-                        <a n:href=":Front:EventsArchive:default locale => $locale">{_'Events'}</a>
+                        <a href="{link :Front:Homepage:default, locale => $locale}#udalosti">{_'Events'}</a>
                         <a n:href=":Front:FromStage:default locale => $locale">{_'From the stage'}</a>
-                        <a n:href=":Front:Videos:default locale => $locale">{_'Videos'}</a>
+                        <a href="{link :Front:Homepage:default, locale => $locale}#videa">{_'Videos'}</a>
                     </div>
                     <div class="col-lg-3">
                         <h3>{_'Contact'}</h3>
