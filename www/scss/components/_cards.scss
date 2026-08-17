@@ -4,7 +4,7 @@
   position: relative;
   height: 100%;
   border: 1px solid $color-border;
-  background: #1C1A17;
+  background: $color-background-light;
   text-align: center;
   transition: $transition;
 
@@ -27,7 +27,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .6s ease;
+  transition: transform $transition-slow;
 }
 
 .program-card:hover .program-card__image img {
@@ -42,7 +42,7 @@
   height: 64px;
   margin: -32px auto 0;
   place-items: center;
-  border: 5px solid #1C1A17;
+  border: 5px solid $color-background-light;
   border-radius: 50%;
   background: $color-primary;
   color: $color-white;

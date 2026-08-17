@@ -4,7 +4,7 @@
   position: relative;
   padding: 32px;
   border: 1px solid $color-border;
-  background: #1C1A17;
+  background: $color-background-light;
   transition: $transition;
 
   &:hover {
@@ -46,7 +46,7 @@
 }
 
 .events-preview {
-  background: #151413;
+  background: $color-events-background;
   color: $color-white;
 
   .section-heading--split {
@@ -69,7 +69,7 @@
   }
 
   .section-heading .eyebrow {
-    color: #cbbba5;
+    color: $color-eyebrow-muted;
   }
 }
 
@@ -90,7 +90,7 @@
   padding: 0;
   overflow: hidden;
   border-color: rgba(239, 228, 209, .2);
-  background: #1d1b19;
+  background: $color-surface-event;
   color: $color-white;
 
   &:hover {

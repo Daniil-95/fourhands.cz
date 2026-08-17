@@ -31,7 +31,7 @@
 .gallery-item img {
   width: 100%;
   display: block;
-  transition: transform .5s ease;
+  transition: transform $transition-gallery;
 }
 
 .gallery-item:hover img {

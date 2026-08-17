@@ -10,7 +10,7 @@
   aspect-ratio: 16 / 9;
   height: auto;
   overflow: hidden;
-  background: #181614;
+  background: $color-surface-deep;
   color: $color-white;
 }
 
@@ -26,7 +26,7 @@
   height: 100%;
   object-fit: cover;
   transform: scale(1.06);
-  transition: transform .5s ease;
+  transition: transform $transition-gallery;
 }
 
 .video-card:hover img {

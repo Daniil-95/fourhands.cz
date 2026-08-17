@@ -29,7 +29,7 @@
   bottom: 0;
   width: 70%;
   height: 70%;
-  border: 1px solid #cdbca9;
+  border: 1px solid $color-decorative-border;
 }
 
 .about-story__media img {
@@ -37,7 +37,7 @@
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  transition: transform .8s ease;
+  transition: transform $transition-slow;
 }
 
 .about-story__media:hover img {
@@ -61,7 +61,7 @@
   bottom: 0;
   width: 70%;
   height: 70%;
-  border: 1px solid #cdbca9;
+  border: 1px solid $color-decorative-border;
 }
 
 .about__image img {

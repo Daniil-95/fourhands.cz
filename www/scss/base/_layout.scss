@@ -42,7 +42,7 @@
 .js .reveal {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity .8s ease var(--reveal-delay), transform .8s ease var(--reveal-delay);
+  transition: opacity $transition-slow var(--reveal-delay), transform $transition-slow var(--reveal-delay);
   will-change: opacity, transform;
 }
 

@@ -22,7 +22,7 @@
   max-height: 720px;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  transition: transform .8s ease;
+  transition: transform $transition-slow;
 
   @include respond-down(md) {
     max-height: 480px;

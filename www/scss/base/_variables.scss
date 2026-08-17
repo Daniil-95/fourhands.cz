@@ -6,11 +6,15 @@ $color-primary-hover: #F5ECDC;
 $color-primary-dark: #9C835B;
 $color-background: #11100F;
 $color-background-light: #1C1A17;
+$color-surface-deep: #181614;
+$color-surface-event: #1D1B19;
+$color-events-background: #151413;
+$color-decorative-border: #CDBCA9;
+$color-eyebrow-muted: #CBBBA5;
 $color-text: #F1E8DA;
 $color-text-light: #B9AEA0;
 $color-border: rgba(237, 225, 204, .2);
 $color-white: #F8F2E8;
-$color-hero-gradient-start: #11100F;
 $color-footer-bg: #131313;
 
 // ─── Typography ──────────────────────────────────────────
@@ -26,9 +30,6 @@ $font-size-body: clamp(16px, 1.1vw, 18px);
 $font-size-small: clamp(12px, 0.8vw, 14px);
 
 // ─── Spacing Scale ───────────────────────────────────────
-$space-xs: 0.5rem;
-$space-sm: 1rem;
-$space-md: 1.5rem;
 $space-lg: 2rem;
 $space-xl: 4rem;
 $space-2xl: 6rem;
@@ -60,3 +61,5 @@ $breakpoints: (
 // ─── Shadows & Transitions ───────────────────────────────
 $shadow: 0 20px 60px rgba(55, 24, 27, .12);
 $transition: .35s ease;
+$transition-gallery: .5s ease;
+$transition-slow: .8s ease;
