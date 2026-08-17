@@ -28,10 +28,6 @@
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> Přehled
                     </a>
 
-                    <a n:href=":Admin:Page:default page => 'homepage'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'homepage'}active{/if}">
-                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Hlavní stránka
-                    </a>
-
                     <a n:href=":Admin:Page:default page => 'about'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'about'}active{/if}">
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> O nás
                     </a>
@@ -42,10 +38,6 @@
 
                     <a n:href=":Admin:Page:default page => 'repertoire'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'repertoire'}active{/if}">
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> Repertoár
-                    </a>
-
-                    <a n:href=":Admin:Page:default page => 'from_stage'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'from_stage'}active{/if}">
-                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Z pódia
                     </a>
 
                     <span class="nav-section">Data</span>

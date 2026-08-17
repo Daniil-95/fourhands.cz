@@ -8,7 +8,6 @@ use Nette\Database\Table\ActiveRow;
 final class PageSectionRepository
 {
     public const PAGES = [
-        'homepage' => 'Hlavní stránka',
         'about' => 'O nás',
         'artists' => 'Umělkyně',
         'repertoire' => 'Repertoár',
@@ -16,12 +15,6 @@ final class PageSectionRepository
     ];
 
     public const SECTIONS = [
-        'homepage' => [
-            'hero' => 'První obrazovka',
-            'videos' => 'Videogalerie',
-            'gallery' => 'Fotogalerie',
-            'contact' => 'Kontakt',
-        ],
         'about' => ['hero' => 'První obrazovka', 'content' => 'Obsah stránky'],
         'artists' => ['hero' => 'První obrazovka', 'katerina' => 'Kateřina Konopová', 'irena' => 'Irena Andruško'],
         'repertoire' => ['hero' => 'První obrazovka', 'content' => 'Obsah stránky'],

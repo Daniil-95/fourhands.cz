@@ -64,8 +64,17 @@
                 </button>
                 <nav class="site-nav" data-menu>
                     {if $navigation}
+                        {var $hasFromStageLink = false}
                         {foreach $navigation as $navItem}
                             {var $normalizedUrl = trim((string) $navItem->url, '/')}
+                            {var $skipFromStageLink = false}
+                            {if in_array($normalizedUrl, ['z-podia', 'from-stage'], true)}
+                                {if $hasFromStageLink}
+                                    {var $skipFromStageLink = true}
+                                {else}
+                                    {var $hasFromStageLink = true}
+                                {/if}
+                            {/if}
                             {var $menuLabel = (string) $navItem->title}
                             {var $menuHref = (string) $navItem->url}
                             {if in_array($normalizedUrl, ['#uvod', 'uvod', ''], true)}
@@ -97,8 +106,11 @@
                             {elseif str_starts_with((string) $navItem->url, '/')}
                                 {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . $navItem->url}
                             {/if}
-                            <a href="{$menuHref}">{_ $menuLabel}</a>
+                            {if !$skipFromStageLink}<a href="{$menuHref}">{_ $menuLabel}</a>{/if}
                         {/foreach}
+                        {if !$hasFromStageLink}
+                            <a n:href=":Front:FromStage:default locale => $locale">{if $locale === 'cs'}Z pódia{else}From the stage{/if}</a>
+                        {/if}
                     {else}
                         <a href="{link :Front:Homepage:default, locale => $locale}#uvod">{_'Home'}</a>
                         <a n:href=":Front:About:default locale => $locale">{_'About us'}</a>
