@@ -5,7 +5,6 @@
 {var $heroImage = $hero?->image_path ? $basePath . '/' . $hero->image_path : $basePath . '/images/story.jpg'}
 {var $heroHeading = $hero?->title ?: 'FOURHANDS'}
 {var $heroLead = $hero?->subtitle ?: 'Klavírní duo pro výjimečné okamžiky vašeho života.'}
-{var $heroCta = $hero?->button_text ?: 'Kontakt'}
 {var $heroScroll = $hero?->content ?: 'Objevte nás'}
 {var $contactPhone = $siteSettings['phone'] ?: '+420 777 123 456'}
 {var $contactEmail = $siteSettings['email'] ?: 'info@fourhands.cz'}
@@ -24,7 +23,6 @@
             <p class="eyebrow eyebrow--light">{_'Piano Duo'}</p>
             <h1>{$heroHeading}</h1>
             <p class="hero__lead">{$heroLead}</p>
-            <a class="button" href="{$basePath}{$hero?->button_url ?: '#kontakt'}">{$heroCta} <span>→</span></a>
         </div>
         <a class="hero__scroll" href="#videa">{$heroScroll} <span>↓</span></a>
     </section>

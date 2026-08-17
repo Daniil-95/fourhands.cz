@@ -7,6 +7,8 @@ use Nette\Database\Table\ActiveRow;
 
 final class SettingRepository
 {
+    private const HIDDEN_ADMIN_KEYS = ['hero_cta'];
+
     public function __construct(private Explorer $db)
     {
     }
@@ -22,7 +24,10 @@ final class SettingRepository
 
     public function getAll(): array
     {
-        return $this->db->table('site_settings')->order('group_name, sort_order, id')->fetchAll();
+        return $this->db->table('site_settings')
+            ->where('key_name NOT IN ?', self::HIDDEN_ADMIN_KEYS)
+            ->order('group_name, sort_order, id')
+            ->fetchAll();
     }
 
     public function getById(int $id): ?ActiveRow
