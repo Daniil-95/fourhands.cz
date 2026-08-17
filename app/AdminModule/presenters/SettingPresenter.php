@@ -141,6 +141,9 @@ final class SettingPresenter extends BaseAdminPresenter
         ], $this->editingId);
 
         $this->flashMessage('Nastavení bylo uloženo.', 'success');
+        if ($this->editReturnAction === 'seo') {
+            $this->redirect('seo', ['lang' => $language]);
+        }
         $this->redirectToDefaultWithContentLang($language);
     }
 
