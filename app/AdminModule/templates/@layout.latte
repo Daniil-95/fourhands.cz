@@ -28,9 +28,39 @@
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> Přehled
                     </a>
 
-                    <a n:href=":Admin:Page:default" class="{if $presenter->getName() === 'Admin:Page'}active{/if}">
-                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Stránky
+                    <a n:href=":Admin:Page:default page => 'homepage'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'homepage'}active{/if}">
+                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Hlavní stránka
                     </a>
+
+                    <a n:href=":Admin:Page:default page => 'about'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'about'}active{/if}">
+                        <span class="nav-icon" aria-hidden="true">&#9632;</span> O nás
+                    </a>
+
+                    <a n:href=":Admin:Page:default page => 'artists'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'artists'}active{/if}">
+                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Umělkyně
+                    </a>
+
+                    <a n:href=":Admin:Page:default page => 'repertoire'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'repertoire'}active{/if}">
+                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Repertoár
+                    </a>
+
+                    <a n:href=":Admin:Page:default page => 'gallery'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'gallery'}active{/if}">
+                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Galerie
+                    </a>
+
+                    <a n:href=":Admin:Page:default page => 'videos'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'videos'}active{/if}">
+                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Videa
+                    </a>
+
+                    <a n:href=":Admin:Page:default page => 'events'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'events'}active{/if}">
+                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Události
+                    </a>
+
+                    <a n:href=":Admin:Page:default page => 'from_stage'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'from_stage'}active{/if}">
+                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Z pódia
+                    </a>
+
+                    <span class="nav-section">Data</span>
 
                     <a n:href=":Admin:Event:default" class="{if $presenter->getName() === 'Admin:Event'}active{/if}">
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> Události

@@ -20,8 +20,13 @@ final class PagePresenter extends BaseAdminPresenter
 
     public function renderDefault(): void
     {
-        $this->template->pages = PageSectionRepository::PAGES;
-        $this->template->sections = $this->pageSectionRepository->getAllGroupedByPage($this->getAdminContentLang());
+        $page = $this->getParameter('page');
+        $pageKey = is_string($page) && isset(PageSectionRepository::PAGES[$page]) ? $page : 'homepage';
+        $sections = $this->pageSectionRepository->getAllGroupedByPage($this->getAdminContentLang());
+        $this->template->pageKey = $pageKey;
+        $this->template->pageTitle = PageSectionRepository::PAGES[$pageKey];
+        $this->template->sections = $sections[$pageKey] ?? [];
+        $this->template->sectionLabels = PageSectionRepository::SECTIONS[$pageKey];
     }
 
     public function renderEdit(): void

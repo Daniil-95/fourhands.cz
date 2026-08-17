@@ -291,12 +291,12 @@ td {
   margin-bottom: var(--space-24);
 }
 .page-header h2 {
-  font-size: 42px;
+  font-size: 38px;
 }
 .page-header p {
   margin: var(--space-8) 0 0;
   color: var(--admin-text-muted);
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.45;
   max-width: 780px;
 }
@@ -357,6 +357,10 @@ form,
   gap: var(--space-16);
   margin-bottom: var(--space-24);
 }
+.dashboard-cards--pages {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-12);
+}
 
 .card {
   padding: var(--space-20);
@@ -368,6 +372,26 @@ form,
   line-height: 1;
   margin-bottom: var(--space-8);
 }
+.card.page-card {
+  min-height: 184px;
+  padding: var(--space-20);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.card.page-card h3 {
+  margin: 0 0 var(--space-20);
+  font-family: var(--heading-font);
+  font-size: 18px;
+  font-weight: 500;
+}
+.card.page-card p {
+  flex: 1;
+  margin: 0 0 var(--space-16);
+  color: var(--admin-text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
 .card .card-label {
   color: var(--admin-text-muted);
   font-size: 14px;
@@ -376,13 +400,13 @@ form,
 .card .card-link {
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
+  min-height: 34px;
   padding: 0 var(--space-12);
   border: 1px solid var(--admin-border);
   border-radius: var(--radius-control);
   color: var(--admin-text);
   text-decoration: none;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
 }
 .card .card-link:hover {
@@ -1004,6 +1028,9 @@ code {
   }
 }
 @media (max-width: 992px) {
+  .dashboard-cards--pages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .dashboard-widgets {
     grid-template-columns: 1fr;
   }

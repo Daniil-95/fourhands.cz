@@ -1,74 +1,18 @@
 ﻿{block content}
     <div class="page-header">
         <div>
-            <h2>Rychlý přehled administrace</h2>
-            <p class="muted">Vyberte sekci, kterou chcete upravit. Každá karta vás přesměruje přímo na konkrétní část administrace.</p>
+            <h2>Rychlý přístup</h2>
+            <p class="muted">Vyberte stránku, kterou chcete upravit.</p>
         </div>
     </div>
 
-    <div class="dashboard-cards">
-        <div class="card">
-            <div class="card-number">{$pageCount}</div>
-            <div class="card-label">Страниц</div>
-            <a n:href=":Admin:Page:default" class="card-link">Редактировать</a>
-        </div>
-        <div class="card">
-            <div class="card-number">{$eventCount}</div>
-            <div class="card-label">Událostí</div>
-            <a n:href=":Admin:Event:default" class="card-link">Spravovat</a>
-        </div>
-        <div class="card">
-            <div class="card-number">{$mediaCount}</div>
-            <div class="card-label">Médií</div>
-            <a n:href=":Admin:Media:default" class="card-link">Spravovat</a>
-        </div>
-        <div class="card">
-            <div class="card-number">{$navigationCount}</div>
-            <div class="card-label">Položek menu</div>
-            <a n:href=":Admin:Navigation:default" class="card-link">Spravovat</a>
-        </div>
-        <div class="card">
-            <div class="card-number">{$settingCount}</div>
-            <div class="card-label">Nastavení</div>
-            <a n:href=":Admin:Setting:default" class="card-link">Spravovat</a>
-        </div>
-    </div>
-
-    <div class="dashboard-widgets">
-        <div class="widget">
-            <h3>Naposledy přidaná média</h3>
-            {foreach $latestMedia as $item}
-                <div class="widget-item">
-                    <span class="widget-item-title">{$item->title}</span>
-                    <span class="widget-item-meta">{$item->type}</span>
-                    <a n:href=":Admin:Media:edit id => $item->id">Upravit</a>
-                </div>
-            {/foreach}
-            {if !count($latestMedia)}
-                <div class="widget-empty">Žádná média</div>
-            {/if}
-        </div>
-
-        <div class="widget">
-            <h3>Poslední události</h3>
-            {foreach $latestEvents as $item}
-                <div class="widget-item">
-                    <span class="widget-item-title">{$item->title|truncate:40}</span>
-                    <span class="widget-item-meta">{if $item->publish_date}{$item->publish_date|date:'j. n. Y'}{/if}</span>
-                    <a n:href=":Admin:Event:edit id => $item->id">Upravit</a>
-                </div>
-            {/foreach}
-            {if !count($latestEvents)}
-                <div class="widget-empty">Žádné události</div>
-            {/if}
-        </div>
-    </div>
-
-    <div class="quick-actions">
-        <h3>Rychlé akce</h3>
-        <div class="action-buttons">
-            <a class="btn" n:href=":Admin:Event:edit">Přidat událost</a>
-            <a class="btn" n:href=":Admin:Media:edit">Přidat médium</a>
-        </div>
+    <div class="dashboard-cards dashboard-cards--pages">
+        {foreach $pages as $pageKey => $pageTitle}
+            <article class="card page-card">
+                <h3>{$pageTitle}</h3>
+                <p>{switch $pageKey}{case 'homepage'}Hero, programy, videa, galerie a kontakt.{case 'about'}Hero a hlavní obsah stránky O nás.{case 'artists'}Hero a profily umělkyň.{case 'repertoire'}Hero a obsah repertoáru.{case 'gallery'}Hero a nastavení galerie.{case 'videos'}Hero a nastavení videí.{case 'events'}Hero a nastavení událostí.{case 'from_stage'}Hero a obsah sekce Z pódia.{/switch}</p>
+                <a class="card-link" n:href=":Admin:Page:default page => $pageKey">Otevřít sekce</a>
+            </article>
+        {/foreach}
     </div>
 {/block}
