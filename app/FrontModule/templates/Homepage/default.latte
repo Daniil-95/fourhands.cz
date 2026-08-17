@@ -29,6 +29,36 @@
         <a class="hero__scroll" href="#videa">{$heroScroll} <span>↓</span></a>
     </section>
 
+    <section class="section events-preview" id="udalosti">
+        <div class="container">
+            <div class="section-heading section-heading--split reveal">
+                <div>
+                    <p class="eyebrow">{_'Upcoming performances'}</p>
+                    <h2>{_'Events'}</h2>
+                </div>
+                <a class="button button--outline button--outline-light" n:href=":Front:EventsArchive:default locale => $locale">{_'See all events'} <span>→</span></a>
+            </div>
+
+            {if $upcomingEvents}
+                <div class="events-preview__grid">
+                    <article class="event-card event-card--featured reveal" n:foreach="$upcomingEvents as $event">
+                        <div class="event-card__visual" style="background-image: url('{$heroImage}')"></div>
+                        <div class="event-card__body">
+                            <time datetime="{$event['event_date']->format('Y-m-d')}">
+                                <strong>{$event['event_date']|date:'d'}</strong>
+                                <span>{$event['event_date']|date:'M Y'}</span>
+                            </time>
+                            <h3>{$event['description']}</h3>
+                            <a n:href=":Front:EventsArchive:default locale => $locale">{_'Read more'} <span>→</span></a>
+                        </div>
+                    </article>
+                </div>
+            {else}
+                <p class="events-preview__empty">{_'No upcoming events available yet.'}</p>
+            {/if}
+        </div>
+    </section>
+
     <section class="section videos" id="videa">
         <div class="container">
             <div class="section-heading reveal"><p class="eyebrow">{$videosSection?->subtitle ?: 'Video prezentace'}</p>

@@ -1,17 +1,37 @@
-{block title}{_'Event archive'}{/block}
+{block title}{_'Events'}{/block}
 {block content}
     {var $hero = $pageSections['events']['hero'] ?? null}
     <section class="page-hero">
         <div class="container">
-            <p class="eyebrow eyebrow--light">{$locale === 'cs' ? 'Archiv událostí' : 'Event archive'}</p>
-            <h1>{$hero?->title ?: 'Archiv událostí'}</h1>
-            <p>{$hero?->subtitle ?: 'Minulá vystoupení a události.'}</p>
+            <p class="eyebrow eyebrow--light">{$locale === 'cs' ? 'Koncerty a události' : 'Concerts and events'}</p>
+            <h1>{$hero?->title ?: ($locale === 'cs' ? 'Události' : 'Events')}</h1>
+            <p>{$hero?->subtitle ?: ($locale === 'cs' ? 'Kde nás můžete slyšet.' : 'Where you can hear us.')}</p>
         </div>
     </section>
 
     <section class="section">
         <div class="container">
+            {if $events['upcoming']}
+                <div class="section-heading">
+                    <p class="eyebrow">{_'Upcoming performances'}</p>
+                    <h2>{_'Events'}</h2>
+                </div>
+                <div class="row gy-3">
+                    <div class="col-md-6" n:foreach="$events['upcoming'] as $event">
+                        <article class="event-card event-card--archive">
+                            <time datetime="{$event['event_date']->format('Y-m-d')}">{$event['event_date']|date:'j. n. Y'}</time>
+                            <small>{$event['event_date']|date:'F'}</small>
+                            <h3>{$event['description']}</h3>
+                        </article>
+                    </div>
+                </div>
+            {/if}
+
             {if $events['past']}
+                <div class="section-heading section-heading--archive">
+                    <p class="eyebrow">{_'Event archive'}</p>
+                    <h2>{_'Past events'}</h2>
+                </div>
                 <div class="row gy-3">
                     <div class="col-md-6" n:foreach="$events['past'] as $event">
                         <article class="event-card event-card--archive">

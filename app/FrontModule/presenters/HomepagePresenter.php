@@ -22,6 +22,7 @@ final class HomepagePresenter extends BasePresenter
     {
         $locale = $this->getLocale();
         $this->template->events = $this->eventRepository->getByLocale($locale);
+        $this->template->upcomingEvents = array_slice($this->template->events['upcoming'], 0, 3);
         $this->template->photos = $this->mediaRepository->getByLocaleAndType($locale, 'photo');
         $this->template->videos = $this->mediaRepository->getByLocaleAndType($locale, 'video');
     }

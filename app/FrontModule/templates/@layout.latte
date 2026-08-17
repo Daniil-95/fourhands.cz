@@ -65,14 +65,23 @@
                 <nav class="site-nav" data-menu>
                     {if $navigation}
                         {var $hasFromStageLink = false}
+                        {var $hasEventsLink = false}
                         {foreach $navigation as $navItem}
                             {var $normalizedUrl = trim((string) $navItem->url, '/')}
                             {var $skipFromStageLink = false}
+                            {var $skipEventsLink = false}
                             {if in_array($normalizedUrl, ['z-podia', 'from-stage'], true)}
                                 {if $hasFromStageLink}
                                     {var $skipFromStageLink = true}
                                 {else}
                                     {var $hasFromStageLink = true}
+                                {/if}
+                            {/if}
+                            {if in_array($normalizedUrl, ['udalosti', 'events', 'archiv-udalosti', 'events-archive'], true)}
+                                {if $hasEventsLink}
+                                    {var $skipEventsLink = true}
+                                {else}
+                                    {var $hasEventsLink = true}
                                 {/if}
                             {/if}
                             {var $menuLabel = (string) $navItem->title}
@@ -89,6 +98,9 @@
                             {elseif in_array($normalizedUrl, ['repertoar', 'koncertni-program', 'repertoire'], true)}
                                 {var $menuLabel = 'Concert program'}
                                 {var $menuHref = $presenter->link(':Front:Repertoire:default', ['locale' => $locale])}
+                            {elseif in_array($normalizedUrl, ['udalosti', 'events', 'archiv-udalosti', 'events-archive'], true)}
+                                {var $menuLabel = 'Events'}
+                                {var $menuHref = $presenter->link(':Front:EventsArchive:default', ['locale' => $locale])}
                             {elseif in_array($normalizedUrl, ['galerie', 'fotogalerie', 'gallery'], true)}
                                 {var $menuLabel = 'Gallery'}
                                 {var $menuHref = $presenter->link(':Front:Gallery:default', ['locale' => $locale])}
@@ -106,16 +118,20 @@
                             {elseif str_starts_with((string) $navItem->url, '/')}
                                 {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . $navItem->url}
                             {/if}
-                            {if !$skipFromStageLink}<a href="{$menuHref}">{_ $menuLabel}</a>{/if}
+                            {if !$skipFromStageLink && !$skipEventsLink}<a href="{$menuHref}">{_ $menuLabel}</a>{/if}
                         {/foreach}
                         {if !$hasFromStageLink}
                             <a n:href=":Front:FromStage:default locale => $locale">{if $locale === 'cs'}Z pódia{else}From the stage{/if}</a>
+                        {/if}
+                        {if !$hasEventsLink}
+                            <a n:href=":Front:EventsArchive:default locale => $locale">{_'Events'}</a>
                         {/if}
                     {else}
                         <a href="{link :Front:Homepage:default, locale => $locale}#uvod">{_'Home'}</a>
                         <a n:href=":Front:About:default locale => $locale">{_'About us'}</a>
                         <a n:href=":Front:Artists:default locale => $locale">{_'Artists'}</a>
                         <a n:href=":Front:Repertoire:default locale => $locale">{_'Concert program'}</a>
+                        <a n:href=":Front:EventsArchive:default locale => $locale">{_'Events'}</a>
                         <a n:href=":Front:Gallery:default locale => $locale">{_'Gallery'}</a>
                         <a n:href=":Front:Videos:default locale => $locale">{_'Videos'}</a>
                         <a n:href=":Front:FromStage:default locale => $locale">{_'From the stage'}</a>
@@ -152,6 +168,7 @@
                         <a n:href=":Front:About:default locale => $locale">{_'About us'}</a>
                         <a n:href=":Front:Artists:default locale => $locale">{_'Artists'}</a>
                         <a n:href=":Front:Repertoire:default locale => $locale">{_'Concert program'}</a>
+                        <a n:href=":Front:EventsArchive:default locale => $locale">{_'Events'}</a>
                         <a n:href=":Front:FromStage:default locale => $locale">{_'From the stage'}</a>
                         <a n:href=":Front:Videos:default locale => $locale">{_'Videos'}</a>
                     </div>
