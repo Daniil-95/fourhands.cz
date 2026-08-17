@@ -135,6 +135,13 @@ final class MediaPresenter extends BaseAdminPresenter
                 return;
             }
             $values->image_path = $imagePath;
+        } elseif (is_string($values->image_path) && (
+            str_contains($values->image_path, '..')
+            || str_contains($values->image_path, '\\')
+            || preg_match('~^(?:[a-z][a-z0-9+.-]*:|//)~i', trim($values->image_path)) === 1
+        )) {
+            $form->addError('Zadejte pouze bezpečnou lokální cestu k obrázku.');
+            return;
         }
 
         $this->mediaRepository->save([

@@ -8,12 +8,16 @@ $configurator = new Configurator();
 
 $configurator->setTempDirectory(__DIR__ . '/temp');
 
-$configurator->enableTracy(__DIR__ . '/log');
-
 /**
  * Debug mode
  */
-$configurator->setDebugMode(!isset($_SERVER['HTTP_HOST']) || $_SERVER['HTTP_HOST'] !== 'fourhands.cz');
+$isProduction = isset($_SERVER['HTTP_HOST'])
+    && in_array($_SERVER['HTTP_HOST'], ['fourhands.cz', 'www.fourhands.cz'], true);
+$configurator->setDebugMode(!$isProduction);
+
+if (!$isProduction) {
+    $configurator->enableTracy(__DIR__ . '/log');
+}
 
 /**
  * RobotLoader

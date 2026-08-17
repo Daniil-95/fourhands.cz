@@ -30,6 +30,14 @@ abstract class BasePresenter extends Presenter
     {
         parent::startup();
 
+        $response = $this->getHttpResponse();
+        $response->setHeader('X-Content-Type-Options', 'nosniff');
+        $response->setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+        $response->setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+        if ($this->getHttpRequest()->isSecured()) {
+            $response->setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+        }
+
         // Start the session before template rendering to prevent late CSRF session init.
         $this->getSession()->start();
 
