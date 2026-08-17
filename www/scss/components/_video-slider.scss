@@ -7,7 +7,8 @@
 .video-card {
   position: relative;
   display: block;
-  height: clamp(220px, 25vw, 300px);
+  aspect-ratio: 16 / 9;
+  height: auto;
   overflow: hidden;
   background: #181614;
   color: $color-white;
@@ -24,11 +25,20 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(1.06);
   transition: transform .5s ease;
 }
 
 .video-card:hover img {
-  transform: scale(1.04);
+  transform: scale(1.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-card img,
+  .video-card:hover img {
+    transform: none;
+    transition: none;
+  }
 }
 
 .video-card strong {

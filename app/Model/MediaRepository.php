@@ -41,6 +41,7 @@ final class MediaRepository
         }
 
         foreach ($this->db->table('videos')->order('id DESC')->fetchAll() as $row) {
+            $url = (string) (($row->embed ?: $row->file) ?? '');
             $items[] = (object) [
                 'id' => self::VIDEO_ID_OFFSET + (int) $row->id,
                 'lang' => (string) $row->lang,
@@ -48,7 +49,8 @@ final class MediaRepository
                 'title' => (string) ($row->title ?? ''),
                 'description' => '',
                 'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
-                'url' => (string) (($row->embed ?: $row->file) ?? ''),
+                'url' => $url,
+                'youtube_thumb' => $this->getYoutubeThumbnail($url),
                 'sort_order' => (int) $row->sort_order,
                 'active' => (bool) $row->active,
                 'alt_text' => '',
@@ -106,6 +108,7 @@ final class MediaRepository
                 'description' => '',
                 'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
                 'url' => (string) (($row->embed ?: $row->file) ?? ''),
+                'youtube_thumb' => $this->getYoutubeThumbnail((string) (($row->embed ?: $row->file) ?? '')),
                 'sort_order' => (int) $row->sort_order,
                 'active' => (bool) $row->active,
                 'alt_text' => '',
@@ -214,6 +217,7 @@ final class MediaRepository
                 'description' => '',
                 'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
                 'url' => (string) (($row->embed ?: $row->file) ?? ''),
+                'youtube_thumb' => $this->getYoutubeThumbnail((string) (($row->embed ?: $row->file) ?? '')),
             ];
         }
 
@@ -242,5 +246,24 @@ final class MediaRepository
         }
 
         return $this->normalizePath($trimmed);
+    }
+
+    public function getYoutubeThumbnail(string $url): string
+    {
+        $trimmed = trim($url);
+        if ($trimmed === '') {
+            return '';
+        }
+
+        $patterns = [
+            '~(?:youtube\.com/(?:watch\?v=|embed/|shorts/)|youtu\.be/)([A-Za-z0-9_-]{11})~i',
+        ];
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $trimmed, $matches) === 1) {
+                return 'https://img.youtube.com/vi/' . $matches[1] . '/maxresdefault.jpg';
+            }
+        }
+
+        return '';
     }
 }

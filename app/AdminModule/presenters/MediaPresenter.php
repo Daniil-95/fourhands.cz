@@ -27,7 +27,6 @@ final class MediaPresenter extends BaseAdminPresenter
 
         foreach ($allItems as $item) {
             if ($item->type === 'video') {
-                $item->youtube_thumb = $this->buildYoutubeThumb((string) $item->url);
                 $videos[] = $item;
                 continue;
             }
@@ -157,7 +156,7 @@ final class MediaPresenter extends BaseAdminPresenter
         ], (int) $this->getUser()->getId(), $this->editingId);
 
         $this->flashMessage('Médium bylo uloženo.', 'success');
-        $this->redirectToDefaultWithContentLang($values->lang, ['type' => $values->type]);
+        $this->redirectToDefaultWithContentLang($language, ['type' => $values->type]);
     }
 
     /** @throws AbortException */
@@ -198,18 +197,4 @@ final class MediaPresenter extends BaseAdminPresenter
         return $form;
     }
 
-    private function buildYoutubeThumb(string $url): string
-    {
-        $trimmed = trim($url);
-        if ($trimmed === '') {
-            return '';
-        }
-
-        if (preg_match('~(?:youtube\.com/watch\?v=|youtu\.be/|youtube\.com/embed/)([A-Za-z0-9_-]{8,})~', $trimmed, $matches) !== 1) {
-            return '';
-        }
-
-        $videoId = $matches[1];
-        return 'https://img.youtube.com/vi/' . $videoId . '/hqdefault.jpg';
-    }
 }

@@ -62,7 +62,10 @@
             {foreach $videos as $item}
                 <article class="media-card media-card--video">
                     <div class="media-card__image-wrap">
-                        {var $preview = $item->image_path ? ($basePath . '/' . $item->image_path) : ($item->youtube_thumb ?? '')}
+                        {var $preview = $item->youtube_thumb ?? ''}
+                        {if !$preview && $item->image_path}
+                            {var $preview = $basePath . '/' . $item->image_path}
+                        {/if}
                         {if $preview}
                             <img src="{$preview}" alt="{$item->title}" class="media-card__image">
                         {else}

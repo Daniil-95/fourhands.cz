@@ -68,7 +68,7 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide" n:foreach="$videos as $video">
                             <a class="video-card" href="{$video['url']}" target="_blank" rel="noopener">
-                                <img src="{$basePath}/{$video['image_path'] ?: 'images/kids1-thumb.jpg'}" width="640" height="427" alt="{$video['title']}" loading="lazy">
+                                <img src="{$video['youtube_thumb'] ?: ($basePath . '/' . ($video['image_path'] ?: 'images/kids1-thumb.jpg'))}" width="640" height="427" alt="{$video['title']}" loading="lazy">
                                 <span class="video-card__play">▶</span><strong>{$video['title']}</strong>
                             </a>
                         </div>
