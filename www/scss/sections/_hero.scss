@@ -61,7 +61,7 @@
 
 .page-hero {
   padding: 160px 0 80px;
-  background: linear-gradient(120deg, $color-hero-gradient-start, $color-primary);
+  background: linear-gradient(120deg, #11100F, #8D744D);
   color: $color-white;
   text-align: center;
 
@@ -75,5 +75,5 @@
 }
 
 .page-hero p:last-child {
-  color: #efdfe0;
+  color: $color-primary;
 }

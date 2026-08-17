@@ -17,7 +17,8 @@
   border: 1px solid $color-border;
   border-radius: 0;
   outline-color: $color-primary;
-  background: $color-white;
+  background: #11100F;
+  color: $color-text;
   transition: border-color $transition;
 
   &:focus {

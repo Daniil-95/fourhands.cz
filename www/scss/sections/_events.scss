@@ -4,7 +4,7 @@
   position: relative;
   padding: 32px;
   border: 1px solid $color-border;
-  background: $color-white;
+  background: #1C1A17;
   transition: $transition;
 
   &:hover {
@@ -32,7 +32,7 @@
     font-weight: 600;
     letter-spacing: .18em;
     text-transform: uppercase;
-    color: $color-text-light;
+    color: $color-text;
   }
 
   h3 {
