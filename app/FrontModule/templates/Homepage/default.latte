@@ -1,12 +1,17 @@
-{var $heroImage = $siteSettings['hero_image'] ? $basePath . '/' . $siteSettings['hero_image'] : $basePath . '/images/story.jpg'}
-{var $heroHeading = $siteSettings['hero_heading'] ?: 'FOURHANDS'}
-{var $heroLead = $siteSettings['hero_lead'] ?: 'Klavírní duo pro výjimečné okamžiky vašeho života.'}
-{var $heroCta = $siteSettings['hero_cta'] ?: 'Kontakt'}
-{var $heroScroll = $siteSettings['hero_scroll'] ?: 'Objevte nás'}
+{var $hero = $pageSections['homepage']['hero'] ?? null}
+{var $programsSection = $pageSections['homepage']['programs'] ?? null}
+{var $videosSection = $pageSections['homepage']['videos'] ?? null}
+{var $gallerySection = $pageSections['homepage']['gallery'] ?? null}
+{var $contactSection = $pageSections['homepage']['contact'] ?? null}
+{var $heroImage = $hero?->image_path ? $basePath . '/' . $hero->image_path : $basePath . '/images/story.jpg'}
+{var $heroHeading = $hero?->title ?: 'FOURHANDS'}
+{var $heroLead = $hero?->subtitle ?: 'Klavírní duo pro výjimečné okamžiky vašeho života.'}
+{var $heroCta = $hero?->button_text ?: 'Kontakt'}
+{var $heroScroll = $hero?->content ?: 'Objevte nás'}
 {var $contactPhone = $siteSettings['phone'] ?: '+420 777 123 456'}
 {var $contactEmail = $siteSettings['email'] ?: 'info@fourhands.cz'}
 {var $contactAddress = $siteSettings['address'] ?: 'Praha, Česká republika'}
-{var $contactImage = $siteSettings['hero_image'] ? $basePath . '/' . $siteSettings['hero_image'] : $basePath . '/images/story.jpg'}
+{var $contactImage = $contactSection?->image_path ? $basePath . '/' . $contactSection->image_path : $heroImage}
 
 {block title}{_'Piano duo for exceptional moments'}{/block}
 
@@ -20,7 +25,7 @@
             <p class="eyebrow eyebrow--light">{_'Piano Duo'}</p>
             <h1>{$heroHeading}</h1>
             <p class="hero__lead">{$heroLead}</p>
-            <a class="button" href="#kontakt">{$heroCta} <span>→</span></a>
+            <a class="button" href="{$basePath}{$hero?->button_url ?: '#kontakt'}">{$heroCta} <span>→</span></a>
         </div>
         <a class="hero__scroll" href="#programy">{$heroScroll} <span>↓</span></a>
     </section>
@@ -28,12 +33,12 @@
     <section class="section concert-programs" id="programy">
         <div class="container">
             <div class="section-heading section-heading--concert reveal">
-                <p class="eyebrow">{_'Upcoming programs'}</p>
-                <h2>{_'Where can you hear us'}</h2>
+                <p class="eyebrow">{$programsSection?->subtitle ?: 'Nadcházející programy'}</p>
+                <h2>{$programsSection?->title ?: 'Kde nás můžete slyšet'}</h2>
             </div>
 
             <div class="concert-programs__action reveal">
-                <a class="button button--outline-light" n:href=":Front:EventsArchive:default locale => $locale">{_'All programs'} <span>→</span></a>
+                <a class="button button--outline-light" href="{$basePath}{$programsSection?->button_url ?: '/udalosti'}">{$programsSection?->button_text ?: 'Všechny programy'} <span>→</span></a>
             </div>
 
             {var $photoCount = count($photos)}
@@ -68,8 +73,8 @@
 
     <section class="section videos" id="videa">
         <div class="container">
-            <div class="section-heading reveal"><p class="eyebrow">{_'Video presentation'}</p>
-                <h2>{_'Listen to us'}</h2></div>
+            <div class="section-heading reveal"><p class="eyebrow">{$videosSection?->subtitle ?: 'Video prezentace'}</p>
+                <h2>{$videosSection?->title ?: 'Poslouchejte nás'}</h2></div>
             <div class="slider-shell reveal">
                 <div class="swiper video-swiper">
                     <div class="swiper-wrapper">
@@ -85,7 +90,7 @@
                 <button class="slider-arrow slider-arrow--next video-next" aria-label="{_'Next video'}">→</button>
             </div>
             <div class="section-action">
-                <a class="button button--outline button--outline-light" n:href=":Front:Videos:default locale => $locale">{_'Show all videos'}<span>→</span></a>
+                <a class="button button--outline button--outline-light" href="{$basePath}{$videosSection?->button_url ?: '/videa'}">{$videosSection?->button_text ?: 'Zobrazit všechna videa'}<span>→</span></a>
             </div>
         </div>
     </section>
@@ -93,8 +98,8 @@
     <section class="section section--light" id="galerie">
         <div class="container-fluid">
             <div class="section-heading reveal">
-                <p class="eyebrow">{_'Photo gallery'}</p>
-                <h2>{_'Moments in pictures'}</h2>
+                <p class="eyebrow">{$gallerySection?->subtitle ?: 'Fotogalerie'}</p>
+                <h2>{$gallerySection?->title ?: 'Momenty v obrazech'}</h2>
             </div>
             {if $photos}
                 <div class="homepage-gallery reveal">
@@ -111,7 +116,7 @@
                     </div>
                 </div>
                 <div class="section-action">
-                    <a class="button button--outline" n:href=":Front:Gallery:default locale => $locale">{_'Show entire gallery'}<span>→</span></a>
+                    <a class="button button--outline" href="{$basePath}{$gallerySection?->button_url ?: '/galerie'}">{$gallerySection?->button_text ?: 'Zobrazit celou galerii'}<span>→</span></a>
                 </div>
             {/if}
         </div>
@@ -122,8 +127,8 @@
             <div class="row g-0">
                 <div class="col-lg-5 contact__visual" style="background-image:url('{$contactImage}')"></div>
                 <div class="col-lg-7 contact__content reveal">
-                    <p class="eyebrow">{_'Contact'}</p>
-                    <h2>{_'Planning an event?'}<br>{_'We would be happy to play for you.'}</h2>
+                    <p class="eyebrow">Kontakt</p>
+                    <h2>{$contactSection?->title ?: 'Plánujete akci?'}{if $contactSection?->subtitle}<br>{$contactSection->subtitle}{/if}</h2>
                     <div class="contact__details">
                         <a href="tel:+420777123456">{$contactPhone}</a>
                         <a href="mailto:{$contactEmail}">{$contactEmail}</a>

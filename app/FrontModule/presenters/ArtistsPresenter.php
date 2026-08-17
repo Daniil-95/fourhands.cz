@@ -3,17 +3,14 @@
 namespace App\FrontModule\Presenters;
 
 use App\Common\BasePresenter;
-use App\Model\ContentRepository;
-
 final class ArtistsPresenter extends BasePresenter
 {
-    public function __construct(private ContentRepository $contentRepository)
+    public function __construct()
     {
         parent::__construct();
     }
 
     public function renderDefault(): void
     {
-        $this->template->content = $this->contentRepository->getByLocale($this->getLocale());
     }
 }

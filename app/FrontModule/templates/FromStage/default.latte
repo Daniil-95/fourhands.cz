@@ -1,10 +1,11 @@
 {block title}{_'From the stage'}{/block}
 {block content}
+    {var $hero = $pageSections['from_stage']['hero'] ?? null}
     <section class="page-hero">
         <div class="container">
             <p class="eyebrow eyebrow--light">Z pódia</p>
-            <h1>{_'From the stage'}</h1>
-            <p>{_'Articles, interviews, publications and mentions about Fourhands.'}</p>
+            <h1>{$hero?->title ?: 'Z pódia'}</h1>
+            <p>{$hero?->subtitle ?: 'Články, rozhovory, publikace a zmínky o Fourhands.'}</p>
         </div>
     </section>
 

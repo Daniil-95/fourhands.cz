@@ -3,11 +3,14 @@
 
 {block title}{_'Artists'}{/block}
 {block content}
+    {var $hero = $pageSections['artists']['hero'] ?? null}
+    {var $katerina = $pageSections['artists']['katerina'] ?? null}
+    {var $irena = $pageSections['artists']['irena'] ?? null}
     <section class="page-hero">
         <div class="container">
             <p class="eyebrow eyebrow--light">Fourhands</p>
-            <h1>{_'Artists'}</h1>
-            <p>{_'Two personalities, one musical dialogue.'}</p>
+            <h1>{$hero?->title ?: 'Umělkyně'}</h1>
+            <p>{$hero?->subtitle ?: 'Poznejte duo Fourhands.'}</p>
         </div>
     </section>
     <section class="section members">
@@ -15,8 +18,8 @@
             <article class="member row align-items-start gy-5">
                 <div class="col-lg-5"><img src="{$katerinaImage}" width="600" height="750" alt="{_'Kateřina Konopová'}" loading="lazy"></div>
                 <div class="col-lg-7"><p class="eyebrow">{_'Pianist'}</p>
-                    <h2>{$content['artist_katerina']['title'] ?? 'Kateřina Konopová'}</h2>
-                    <div class="rich-text">{$content['artist_katerina']['content_html'] ?? ''|noescape}</div>
+                    <h2>{$katerina?->title ?: 'Kateřina Konopová'}</h2>
+                    <div class="rich-text">{$katerina?->content ?? ''|noescape}</div>
                     {* <div class="member__facts">
                         <span>{_'Education'}</span><span>{_'Experience'}</span><span>{_'Awards'}</span>
                     </div> *}
@@ -25,8 +28,8 @@
             <article class="member member--reverse row align-items-start gy-5">
                 <div class="col-lg-5"><img src="{$irenaImage}" width="600" height="750" alt="{_'Irena Andruško'}" loading="lazy"></div>
                 <div class="col-lg-7"><p class="eyebrow">{_'Pianist'}</p>
-                    <h2>{$content['artist_irena']['title'] ?? 'Irena Andruško'}</h2>
-                    <div class="rich-text">{$content['artist_irena']['content_html'] ?? ''|noescape}</div>
+                    <h2>{$irena?->title ?: 'Irena Andruško'}</h2>
+                    <div class="rich-text">{$irena?->content ?? ''|noescape}</div>
                     {* <div class="member__facts">
                         <span>{_'Education'}</span><span>{_'Experience'}</span><span>{_'Awards'}</span>
                     </div> *}

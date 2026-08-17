@@ -1,0 +1,23 @@
+{block content}
+    <div class="page-header">
+        <div>
+            <h2>Stránky a sekce</h2>
+            <p class="muted">Vyberte stránku a upravte jednu z jejích pevných sekcí.</p>
+        </div>
+    </div>
+
+    {foreach $pages as $pageKey => $pageTitle}
+        <section class="widget">
+            <h3>{$pageTitle}</h3>
+            <div class="widget-list">
+                {foreach $sections[$pageKey] ?? [] as $section}
+                    <div class="widget-item">
+                        <span class="widget-item-title">{$section->title ?: $section->section_key}</span>
+                        <span class="widget-item-meta">{$section->section_key}</span>
+                        <a n:href="edit id => $section->id">Upravit</a>
+                    </div>
+                {/foreach}
+            </div>
+        </section>
+    {/foreach}
+{/block}

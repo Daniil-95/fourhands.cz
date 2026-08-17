@@ -1,10 +1,11 @@
 {block title}{_'Event archive'}{/block}
 {block content}
+    {var $hero = $pageSections['events']['hero'] ?? null}
     <section class="page-hero">
         <div class="container">
             <p class="eyebrow eyebrow--light">Archiv událostí</p>
-            <h1>{_'Event archive'}</h1>
-            <p>{_'Past performances and events.'}</p>
+            <h1>{$hero?->title ?: 'Archiv událostí'}</h1>
+            <p>{$hero?->subtitle ?: 'Minulá vystoupení a události.'}</p>
         </div>
     </section>
 

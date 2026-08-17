@@ -1,9 +1,10 @@
 {block title}{_'Videos'}{/block}
 {block content}
+    {var $hero = $pageSections['videos']['hero'] ?? null}
     <section class="page-hero">
         <div class="container"><p class="eyebrow eyebrow--light">{_'Video gallery'}</p>
-            <h1>{_'Listen to Fourhands'}</h1>
-            <p>{_'Selection of concert performances and music samples.'}</p></div>
+            <h1>{$hero?->title ?: 'Listen to Fourhands'}</h1>
+            <p>{$hero?->subtitle ?: 'Selection of concert performances and music samples.'}</p></div>
     </section>
     <section class="section">
         <div class="container">
