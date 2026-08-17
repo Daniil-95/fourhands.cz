@@ -34,15 +34,16 @@
             <div class="section-heading section-heading--split reveal">
                 <div>
                     <p class="eyebrow">{_'Upcoming performances'}</p>
-                    <h2>{_'Events'}</h2>
+                    <h2>{if $locale === 'cs'}Kde nás můžete slyšet{else}Where you can hear us{/if}</h2>
                 </div>
                 <a class="button button--outline button--outline-light" n:href=":Front:EventsArchive:default locale => $locale">{_'See all events'} <span>→</span></a>
             </div>
 
             {if $upcomingEvents}
                 <div class="events-preview__grid">
-                    <article class="event-card event-card--featured reveal" n:foreach="$upcomingEvents as $event">
-                        <div class="event-card__visual" style="background-image: url('{$heroImage}')"></div>
+                    <article class="event-card event-card--featured reveal" n:foreach="$upcomingEvents as $eventKey => $event">
+                        {var $eventImage = $photos[$eventKey]['image_path'] ?? $hero?->image_path ?? 'images/story.jpg'}
+                        <div class="event-card__visual" style="background-image: url('{$basePath}/{$eventImage}')"></div>
                         <div class="event-card__body">
                             <time datetime="{$event['event_date']->format('Y-m-d')}">
                                 <strong>{$event['event_date']|date:'d'}</strong>
