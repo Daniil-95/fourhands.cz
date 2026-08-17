@@ -1,13 +1,8 @@
 ﻿{block content}
     <div class="page-header">
         <div>
-            <h2>Média</h2>
-            <p class="muted">Spravujte fotogalerii a video odkazy odděleně. Pro videa přidávejte především YouTube URL.</p>
-        </div>
-        <div class="media-toolbar">
-            <a class="btn btn-secondary {if $activeTab === 'all'}is-active{/if}" n:href="default">Vše</a>
-            <a class="btn btn-secondary {if $activeTab === 'photo'}is-active{/if}" n:href="default type => 'photo'">Fotogalerie</a>
-            <a class="btn btn-secondary {if $activeTab === 'video'}is-active{/if}" n:href="default type => 'video'">Videa</a>
+            <h2>{if $activeTab === 'video'}Videogalerie{else}Fotogalerie{/if}</h2>
+            <p class="muted">{if $activeTab === 'video'}Spravujte odkazy na videa a jejich náhledy.{else}Nahrávejte fotografie, nastavte pořadí a upravte jejich názvy.{/if}</p>
         </div>
     </div>
 

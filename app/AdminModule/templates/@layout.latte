@@ -44,14 +44,6 @@
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> Repertoár
                     </a>
 
-                    <a n:href=":Admin:Page:default page => 'gallery'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'gallery'}active{/if}">
-                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Galerie
-                    </a>
-
-                    <a n:href=":Admin:Page:default page => 'videos'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'videos'}active{/if}">
-                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Videa
-                    </a>
-
                     <a n:href=":Admin:Page:default page => 'events'" class="{if $presenter->getName() === 'Admin:Page' && $presenter->getParameter('page') === 'events'}active{/if}">
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> Události
                     </a>
@@ -74,10 +66,12 @@
                         <span class="nav-icon" aria-hidden="true">&#9632;</span> Z pódia
                     </a>
 
-                    <span class="nav-section">Média</span>
+                    <a n:href=":Admin:Media:default type => 'photo'" class="{if $presenter->getName() === 'Admin:Media' && $presenter->getParameter('type') === 'photo'}active{/if}">
+                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Fotogalerie
+                    </a>
 
-                    <a n:href=":Admin:Media:default" class="{if $presenter->getName() === 'Admin:Media'}active{/if}">
-                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Média
+                    <a n:href=":Admin:Media:default type => 'video'" class="{if $presenter->getName() === 'Admin:Media' && $presenter->getParameter('type') === 'video'}active{/if}">
+                        <span class="nav-icon" aria-hidden="true">&#9632;</span> Videogalerie
                     </a>
 
                     <span class="nav-section">Nastavení</span>

@@ -12,8 +12,6 @@ final class PageSectionRepository
         'about' => 'O nás',
         'artists' => 'Umělkyně',
         'repertoire' => 'Repertoár',
-        'gallery' => 'Galerie',
-        'videos' => 'Videa',
         'events' => 'Události',
         'from_stage' => 'Z pódia',
     ];
@@ -29,8 +27,6 @@ final class PageSectionRepository
         'about' => ['hero' => 'První obrazovka', 'content' => 'Obsah stránky'],
         'artists' => ['hero' => 'První obrazovka', 'katerina' => 'Kateřina Konopová', 'irena' => 'Irena Andruško'],
         'repertoire' => ['hero' => 'První obrazovka', 'content' => 'Obsah stránky'],
-        'gallery' => ['hero' => 'První obrazovka'],
-        'videos' => ['hero' => 'První obrazovka'],
         'events' => ['hero' => 'První obrazovka'],
         'from_stage' => ['hero' => 'První obrazovka'],
     ];

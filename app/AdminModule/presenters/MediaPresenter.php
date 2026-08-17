@@ -37,7 +37,7 @@ final class MediaPresenter extends BaseAdminPresenter
         }
 
         $tab = $this->getParameter('type');
-        $this->template->activeTab = is_string($tab) && in_array($tab, ['photo', 'video'], true) ? $tab : 'all';
+        $this->template->activeTab = is_string($tab) && $tab === 'video' ? 'video' : 'photo';
         $this->template->photos = $photos;
         $this->template->videos = $videos;
     }
