@@ -87,31 +87,22 @@
                             {var $menuLabel = (string) $navItem->title}
                             {var $menuHref = (string) $navItem->url}
                             {if in_array($normalizedUrl, ['#uvod', 'uvod', ''], true)}
-                                {var $menuLabel = 'Home'}
                                 {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . '#uvod'}
                             {elseif in_array($normalizedUrl, ['#o-duu', 'o-nas', 'about'], true)}
-                                {var $menuLabel = 'About us'}
                                 {var $menuHref = $presenter->link(':Front:About:default', ['locale' => $locale])}
                             {elseif in_array($normalizedUrl, ['clenky', 'umelkyne', 'artists'], true)}
-                                {var $menuLabel = 'Artists'}
                                 {var $menuHref = $presenter->link(':Front:Artists:default', ['locale' => $locale])}
                             {elseif in_array($normalizedUrl, ['repertoar', 'koncertni-program', 'repertoire'], true)}
-                                {var $menuLabel = 'Concert program'}
                                 {var $menuHref = $presenter->link(':Front:Repertoire:default', ['locale' => $locale])}
                             {elseif in_array($normalizedUrl, ['udalosti', 'events', 'archiv-udalosti', 'events-archive'], true)}
-                                {var $menuLabel = 'Events'}
                                 {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . '#udalosti'}
                             {elseif in_array($normalizedUrl, ['galerie', 'fotogalerie', 'gallery'], true)}
-                                {var $menuLabel = 'Gallery'}
                                 {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . '#galerie'}
                             {elseif in_array($normalizedUrl, ['videa', 'video-galerie', 'videos'], true)}
-                                {var $menuLabel = 'Videos'}
                                 {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . '#videa'}
                             {elseif in_array($normalizedUrl, ['z-podia', 'from-stage'], true)}
-                                {var $menuLabel = 'From the stage'}
                                 {var $menuHref = $presenter->link(':Front:FromStage:default', ['locale' => $locale])}
                             {elseif in_array($normalizedUrl, ['#kontakt', 'kontakt', 'contact'], true)}
-                                {var $menuLabel = 'Contact'}
                                 {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . '#kontakt'}
                             {elseif str_starts_with((string) $navItem->url, '/#')}
                                 {var $menuHref = $presenter->link(':Front:Homepage:default', ['locale' => $locale]) . ($navItem->url|trim:'/')}
