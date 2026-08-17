@@ -3,6 +3,7 @@
 namespace App\Common;
 
 use Nette\Application\Attributes\Persistent;
+use Nette\Http\FileUpload;
 use Nette\Utils\Random;
 
 abstract class BaseAdminPresenter extends BasePresenter
@@ -46,6 +47,45 @@ abstract class BaseAdminPresenter extends BasePresenter
     {
         $section = $this->getSession()->getSection('admin');
         return isset($section->csrfToken) && hash_equals($section->csrfToken, $token);
+    }
+
+    protected function requirePostWithCsrf(): void
+    {
+        if (!$this->getHttpRequest()->isMethod('POST')) {
+            $this->error('Tato akce vyžaduje požadavek POST.', 405);
+        }
+
+        $token = $this->getHttpRequest()->getPost('_token');
+        if (!is_string($token) || !$this->checkCsrfToken($token)) {
+            $this->error('Neplatný bezpečnostní token.', 403);
+        }
+    }
+
+    protected function assertAdminContentLanguage(object $item): void
+    {
+        if (!isset($item->lang) || (string) $item->lang !== $this->getAdminContentLang()) {
+            $this->error('Záznam nepatří do aktuálně zvoleného jazyka.', 404);
+        }
+    }
+
+    protected function storeImageUpload(FileUpload $upload, string $prefix): ?string
+    {
+        $extensions = [
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'image/gif' => 'gif',
+            'image/webp' => 'webp',
+        ];
+        $extension = $extensions[$upload->getContentType()] ?? null;
+
+        if (!$upload->isOk() || !$upload->isImage() || $upload->getSize() > 8 * 1024 * 1024 || $extension === null) {
+            return null;
+        }
+
+        $filename = $prefix . '-' . date('Ymd-His') . '-' . Random::generate(12, 'abcdefghijklmnopqrstuvwxyz0123456789') . '.' . $extension;
+        $upload->move(__DIR__ . '/../../www/images/' . $filename);
+
+        return 'images/' . $filename;
     }
 
     protected function getAdminContentLang(): string

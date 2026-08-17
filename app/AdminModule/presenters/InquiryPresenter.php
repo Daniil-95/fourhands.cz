@@ -22,10 +22,12 @@ final class InquiryPresenter extends BaseAdminPresenter
     /** @throws AbortException */
     public function actionDelete(int $id): void
     {
-        $token = $this->getParameter('_token');
-        if (!is_string($token) || !$this->checkCsrfToken($token)) {
-            $this->error('Neplatný bezpečnostní token.', 403);
+        $this->requirePostWithCsrf();
+        $item = $this->inquiryRepository->getById($id);
+        if (!$item) {
+            $this->error('Zpráva nenalezena.');
         }
+        $this->assertAdminContentLanguage($item);
 
         $this->inquiryRepository->delete($id);
         $this->flashMessage('Zpráva byla smazána.', 'success');
@@ -39,6 +41,11 @@ final class InquiryPresenter extends BaseAdminPresenter
         $form->addHidden('id')->setRequired();
         $form->addSubmit('delete', 'Smazat');
         $form->onSuccess[] = function (Form $form, \stdClass $values): void {
+            $item = $this->inquiryRepository->getById((int) $values->id);
+            if (!$item) {
+                $this->error('Zpráva nenalezena.');
+            }
+            $this->assertAdminContentLanguage($item);
             $this->inquiryRepository->delete((int) $values->id);
             $this->flashMessage('Zpráva byla smazána.', 'success');
             $this->redirectToDefaultWithContentLang();

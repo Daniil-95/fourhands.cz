@@ -106,7 +106,7 @@ final class MediaRepository
                 'description' => '',
                 'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
                 'url' => (string) (($row->embed ?: $row->file) ?? ''),
-                'sort_order' => 0,
+                'sort_order' => (int) $row->sort_order,
                 'active' => (bool) $row->active,
                 'alt_text' => '',
             ];
@@ -125,7 +125,7 @@ final class MediaRepository
             'description' => (string) ($row->subtitle ?? ''),
             'image_path' => $this->normalizePath((string) ($row->file ?? '')),
             'url' => '',
-            'sort_order' => 0,
+            'sort_order' => (int) $row->sort_order,
             'active' => (bool) $row->active,
             'alt_text' => (string) ($row->alt_text ?? ''),
         ];

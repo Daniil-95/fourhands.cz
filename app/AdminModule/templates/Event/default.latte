@@ -26,7 +26,10 @@
             <td data-label="Stav">{if $item->active}<span class="badge badge-active">Aktivní</span>{else}<span class="badge badge-inactive">Neaktivní</span>{/if}</td>
             <td data-label="Akce" class="actions-cell">
                 <a n:href="edit id => $item->id">Upravit</a>
-                <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat tuto událost?')">Smazat</a>
+                <form method="post" action="{link delete id => $item->id}" class="inline-delete-form" onsubmit="return confirm('Smazat tuto událost?')">
+                    <input type="hidden" name="_token" value="{$csrfToken}">
+                    <button type="submit" class="btn-delete">Smazat</button>
+                </form>
             </td>
         </tr>
         </tbody>

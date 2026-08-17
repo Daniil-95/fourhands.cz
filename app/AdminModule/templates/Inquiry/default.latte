@@ -29,7 +29,10 @@
                     <td data-label="Zpráva">{$item->message|truncate:80}</td>
                     <td data-label="Vytvořeno">{$item->created|date:'j. n. Y H:i'}</td>
                     <td class="actions-cell" data-label="Akce">
-                        <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat tuto zprávu?')">Smazat</a>
+                        <form method="post" action="{link delete id => $item->id}" class="inline-delete-form" onsubmit="return confirm('Smazat tuto zprávu?')">
+                            <input type="hidden" name="_token" value="{$csrfToken}">
+                            <button type="submit" class="btn-delete">Smazat</button>
+                        </form>
                     </td>
                 </tr>
                 {if !count($items)}

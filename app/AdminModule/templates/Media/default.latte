@@ -34,7 +34,10 @@
                         </div>
                         <div class="media-card__actions">
                             <a class="btn btn-secondary" n:href="edit id => $item->id">Upravit</a>
-                            <a class="btn-delete" n:href="delete id => $item->id, type => 'photo', _token => $csrfToken" onclick="return confirm('Smazat toto médium?')">Smazat</a>
+                            <form method="post" action="{link delete id => $item->id, type => 'photo'}" class="inline-delete-form" onsubmit="return confirm('Smazat toto médium?')">
+                                <input type="hidden" name="_token" value="{$csrfToken}">
+                                <button type="submit" class="btn-delete">Smazat</button>
+                            </form>
                         </div>
                     </div>
                 </article>
@@ -76,7 +79,10 @@
                         <p class="media-url" title="{$item->url}">{$item->url|truncate:65}</p>
                         <div class="media-card__actions">
                             <a class="btn btn-secondary" n:href="edit id => $item->id">Upravit</a>
-                            <a class="btn-delete" n:href="delete id => $item->id, type => 'video', _token => $csrfToken" onclick="return confirm('Smazat toto médium?')">Smazat</a>
+                            <form method="post" action="{link delete id => $item->id, type => 'video'}" class="inline-delete-form" onsubmit="return confirm('Smazat toto médium?')">
+                                <input type="hidden" name="_token" value="{$csrfToken}">
+                                <button type="submit" class="btn-delete">Smazat</button>
+                            </form>
                         </div>
                     </div>
                 </article>

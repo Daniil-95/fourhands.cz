@@ -50,7 +50,10 @@ final class SettingRepository
 
     public function getById(int $id): ?ActiveRow
     {
-        return $this->db->table('site_settings')->get($id);
+        return $this->db->table('site_settings')
+            ->where('id', $id)
+            ->where('key_name NOT IN ?', self::HIDDEN_ADMIN_KEYS)
+            ->fetch() ?: null;
     }
 
     public function save(array $data, ?int $id = null): void

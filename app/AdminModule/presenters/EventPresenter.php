@@ -36,6 +36,7 @@ final class EventPresenter extends BaseAdminPresenter
             if (!$item) {
                 $this->error('Událost nenalezena.');
             }
+            $this->assertAdminContentLanguage($item);
 
             $this['eventForm']->setDefaults([
                 'lang' => $item->lang,
@@ -44,6 +45,7 @@ final class EventPresenter extends BaseAdminPresenter
                 'sort_order' => $item->sort_order,
                 'active' => (bool) $item->active,
             ]);
+            $this['eventForm']['lang']->setDisabled();
         } else {
             $this['eventForm']->setDefaults([
                 'lang' => $this->getAdminContentLang(),
@@ -68,13 +70,23 @@ final class EventPresenter extends BaseAdminPresenter
 
     private function eventFormSucceeded(Form $form, \stdClass $values): void
     {
+        $language = $values->lang;
+        if ($this->editingId !== null) {
+            $item = $this->eventRepository->getById($this->editingId);
+            if (!$item) {
+                $this->error('Událost nenalezena.');
+            }
+            $this->assertAdminContentLanguage($item);
+            $language = (string) $item->lang;
+        }
+
         $date = null;
         if (is_string($values->event_date) && trim($values->event_date) !== '') {
             $date = $values->event_date;
         }
 
         $this->eventRepository->save([
-            'lang' => $values->lang,
+            'lang' => $language,
             'event_date' => $date,
             'description' => $values->description,
             'sort_order' => $values->sort_order ?? 100,
@@ -82,16 +94,18 @@ final class EventPresenter extends BaseAdminPresenter
         ], $this->editingId);
 
         $this->flashMessage('Akce byla uložena.', 'success');
-        $this->redirectToDefaultWithContentLang($values->lang);
+        $this->redirectToDefaultWithContentLang($language);
     }
 
     /** @throws AbortException */
     public function actionDelete(int $id): void
     {
-        $token = $this->getParameter('_token');
-        if (!is_string($token) || !$this->checkCsrfToken($token)) {
-            $this->error('Neplatný bezpečnostní token.', 403);
+        $this->requirePostWithCsrf();
+        $item = $this->eventRepository->getById($id);
+        if (!$item) {
+            $this->error('Událost nenalezena.');
         }
+        $this->assertAdminContentLanguage($item);
 
         $this->eventRepository->delete($id);
         $this->flashMessage('Akce byla smazána.', 'success');

@@ -36,6 +36,7 @@ final class NavigationPresenter extends BaseAdminPresenter
             if (!$item) {
                 $this->error('Položka menu nenalezena.');
             }
+            $this->assertAdminContentLanguage($item);
 
             $this['navigationForm']->setDefaults([
                 'lang' => $item->lang,
@@ -44,6 +45,7 @@ final class NavigationPresenter extends BaseAdminPresenter
                 'sort_order' => $item->sort_order,
                 'active' => (bool) $item->active,
             ]);
+            $this['navigationForm']['lang']->setDisabled();
         } else {
             $this['navigationForm']->setDefaults([
                 'lang' => $this->getAdminContentLang(),
@@ -57,7 +59,7 @@ final class NavigationPresenter extends BaseAdminPresenter
         $form->addProtection();
         $form->addSelect('lang', 'Jazyk', ['cs' => 'Čeština', 'en' => 'Angličtina'])->setRequired();
         $form->addText('title', 'Název položky')->setRequired();
-        $form->addText('url', 'URL adresa')->setRequired()->addRule($form::Pattern, 'Zadejte platnou URL začínající /', '^\/.*');
+        $form->addText('url', 'URL adresa')->setRequired()->addRule($form::Pattern, 'Zadejte platnou URL začínající /', '^\/(?!\/).*');
         $form->addInteger('sort_order', 'Pořadí')->setDefaultValue(100);
         $form->addCheckbox('active', 'Aktivní')->setDefaultValue(true);
         $form->addSubmit('save', 'Uložit');
@@ -68,8 +70,18 @@ final class NavigationPresenter extends BaseAdminPresenter
 
     private function navigationFormSucceeded(Form $form, \stdClass $values): void
     {
+        $language = $values->lang;
+        if ($this->editingId !== null) {
+            $item = $this->navigationRepository->getById($this->editingId);
+            if (!$item) {
+                $this->error('Položka menu nenalezena.');
+            }
+            $this->assertAdminContentLanguage($item);
+            $language = (string) $item->lang;
+        }
+
         $this->navigationRepository->save([
-            'lang' => $values->lang,
+            'lang' => $language,
             'title' => $values->title,
             'url' => $values->url,
             'sort_order' => $values->sort_order ?? 100,
@@ -77,16 +89,18 @@ final class NavigationPresenter extends BaseAdminPresenter
         ], $this->editingId);
 
         $this->flashMessage('Položka menu byla uložena.', 'success');
-        $this->redirectToDefaultWithContentLang($values->lang);
+        $this->redirectToDefaultWithContentLang($language);
     }
 
     /** @throws AbortException */
     public function actionDelete(int $id): void
     {
-        $token = $this->getParameter('_token');
-        if (!is_string($token) || !$this->checkCsrfToken($token)) {
-            $this->error('Neplatný bezpečnostní token.', 403);
+        $this->requirePostWithCsrf();
+        $item = $this->navigationRepository->getById($id);
+        if (!$item) {
+            $this->error('Položka menu nenalezena.');
         }
+        $this->assertAdminContentLanguage($item);
 
         $this->navigationRepository->delete($id);
         $this->flashMessage('Položka menu byla smazána.', 'success');

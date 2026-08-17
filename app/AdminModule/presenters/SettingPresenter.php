@@ -59,6 +59,7 @@ final class SettingPresenter extends BaseAdminPresenter
             if (!$item) {
                 $this->error('Nastavení nenalezeno.');
             }
+            $this->assertAdminContentLanguage($item);
 
             $this['settingForm']->setDefaults([
                 'lang' => $item->lang,
@@ -68,6 +69,7 @@ final class SettingPresenter extends BaseAdminPresenter
                 'value_text' => $item->value_text,
                 'sort_order' => $item->sort_order,
             ]);
+            $this['settingForm']['lang']->setDisabled();
         } else {
             $this['settingForm']->setDefaults([
                 'lang' => $this->getAdminContentLang(),
@@ -98,8 +100,18 @@ final class SettingPresenter extends BaseAdminPresenter
 
     private function settingFormSucceeded(Form $form, \stdClass $values): void
     {
+        $language = $values->lang;
+        if ($this->editingId !== null) {
+            $item = $this->settingRepository->getById($this->editingId);
+            if (!$item) {
+                $this->error('Nastavení nenalezeno.');
+            }
+            $this->assertAdminContentLanguage($item);
+            $language = (string) $item->lang;
+        }
+
         $this->settingRepository->save([
-            'lang' => $values->lang,
+            'lang' => $language,
             'group_name' => $values->group_name,
             'key_name' => $values->key_name,
             'label' => $values->label,
@@ -108,16 +120,18 @@ final class SettingPresenter extends BaseAdminPresenter
         ], $this->editingId);
 
         $this->flashMessage('Nastavení bylo uloženo.', 'success');
-        $this->redirectToDefaultWithContentLang($values->lang);
+        $this->redirectToDefaultWithContentLang($language);
     }
 
     /** @throws AbortException */
     public function actionDelete(int $id): void
     {
-        $token = $this->getParameter('_token');
-        if (!is_string($token) || !$this->checkCsrfToken($token)) {
-            $this->error('Neplatný bezpečnostní token.', 403);
+        $this->requirePostWithCsrf();
+        $item = $this->settingRepository->getById($id);
+        if (!$item) {
+            $this->error('Nastavení nenalezeno.');
         }
+        $this->assertAdminContentLanguage($item);
 
         $this->settingRepository->delete($id);
         $this->flashMessage('Nastavení bylo smazáno.', 'success');

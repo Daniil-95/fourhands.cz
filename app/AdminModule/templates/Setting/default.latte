@@ -27,11 +27,13 @@
                     <p class="setting-item-value">{$item->value_text !== '' ? $item->value_text : 'Není vyplněno'}</p>
                     <div class="setting-item-actions">
                         <a n:href="edit id => $item->id">Upravit</a>
-                        <a n:href="delete id => $item->id, _token => $csrfToken" class="btn-delete" onclick="return confirm('Smazat toto nastavení?')">Smazat</a>
+                        <form method="post" action="{link delete id => $item->id}" class="inline-delete-form" onsubmit="return confirm('Smazat toto nastavení?')">
+                            <input type="hidden" name="_token" value="{$csrfToken}">
+                            <button type="submit" class="btn-delete">Smazat</button>
+                        </form>
                     </div>
                 </article>
             </div>
         </section>
-    </div>
     </div>
 {/block}

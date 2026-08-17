@@ -29,7 +29,10 @@
                     <td>{if $item->active}Ano{else}Ne{/if}</td>
                     <td class="actions-cell" data-label="Akce">
                         <a class="btn btn-secondary" n:href="edit id => $item->id">Upravit</a>
-                        <a class="btn-delete" n:href="delete id => $item->id, _token => $csrfToken" onclick="return confirm('Smazat tuto publikaci?')">Smazat</a>
+                        <form method="post" action="{link delete id => $item->id}" class="inline-delete-form" onsubmit="return confirm('Smazat tuto publikaci?')">
+                            <input type="hidden" name="_token" value="{$csrfToken}">
+                            <button type="submit" class="btn-delete">Smazat</button>
+                        </form>
                     </td>
                 </tr>
             {/foreach}

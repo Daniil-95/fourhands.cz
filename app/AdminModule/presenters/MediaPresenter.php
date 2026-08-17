@@ -7,7 +7,6 @@ use App\Model\MediaRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Http\FileUpload;
-use Nette\Utils\Strings;
 
 final class MediaPresenter extends BaseAdminPresenter
 {
@@ -60,6 +59,7 @@ final class MediaPresenter extends BaseAdminPresenter
             if (!$item) {
                 $this->error('Médium nenalezeno.');
             }
+            $this->assertAdminContentLanguage($item);
             $this->editingType = $item->type;
 
             $this['mediaForm']->setDefaults([
@@ -73,6 +73,8 @@ final class MediaPresenter extends BaseAdminPresenter
                 'active' => $item->active,
                 'alt_text' => $item->alt_text ?? '',
             ]);
+            $this['mediaForm']['lang']->setDisabled();
+            $this['mediaForm']['type']->setDisabled();
 
             $this->template->currentImagePath = $item->image_path;
         } else {
@@ -109,12 +111,15 @@ final class MediaPresenter extends BaseAdminPresenter
 
     private function mediaFormSucceeded(Form $form, \stdClass $values): void
     {
+        $language = $values->lang;
         if ($this->editingId !== null) {
             $item = $this->mediaRepository->getById($this->editingId);
             if (!$item) {
                 $this->error('Médium nebylo nalezeno.');
             }
+            $this->assertAdminContentLanguage($item);
             $values->type = $item->type;
+            $language = (string) $item->lang;
         }
 
         /** @var FileUpload $upload */
@@ -124,15 +129,16 @@ final class MediaPresenter extends BaseAdminPresenter
                 $form->addError('Nahrajte platný obrázek JPG, PNG, GIF nebo WebP do velikosti 8 MB.');
                 return;
             }
-            $base = Strings::webalize(pathinfo($upload->getSanitizedName(), PATHINFO_FILENAME)) ?: 'image';
-            $extension = strtolower(pathinfo($upload->getSanitizedName(), PATHINFO_EXTENSION));
-            $filename = $base . '-' . date('Ymd-His') . '.' . $extension;
-            $upload->move(__DIR__ . '/../../../www/images/' . $filename);
-            $values->image_path = 'images/' . $filename;
+            $imagePath = $this->storeImageUpload($upload, 'media');
+            if ($imagePath === null) {
+                $form->addError('Nahrajte platný obrázek JPG, PNG, GIF nebo WebP do velikosti 8 MB.');
+                return;
+            }
+            $values->image_path = $imagePath;
         }
 
         $this->mediaRepository->save([
-            'lang' => $values->lang,
+            'lang' => $language,
             'type' => $values->type,
             'title' => $values->title,
             'description' => $values->description,
@@ -150,10 +156,15 @@ final class MediaPresenter extends BaseAdminPresenter
     /** @throws AbortException */
     public function actionDelete(int $id): void
     {
+        $this->requirePostWithCsrf();
         $tab = $this->getParameter('type');
-        $token = $this->getParameter('_token');
-        if (!is_string($token) || !$this->checkCsrfToken($token)) {
-            $this->error('Neplatný bezpečnostní token.', 403);
+        $item = $this->mediaRepository->getById($id);
+        if (!$item) {
+            $this->error('Médium nenalezeno.');
+        }
+        $this->assertAdminContentLanguage($item);
+        if (is_string($tab) && in_array($tab, ['photo', 'video'], true) && $item->type !== $tab) {
+            $this->error('Médium nepatří do zvolené galerie.', 404);
         }
 
         $this->mediaRepository->delete($id);
@@ -168,6 +179,11 @@ final class MediaPresenter extends BaseAdminPresenter
         $form->addHidden('id')->setRequired();
         $form->addSubmit('delete', 'Smazat');
         $form->onSuccess[] = function (Form $form, \stdClass $values): void {
+            $item = $this->mediaRepository->getById((int) $values->id);
+            if (!$item) {
+                $this->error('Médium nenalezeno.');
+            }
+            $this->assertAdminContentLanguage($item);
             $this->mediaRepository->delete((int) $values->id);
             $this->flashMessage('Médium bylo smazáno.', 'success');
             $this->redirectToDefaultWithContentLang();

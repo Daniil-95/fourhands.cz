@@ -7,7 +7,6 @@ use App\Model\PageSectionRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Http\FileUpload;
-use Nette\Utils\Strings;
 
 final class PagePresenter extends BaseAdminPresenter
 {
@@ -95,6 +94,7 @@ final class PagePresenter extends BaseAdminPresenter
         if (!$item || !isset(PageSectionRepository::SECTIONS[$item->page_key][$item->section_key])) {
             $this->error('Sekce nenalezena.');
         }
+        $this->assertAdminContentLanguage($item);
 
         $this->editingPageKey = (string) $item->page_key;
         $this->editingSectionKey = (string) $item->section_key;
@@ -203,6 +203,7 @@ final class PagePresenter extends BaseAdminPresenter
         if (!$current) {
             $this->error('Sekce nenalezena.');
         }
+        $this->assertAdminContentLanguage($current);
 
         $imagePath = (string) $current->image_path;
 
@@ -213,11 +214,12 @@ final class PagePresenter extends BaseAdminPresenter
                 $form->addError('Nahrajte platný obrázek JPG, PNG, GIF nebo WebP do velikosti 8 MB.');
                 return;
             }
-            $base = Strings::webalize(pathinfo($upload->getSanitizedName(), PATHINFO_FILENAME)) ?: 'section';
-            $extension = strtolower(pathinfo($upload->getSanitizedName(), PATHINFO_EXTENSION));
-            $filename = $base . '-' . date('Ymd-His') . '.' . $extension;
-            $upload->move(__DIR__ . '/../../../www/images/' . $filename);
-            $imagePath = 'images/' . $filename;
+            $storedImagePath = $this->storeImageUpload($upload, 'section');
+            if ($storedImagePath === null) {
+                $form->addError('Nahrajte platný obrázek JPG, PNG, GIF nebo WebP do velikosti 8 MB.');
+                return;
+            }
+            $imagePath = $storedImagePath;
         }
 
         $lang = (string) $this->editingLang;

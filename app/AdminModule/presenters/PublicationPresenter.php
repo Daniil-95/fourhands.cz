@@ -36,6 +36,7 @@ final class PublicationPresenter extends BaseAdminPresenter
             if (!$item) {
                 $this->error('Publikace nenalezena.');
             }
+            $this->assertAdminContentLanguage($item);
 
             $this['publicationForm']->setDefaults([
                 'lang' => $item->lang,
@@ -48,6 +49,7 @@ final class PublicationPresenter extends BaseAdminPresenter
                 'sort_order' => $item->sort_order,
                 'active' => (bool) $item->active,
             ]);
+            $this['publicationForm']['lang']->setDisabled();
         } else {
             $this['publicationForm']->setDefaults([
                 'lang' => $this->getAdminContentLang(),
@@ -76,8 +78,18 @@ final class PublicationPresenter extends BaseAdminPresenter
 
     private function publicationFormSucceeded(Form $form, \stdClass $values): void
     {
+        $language = $values->lang;
+        if ($this->editingId !== null) {
+            $item = $this->publicationRepository->getById($this->editingId);
+            if (!$item) {
+                $this->error('Publikace nenalezena.');
+            }
+            $this->assertAdminContentLanguage($item);
+            $language = (string) $item->lang;
+        }
+
         $this->publicationRepository->save([
-            'lang' => $values->lang,
+            'lang' => $language,
             'title' => $values->title,
             'source' => $values->source,
             'short_description' => $values->short_description,
@@ -89,16 +101,18 @@ final class PublicationPresenter extends BaseAdminPresenter
         ], $this->editingId);
 
         $this->flashMessage('Publikace byla uložena.', 'success');
-        $this->redirectToDefaultWithContentLang($values->lang);
+        $this->redirectToDefaultWithContentLang($language);
     }
 
     /** @throws AbortException */
     public function actionDelete(int $id): void
     {
-        $token = $this->getParameter('_token');
-        if (!is_string($token) || !$this->checkCsrfToken($token)) {
-            $this->error('Neplatný bezpečnostní token.', 403);
+        $this->requirePostWithCsrf();
+        $item = $this->publicationRepository->getById($id);
+        if (!$item) {
+            $this->error('Publikace nenalezena.');
         }
+        $this->assertAdminContentLanguage($item);
 
         $this->publicationRepository->delete($id);
         $this->flashMessage('Publikace byla smazána.', 'success');
