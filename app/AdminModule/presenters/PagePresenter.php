@@ -14,6 +14,7 @@ final class PagePresenter extends BaseAdminPresenter
     private ?int $editingId = null;
     private ?string $editingPageKey = null;
     private ?string $editingSectionKey = null;
+    private ?string $editingLang = null;
 
     public function __construct(private PageSectionRepository $pageSectionRepository)
     {
@@ -52,6 +53,7 @@ final class PagePresenter extends BaseAdminPresenter
         $this->editingId = (int) $item->id;
         $this->editingPageKey = (string) $item->page_key;
         $this->editingSectionKey = (string) $item->section_key;
+        $this->editingLang = (string) $item->lang;
 
         $this['sectionForm']->setDefaults([
             'lang' => $item->lang,
@@ -80,6 +82,7 @@ final class PagePresenter extends BaseAdminPresenter
 
         $this->editingPageKey = (string) $item->page_key;
         $this->editingSectionKey = (string) $item->section_key;
+        $this->editingLang = (string) $item->lang;
 
         $this['sectionForm']->setDefaults([
             'lang' => $item->lang,
@@ -100,13 +103,14 @@ final class PagePresenter extends BaseAdminPresenter
     {
         $form = new Form();
         $form->addProtection();
-        $form->addSelect('lang', 'Jazyk', ['cs' => 'Čeština', 'en' => 'Angličtina'])->setRequired();
         $form->addText('title', 'Nadpis');
         $form->addText('subtitle', 'Podnadpis');
 
         if ($this->getAction() === 'hero') {
+            $form->addHidden('lang');
             $form->addText('content', 'Nadtitulek');
         } else {
+            $form->addSelect('lang', 'Jazyk', ['cs' => 'Čeština', 'en' => 'Angličtina'])->setRequired();
             $form->addTextArea('content', 'Obsah')->setHtmlAttribute('rows', 10);
         }
 
@@ -144,8 +148,12 @@ final class PagePresenter extends BaseAdminPresenter
             $values->image_path = 'images/' . $filename;
         }
 
+        $lang = ($this->editingPageKey === 'homepage' && $this->editingSectionKey === 'hero')
+            ? $this->editingLang
+            : $values->lang;
+
         $this->pageSectionRepository->save($this->editingId, [
-            'lang' => $values->lang,
+            'lang' => $lang,
             'title' => $values->title,
             'subtitle' => $values->subtitle,
             'content' => $values->content,
@@ -156,9 +164,9 @@ final class PagePresenter extends BaseAdminPresenter
         ]);
         $this->flashMessage('Sekce byla uložena.', 'success');
         if ($this->editingPageKey === 'homepage' && $this->editingSectionKey === 'hero') {
-            $this->redirect('hero', ['lang' => $values->lang]);
+            $this->redirect('hero', ['lang' => $lang]);
         }
 
-        $this->redirect('default', ['page' => $this->editingPageKey, 'lang' => $values->lang]);
+        $this->redirect('default', ['page' => $this->editingPageKey, 'lang' => $lang]);
     }
 }
