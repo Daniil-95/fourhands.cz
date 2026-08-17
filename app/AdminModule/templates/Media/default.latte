@@ -63,11 +63,12 @@
                 <article class="media-card media-card--video">
                     <div class="media-card__image-wrap">
                         {var $preview = $item->youtube_thumb ?? ''}
+                        {var $previewFallback = $item->youtube_thumb_fallback ?? ''}
                         {if !$preview && $item->image_path}
                             {var $preview = $basePath . '/' . $item->image_path}
                         {/if}
                         {if $preview}
-                            <img src="{$preview}" alt="{$item->title}" class="media-card__image">
+                            <img src="{$preview}" alt="{$item->title}" class="media-card__image" onerror="this.onerror=null;this.src='{$previewFallback}'">
                         {else}
                             <div class="media-card__placeholder">YouTube náhled nenalezen</div>
                         {/if}

@@ -50,7 +50,8 @@ final class MediaRepository
                 'description' => '',
                 'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
                 'url' => $url,
-                'youtube_thumb' => $this->getYoutubeThumbnail($url),
+                'youtube_thumb' => $this->getYoutubeThumbnail($url, 'hqdefault'),
+                'youtube_thumb_fallback' => $this->getYoutubeThumbnail($url, 'mqdefault'),
                 'sort_order' => (int) $row->sort_order,
                 'active' => (bool) $row->active,
                 'alt_text' => '',
@@ -108,7 +109,8 @@ final class MediaRepository
                 'description' => '',
                 'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
                 'url' => (string) (($row->embed ?: $row->file) ?? ''),
-                'youtube_thumb' => $this->getYoutubeThumbnail((string) (($row->embed ?: $row->file) ?? '')),
+                'youtube_thumb' => $this->getYoutubeThumbnail((string) (($row->embed ?: $row->file) ?? ''), 'hqdefault'),
+                'youtube_thumb_fallback' => $this->getYoutubeThumbnail((string) (($row->embed ?: $row->file) ?? ''), 'mqdefault'),
                 'sort_order' => (int) $row->sort_order,
                 'active' => (bool) $row->active,
                 'alt_text' => '',
@@ -217,7 +219,8 @@ final class MediaRepository
                 'description' => '',
                 'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
                 'url' => (string) (($row->embed ?: $row->file) ?? ''),
-                'youtube_thumb' => $this->getYoutubeThumbnail((string) (($row->embed ?: $row->file) ?? '')),
+                'youtube_thumb' => $this->getYoutubeThumbnail((string) (($row->embed ?: $row->file) ?? ''), 'hqdefault'),
+                'youtube_thumb_fallback' => $this->getYoutubeThumbnail((string) (($row->embed ?: $row->file) ?? ''), 'mqdefault'),
             ];
         }
 
@@ -248,7 +251,7 @@ final class MediaRepository
         return $this->normalizePath($trimmed);
     }
 
-    public function getYoutubeThumbnail(string $url): string
+    public function getYoutubeThumbnail(string $url, string $variant = 'maxresdefault'): string
     {
         $trimmed = trim($url);
         if ($trimmed === '') {
@@ -260,7 +263,7 @@ final class MediaRepository
         ];
         foreach ($patterns as $pattern) {
             if (preg_match($pattern, $trimmed, $matches) === 1) {
-                return 'https://img.youtube.com/vi/' . $matches[1] . '/maxresdefault.jpg';
+                return 'https://img.youtube.com/vi/' . $matches[1] . '/' . $variant . '.jpg';
             }
         }
 
