@@ -12,14 +12,12 @@ final class PageSectionRepository
         'about' => 'O nás',
         'artists' => 'Umělkyně',
         'repertoire' => 'Repertoár',
-        'events' => 'Události',
         'from_stage' => 'Z pódia',
     ];
 
     public const SECTIONS = [
         'homepage' => [
             'hero' => 'První obrazovka',
-            'programs' => 'Programy',
             'videos' => 'Videogalerie',
             'gallery' => 'Fotogalerie',
             'contact' => 'Kontakt',

@@ -1,5 +1,4 @@
 {var $hero = $pageSections['homepage']['hero'] ?? null}
-{var $programsSection = $pageSections['homepage']['programs'] ?? null}
 {var $videosSection = $pageSections['homepage']['videos'] ?? null}
 {var $gallerySection = $pageSections['homepage']['gallery'] ?? null}
 {var $contactSection = $pageSections['homepage']['contact'] ?? null}
@@ -27,48 +26,7 @@
             <p class="hero__lead">{$heroLead}</p>
             <a class="button" href="{$basePath}{$hero?->button_url ?: '#kontakt'}">{$heroCta} <span>→</span></a>
         </div>
-        <a class="hero__scroll" href="#programy">{$heroScroll} <span>↓</span></a>
-    </section>
-
-    <section class="section concert-programs" id="programy">
-        <div class="container">
-            <div class="section-heading section-heading--concert reveal">
-                <p class="eyebrow">{$programsSection?->subtitle ?: 'Nadcházející programy'}</p>
-                <h2>{$programsSection?->title ?: 'Kde nás můžete slyšet'}</h2>
-            </div>
-
-            <div class="concert-programs__action reveal">
-                <a class="button button--outline-light" href="{$basePath}{$programsSection?->button_url ?: '/udalosti'}">{$programsSection?->button_text ?: 'Všechny programy'} <span>→</span></a>
-            </div>
-
-            {var $photoCount = count($photos)}
-            <div class="concert-grid reveal">
-                {if $events['upcoming']}
-                    <article class="concert-card" n:foreach="$events['upcoming'] as $event">
-                        {var $eventImage = $photoCount ? $photos[$iterator->counter0 % $photoCount]['image_path'] : 'images/story.jpg'}
-                        <div class="concert-card__image">
-                            <img src="{$basePath}/{$eventImage}" alt="{$event['description']}" loading="lazy">
-                        </div>
-                        <div class="concert-card__body">
-                            <p class="concert-card__meta">{$event['event_date']|date:'d / m / Y'}<br>{$event['event_date']|date:'H:i'}</p>
-                            <h3>{$event['description']}</h3>
-                            <a class="concert-card__link" n:href=":Front:EventsArchive:default locale => $locale">{_'More information'} <span>→</span></a>
-                        </div>
-                    </article>
-                {else}
-                    <article class="concert-card" n:foreach="$programs as $program">
-                        <div class="concert-card__image">
-                            <img src="{$basePath}/images/{$program->image_path}" alt="{$program->title}" loading="lazy">
-                        </div>
-                        <div class="concert-card__body">
-                            <p class="concert-card__meta">{_'Concert program'}</p>
-                            <h3>{$program->title}</h3>
-                            <p>{$program->description}</p>
-                        </div>
-                    </article>
-                {/if}
-            </div>
-        </div>
+        <a class="hero__scroll" href="#videa">{$heroScroll} <span>↓</span></a>
     </section>
 
     <section class="section videos" id="videa">

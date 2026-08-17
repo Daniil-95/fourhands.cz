@@ -20,8 +20,6 @@ CREATE TABLE IF NOT EXISTS page_sections (
 INSERT IGNORE INTO page_sections (lang, page_key, section_key, title, subtitle, content, button_text, button_url, image_path, sort_order) VALUES
 ('cs', 'homepage', 'hero', 'FOURHANDS', 'Klavírní duo pro výjimečné okamžiky vašeho života.', '', 'Nezávazná poptávka', '#kontakt', 'images/story.jpg', 10),
 ('en', 'homepage', 'hero', 'FOURHANDS', 'Piano duo for the exceptional moments of your life.', '', 'Non-binding inquiry', '#kontakt', 'images/story.jpg', 10),
-('cs', 'homepage', 'programs', 'Kde nás můžete slyšet', 'Nadcházející programy', '', 'Všechny programy', '/udalosti', '', 20),
-('en', 'homepage', 'programs', 'Where can you hear us', 'Upcoming programs', '', 'All programs', '/udalosti', '', 20),
 ('cs', 'homepage', 'videos', 'Poslouchejte nás', 'Video prezentace', '', 'Zobrazit všechna videa', '/videa', '', 30),
 ('en', 'homepage', 'videos', 'Listen to us', 'Video presentation', '', 'Show all videos', '/videa', '', 30),
 ('cs', 'homepage', 'gallery', 'Momenty v obrazech', 'Fotogalerie', '', 'Zobrazit celou galerii', '/galerie', '', 40),
@@ -42,8 +40,6 @@ INSERT IGNORE INTO page_sections (lang, page_key, section_key, title, subtitle, 
 ('en', 'repertoire', 'hero', 'Repertoire', 'Music for exceptional moments.', '', '', '', '', 10),
 ('cs', 'repertoire', 'content', 'Nabídka programů', '', 'Repertoár bude doplněn v administraci.', '', '', '', 20),
 ('en', 'repertoire', 'content', 'Programmes', '', 'The repertoire will be added in the administration.', '', '', '', 20),
-('cs', 'events', 'hero', 'Program', 'Nadcházející vystoupení a koncerty.', '', '', '', '', 10),
-('en', 'events', 'hero', 'Events', 'Upcoming performances and concerts.', '', '', '', '', 10),
 ('cs', 'from_stage', 'hero', 'Z pódia', 'Články, rozhovory, publikace a zmínky o Fourhands.', '', '', '', '', 10),
 ('en', 'from_stage', 'hero', 'From the stage', 'Articles, interviews, publications and mentions about Fourhands.', '', '', '', '', 10);
 

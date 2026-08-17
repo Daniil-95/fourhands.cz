@@ -73,7 +73,7 @@
                                 {var $menuLabel = 'About us'}
                             {elseif in_array($normalizedUrl, ['clenky', 'umelkyne'], true)}
                                 {var $menuLabel = 'Artists'}
-                            {elseif in_array($normalizedUrl, ['#programy', 'repertoar', 'koncertni-program'], true)}
+                            {elseif in_array($normalizedUrl, ['repertoar', 'koncertni-program'], true)}
                                 {var $menuLabel = 'Concert program'}
                             {elseif in_array($normalizedUrl, ['galerie', 'fotogalerie'], true)}
                                 {var $menuLabel = 'Gallery'}
@@ -129,13 +129,6 @@
                         <a n:href=":Front:Repertoire:default locale => $locale">{_'Concert program'}</a>
                         <a n:href=":Front:FromStage:default locale => $locale">{_'From the stage'}</a>
                         <a n:href=":Front:Videos:default locale => $locale">{_'Videos'}</a>
-                    </div>
-                    <div class="col-6 col-lg-3">
-                        <h3>{_'Programs'}</h3>
-                        <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Weddings'}</a>
-                        <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Corporate events'}</a>
-                        <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Concerts'}</a>
-                        <a href="{link :Front:Homepage:default, locale => $locale}#programy">{_'Private events'}</a>
                     </div>
                     <div class="col-lg-3">
                         <h3>{_'Contact'}</h3>

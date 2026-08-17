@@ -10,7 +10,7 @@
         {foreach $pages as $pageKey => $pageTitle}
             <article class="card page-card">
                 <h3>{$pageTitle}</h3>
-                <p>{switch $pageKey}{case 'homepage'}Hero, programy, videa, galerie a kontakt.{case 'about'}Hero a hlavní obsah stránky O nás.{case 'artists'}Hero a profily umělkyň.{case 'repertoire'}Hero a obsah repertoáru.{case 'events'}Hero a nastavení událostí.{case 'from_stage'}Hero a obsah sekce Z pódia.{/switch}</p>
+                <p>{switch $pageKey}{case 'homepage'}Hero, videa, galerie a kontakt.{case 'about'}Hero a hlavní obsah stránky O nás.{case 'artists'}Hero a profily umělkyň.{case 'repertoire'}Hero a obsah repertoáру.{case 'from_stage'}Hero a obsah sekce Z pódia.{/switch}</p>
                 <a class="card-link" n:href=":Admin:Page:default page => $pageKey">Otevřít sekce</a>
             </article>
         {/foreach}

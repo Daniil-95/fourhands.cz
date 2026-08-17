@@ -17,7 +17,6 @@ services:
     - App\Model\MediaRepository
     - App\Model\NavigationRepository
     - App\Model\SettingRepository
-    - App\Model\ProgramRepository
     - App\Model\InquiryRepository
     - App\Model\PublicationRepository
     - App\Model\PageSectionRepository

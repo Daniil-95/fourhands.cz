@@ -6,7 +6,6 @@ use App\Common\BasePresenter;
 use App\Model\EventRepository;
 use App\Model\InquiryRepository;
 use App\Model\MediaRepository;
-use App\Model\ProgramRepository;
 use Nette\Application\UI\Form;
 
 final class HomepagePresenter extends BasePresenter
@@ -14,7 +13,6 @@ final class HomepagePresenter extends BasePresenter
     public function __construct(
         private EventRepository $eventRepository,
         private MediaRepository $mediaRepository,
-        private ProgramRepository $programRepository,
         private InquiryRepository $inquiryRepository,
     ) {
         parent::__construct();
@@ -26,7 +24,6 @@ final class HomepagePresenter extends BasePresenter
         $this->template->events = $this->eventRepository->getByLocale($locale);
         $this->template->photos = $this->mediaRepository->getByLocaleAndType($locale, 'photo');
         $this->template->videos = $this->mediaRepository->getByLocaleAndType($locale, 'video');
-        $this->template->programs = $this->programRepository->getActiveByLocale($locale);
     }
 
     protected function createComponentInquiryForm(): Form
