@@ -22,6 +22,7 @@
   border-radius: 8px;
   cursor: zoom-in;
   text-decoration: none;
+  aspect-ratio: 4 / 3;
 
   @include respond-down(sm) {
     border-radius: 6px;
@@ -30,7 +31,10 @@
 
 .gallery-item img {
   width: 100%;
+  height: 100%;
   display: block;
+  object-fit: cover;
+  object-position: top;
   transition: transform $transition-gallery;
 }
 
