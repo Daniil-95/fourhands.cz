@@ -196,7 +196,7 @@ final class MediaRepository
     private function photos(string $locale): array
     {
         $items = [];
-        foreach ($this->db->table('images')->where('lang', $locale)->where('active', 1)->order('sort_order, id DESC')->fetchAll() as $row) {
+        foreach ($this->db->table('images')->where('lang', $locale)->where('active', 1)->order('id DESC')->fetchAll() as $row) {
             $items[] = [
                 'id' => (int) $row->id,
                 'title' => (string) ($row->title ?? ''),
