@@ -11,6 +11,10 @@
 {var $contactEmail = $siteSettings['email'] ?: 'info@fourhands.cz'}
 {var $contactAddress = $siteSettings['address'] ?: 'Praha, Česká republika'}
 {var $contactImage = $contactSection?->image_path ? $basePath . '/' . $contactSection->image_path : $heroImage}
+{var $contactTitle = $siteSettings['contact_heading'] ?? ''}
+{var $contactSubtitle = $siteSettings['contact_lead'] ?? ''}
+{var $contactTitle = $contactTitle ?: ($contactSection?->title ?: ($locale === 'cs' ? 'Chcete nám napsat?' : 'Would you like to write to us?'))}
+{var $contactSubtitle = $contactSubtitle ?: ($contactSection?->subtitle ?: ($locale === 'cs' ? 'Rády vám odpovíme.' : 'We will be happy to reply.'))}
 
 {block title}{_'Piano duo for exceptional moments'}{/block}
 
@@ -116,7 +120,7 @@
                 <div class="col-lg-5 contact__visual" style="background-image:url('{$contactImage}')"></div>
                 <div class="col-lg-7 contact__content reveal">
                     <p class="eyebrow">Kontakt</p>
-                    <h2>{$contactSection?->title ?: 'Plánujete akci?'}{if $contactSection?->subtitle}<br>{$contactSection->subtitle}{/if}</h2>
+                    <h2>{$contactTitle}<br>{$contactSubtitle}</h2>
                     <div class="contact__details">
                         <a href="tel:+420777123456">{$contactPhone}</a>
                         <a href="mailto:{$contactEmail}">{$contactEmail}</a>
