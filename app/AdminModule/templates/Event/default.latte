@@ -1,14 +1,30 @@
 ﻿{block content}
     <div class="page-header">
         <h2>Události</h2>
-        <a class="btn" n:href="edit">Přidat událost</a>
     </div>
-    <section class="widget" n:if="$pageHero">
-        <h3>Úvodní část stránky</h3>
-        {control eventPageForm}
+    <section class="media-section media-section--settings" n:if="$pageHero">
+        <div class="media-section__head">
+            <div>
+                <h3>Úvodní část stránky</h3>
+            </div>
+        </div>
+        {form eventPageForm class => 'media-section-form'}
+            <div class="media-section-form__grid">
+                <label>{label title /}{input title}</label>
+                <label>{label subtitle /}{input subtitle}</label>
+            </div>
+            {input save class => 'btn'}
+        {/form}
     </section>
-    <div class="table-container">
-    <table>
+    <section class="media-section">
+        <div class="media-section__head">
+            <div>
+                <h3>Události</h3>
+            </div>
+            <a class="btn" n:href="edit">Přidat událost</a>
+        </div>
+        <div class="table-container">
+        <table>
         <thead>
         <tr>
             <th>ID</th>
@@ -45,6 +61,7 @@
             </td>
         </tr>
         </tbody>
-    </table>
-    </div>
+        </table>
+        </div>
+    </section>
 {/block}
