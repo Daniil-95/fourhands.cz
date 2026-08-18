@@ -48,6 +48,13 @@ abstract class BasePresenter extends Presenter
 
         $this->translator = new Translator($locale);
         $this->template->locale = $locale;
+        $this->template->eventMonth = function (\DateTimeInterface $date) use ($locale): string {
+            $months = $locale === 'cs'
+                ? ['led', 'úno', 'bře', 'dub', 'kvě', 'čvn', 'čvc', 'srp', 'zář', 'říj', 'lis', 'pro']
+                : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+            return $months[(int) $date->format('n') - 1] . ' ' . $date->format('Y');
+        };
         $this->template->switchLocale = $locale === 'cs' ? 'en' : 'cs';
         $this->template->isAdmin = str_starts_with($this->getName(), 'Admin:');
         $this->template->siteSettings = $this->settingRepository?->getByLocale($locale) ?? [];

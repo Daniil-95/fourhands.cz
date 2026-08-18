@@ -21,7 +21,7 @@
                         <div class="event-tile__media" style="background-image:url('{$basePath}/{$event['image_path'] ?: ($hero?->image_path ?: 'images/story.jpg')}')">
                             <div class="event-tile__date">
                                 <strong>{$event['event_date']|date:'d'}</strong>
-                                <span>{$event['event_date']|date:'M Y'}</span>
+                                <span>{$eventMonth($event['event_date'])}</span>
                             </div>
                         </div>
                         <div class="event-tile__body">

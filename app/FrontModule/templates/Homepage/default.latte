@@ -46,7 +46,7 @@
                         <div class="event-card__body">
                             <time datetime="{$event['event_date']->format('Y-m-d')}">
                                 <strong>{$event['event_date']|date:'d'}</strong>
-                                <span>{$event['event_date']|date:'M Y'}</span>
+                                <span>{$eventMonth($event['event_date'])}</span>
                             </time>
                             <h3>{$event['description']}</h3>
                             <a n:href=":Front:EventsArchive:default locale => $locale">{_'Read more'} <span>→</span></a>
