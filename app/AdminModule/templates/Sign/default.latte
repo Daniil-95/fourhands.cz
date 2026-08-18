@@ -10,7 +10,7 @@
     <body class="signin-page">
         <div class="signin-wrap" role="main" aria-labelledby="signin-title">
             <h1 id="signin-title">Fourhands Administrace</h1>
-            <div n:foreach="$flashes as $flash" class="flash {$flash->type}">
+            <div n:foreach="$flashes as $flash" class="flash signin-notice {$flash->type}">
                 {$flash->message}
             </div>
 

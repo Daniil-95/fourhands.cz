@@ -1398,6 +1398,13 @@ code {
     }
 }
 
+.signin-notice {
+    margin: 0 0 20px;
+    padding: 11px 14px;
+    border-radius: 8px;
+    line-height: 1.45;
+}
+
 .signin-form {
     display: grid;
     gap: 14px;
@@ -1945,6 +1952,12 @@ code {
     .signin-errors {
         margin-bottom: 16px;
         padding: 12px 14px;
+        font-size: 0.85rem;
+    }
+
+    .signin-notice {
+        margin-bottom: 18px;
+        padding: 11px 12px;
         font-size: 0.85rem;
     }
 
