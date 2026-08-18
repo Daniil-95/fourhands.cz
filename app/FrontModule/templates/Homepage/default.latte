@@ -32,7 +32,7 @@
         <div class="container">
             <div class="section-heading section-heading--split reveal">
                 <div>
-                    <p class="eyebrow">{_'Upcoming performances'}</p>
+                    <p class="eyebrow">{if $locale === 'cs'}Nadcházející události{else}Upcoming events{/if}</p>
                     <h2>{if $locale === 'cs'}Kde nás můžete slyšet{else}Where you can hear us{/if}</h2>
                 </div>
                 <a class="button button--outline button--outline-light" n:href=":Front:EventsArchive:default locale => $locale">{_'See all events'} <span>→</span></a>

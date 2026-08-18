@@ -51,12 +51,14 @@
 
   .section-heading--split {
     display: flex;
+    max-width: none;
+    text-align: left;
     align-items: end;
     justify-content: space-between;
     gap: 32px;
     margin-bottom: 36px;
 
-    @include respond-down(md) {
+    @include respond-down(sm) {
       align-items: start;
       flex-direction: column;
       gap: 20px;

@@ -1372,12 +1372,14 @@ p {
 }
 .events-preview .section-heading--split {
   display: flex;
+  max-width: none;
+  text-align: left;
   align-items: end;
   justify-content: space-between;
   gap: 32px;
   margin-bottom: 36px;
 }
-@media (max-width: 767.98px) {
+@media (max-width: 575.98px) {
   .events-preview .section-heading--split {
     align-items: start;
     flex-direction: column;

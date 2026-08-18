@@ -41,7 +41,7 @@ final class EventRepository
             }
         }
 
-        usort($upcoming, static fn (array $first, array $second): int => $first['event_date'] <=> $second['event_date']);
+        usort($upcoming, static fn (array $first, array $second): int => $second['event_date'] <=> $first['event_date']);
         usort($past, static fn (array $first, array $second): int => $second['event_date'] <=> $first['event_date']);
 
         return ['upcoming' => $upcoming, 'past' => $past];
