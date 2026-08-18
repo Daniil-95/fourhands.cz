@@ -3,6 +3,7 @@
 namespace App\AdminModule\Presenters;
 
 use App\Common\BaseAdminPresenter;
+use App\Model\PageSectionRepository;
 use App\Model\PublicationRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
@@ -11,14 +12,25 @@ final class PublicationPresenter extends BaseAdminPresenter
 {
     private ?int $editingId = null;
 
-    public function __construct(private PublicationRepository $publicationRepository)
+    public function __construct(
+        private PublicationRepository $publicationRepository,
+        private PageSectionRepository $pageSectionRepository,
+    )
     {
         parent::__construct();
     }
 
     public function renderDefault(): void
     {
+        $language = $this->getAdminContentLang();
         $this->template->items = $this->filterByAdminContentLang($this->publicationRepository->getAll());
+        $this->template->pageHero = $this->pageSectionRepository->getByPageSection('from_stage', 'hero', $language);
+        if ($this->template->pageHero) {
+            $this['publicationPageForm']->setDefaults([
+                'title' => $this->template->pageHero->title,
+                'subtitle' => $this->template->pageHero->subtitle,
+            ]);
+        }
     }
 
     public function renderEdit(): void
@@ -74,6 +86,37 @@ final class PublicationPresenter extends BaseAdminPresenter
 
         $form->onSuccess[] = $this->publicationFormSucceeded(...);
         return $form;
+    }
+
+    protected function createComponentPublicationPageForm(): Form
+    {
+        $form = new Form();
+        $form->addProtection();
+        $form->addText('title', 'Nadpis')->setRequired();
+        $form->addText('subtitle', 'Podnadpis');
+        $form->addSubmit('save', 'Uložit');
+        $form->onSuccess[] = $this->publicationPageFormSucceeded(...);
+
+        return $form;
+    }
+
+    private function publicationPageFormSucceeded(Form $form, \stdClass $values): void
+    {
+        $language = $this->getAdminContentLang();
+        $hero = $this->pageSectionRepository->getByPageSection('from_stage', 'hero', $language);
+        if (!$hero) {
+            $form->addError('Úvodní sekce stránky Z pódia nebyla nalezena.');
+            return;
+        }
+
+        $this->pageSectionRepository->updateTitleAndSubtitle(
+            (int) $hero->id,
+            (string) $values->title,
+            (string) ($values->subtitle ?? ''),
+        );
+
+        $this->flashMessage('Úvodní text stránky Z pódia byl uložen.', 'success');
+        $this->redirectToDefaultWithContentLang($language);
     }
 
     private function publicationFormSucceeded(Form $form, \stdClass $values): void

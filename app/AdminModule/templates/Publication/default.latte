@@ -6,11 +6,32 @@
             <h2>Publikace / Z pódia</h2>
             <p class="muted">Správa externích článků, publikací a zmínek o duu.</p>
         </div>
-        <a class="btn" n:href="edit">Přidat publikaci</a>
     </div>
 
-    <div class="table-container">
-        <table>
+    <section class="media-section media-section--settings" n:if="$pageHero">
+        <div class="media-section__head">
+            <div>
+                <h3>Úvodní část stránky</h3>
+            </div>
+        </div>
+        {form publicationPageForm class => 'media-section-form'}
+            <div class="media-section-form__grid">
+                <label>{label title /}{input title}</label>
+                <label>{label subtitle /}{input subtitle}</label>
+            </div>
+            {input save class => 'btn'}
+        {/form}
+    </section>
+
+    <section class="media-section">
+        <div class="media-section__head">
+            <div>
+                <h3>Publikace</h3>
+            </div>
+            <a class="btn" n:href="edit">Přidat publikaci</a>
+        </div>
+        <div class="table-container">
+            <table>
             <thead>
             <tr>
                 <th>Název</th>
@@ -37,6 +58,7 @@
                 </tr>
             {/foreach}
             </tbody>
-        </table>
-    </div>
+            </table>
+        </div>
+    </section>
 {/block}
