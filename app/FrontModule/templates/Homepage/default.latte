@@ -61,7 +61,7 @@
 
     <section class="section videos" id="videa">
         <div class="container">
-            <div class="section-heading reveal"><p class="eyebrow">{$videosSection?->subtitle ?: 'Video prezentace'}</p>
+            <div class="section-heading reveal"><p class="eyebrow">{$videosSection?->subtitle ?: ($locale === 'cs' ? 'Videogalerie' : 'Video gallery')}</p>
                 <h2>{$videosSection?->title ?: 'Poslouchejte nás'}</h2></div>
             <div class="slider-shell reveal">
                 <div class="swiper video-swiper">
