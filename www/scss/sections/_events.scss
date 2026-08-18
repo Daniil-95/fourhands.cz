@@ -331,7 +331,9 @@
 }
 
 .event-row__body {
+  flex: 1 1 auto;
   min-width: 0;
+  width: 100%;
 
   time {
     display: block;
