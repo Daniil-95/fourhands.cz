@@ -81,3 +81,25 @@
   letter-spacing: .08em;
   text-transform: uppercase;
 }
+
+.publication-card {
+  height: 100%;
+}
+
+.publication-card__body {
+  h2 {
+    margin-bottom: 18px;
+    font-size: 34px;
+    line-height: 1.08;
+  }
+
+  p {
+    line-height: 1.55;
+  }
+}
+
+@include respond-down(sm) {
+  .publication-card__body h2 {
+    font-size: 30px;
+  }
+}

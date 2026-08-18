@@ -337,6 +337,24 @@ p {
   text-transform: uppercase;
 }
 
+.publication-card {
+  height: 100%;
+}
+
+.publication-card__body h2 {
+  margin-bottom: 18px;
+  font-size: 34px;
+  line-height: 1.08;
+}
+.publication-card__body p {
+  line-height: 1.55;
+}
+
+@media (max-width: 575.98px) {
+  .publication-card__body h2 {
+    font-size: 30px;
+  }
+}
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
