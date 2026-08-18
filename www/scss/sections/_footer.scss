@@ -31,6 +31,17 @@
   margin-bottom: 10px;
 }
 
+.footer-navigation__links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 22px;
+  row-gap: 8px;
+
+  a {
+    margin-bottom: 0;
+  }
+}
+
 .footer-contact {
   a,
   span {
@@ -91,4 +102,11 @@
 .site-footer__bottom div {
   display: flex;
   gap: 25px;
+}
+
+@include respond-down(sm) {
+  .footer-navigation__links {
+    column-gap: 16px;
+    row-gap: 7px;
+  }
 }
