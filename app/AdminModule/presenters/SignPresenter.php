@@ -21,7 +21,6 @@ final class SignPresenter extends BaseAdminPresenter
         $form->addProtection('Platnost formuláře vypršela. Odešlete jej znovu.');
         $form->addText('username', 'Uživatelské jméno')->setRequired();
         $form->addPassword('password', 'Heslo')->setRequired();
-        $form->addCheckbox('remember', 'Zapamatovat na 30 dní');
         $form->addSubmit('send', 'Přihlásit se');
         $form->onSuccess[] = $this->signInSucceeded(...);
 
@@ -38,10 +37,7 @@ final class SignPresenter extends BaseAdminPresenter
     private function signInSucceeded(Form $form, \stdClass $values): void
     {
         try {
-            $this->getUser()->setExpiration(
-                $values->remember ? '30 days' : '30 minutes',
-                !$values->remember,
-            );
+            $this->getUser()->setExpiration('30 minutes', true);
             $this->getUser()->login($values->username, $values->password);
             $this->redirect(':Admin:Dashboard:default');
         } catch (AuthenticationException $e) {
