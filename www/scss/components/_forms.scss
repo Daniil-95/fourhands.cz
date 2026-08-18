@@ -4,6 +4,10 @@
   margin-top: 30px;
 }
 
+.contact .inquiry-form label {
+  color: $color-contact-muted;
+}
+
 .inquiry-form label {
   display: grid;
   gap: 7px;
@@ -14,15 +18,15 @@
 .inquiry-form input:not([type=submit]), .inquiry-form select, .inquiry-form textarea {
   width: 100%;
   padding: 14px 15px;
-  border: 1px solid $color-border;
+  border: 1px solid $color-contact-border;
   border-radius: 0;
   outline-color: $color-primary;
-  background: #11100F;
-  color: $color-text;
+  background: rgba(255, 250, 240, .72);
+  color: $color-contact-text;
   transition: border-color $transition;
 
   &:focus {
-    border-color: $color-primary;
+    border-color: $color-contact-text;
   }
 }
 

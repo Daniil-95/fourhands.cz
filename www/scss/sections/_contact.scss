@@ -1,7 +1,18 @@
 @use "../base/variables" as *;
 
 .contact {
-  background: $color-background-light;
+  background: $color-contact-background;
+  color: $color-contact-text;
+}
+
+.contact__content {
+  h2 {
+    color: $color-contact-text;
+  }
+
+  .eyebrow {
+    color: $color-contact-text;
+  }
 }
 
 .contact__visual {
@@ -35,7 +46,7 @@
   flex-wrap: wrap;
   gap: 12px 28px;
   margin-top: 24px;
-  color: $color-primary;
+  color: $color-contact-text;
   font-size: 14px;
 }
 

@@ -242,6 +242,17 @@ p {
   color: #141210;
 }
 
+.contact .inquiry-form .button {
+  border-color: #211C16;
+  background: #211C16;
+  color: #EDE1CC;
+}
+.contact .inquiry-form .button:hover {
+  border-color: #352B20;
+  background: #352B20;
+  color: #F8F2E8;
+}
+
 .program-card {
   position: relative;
   height: 100%;
@@ -552,6 +563,10 @@ p {
   margin-top: 30px;
 }
 
+.contact .inquiry-form label {
+  color: #5E513F;
+}
+
 .inquiry-form label {
   display: grid;
   gap: 7px;
@@ -562,15 +577,15 @@ p {
 .inquiry-form input:not([type=submit]), .inquiry-form select, .inquiry-form textarea {
   width: 100%;
   padding: 14px 15px;
-  border: 1px solid rgba(237, 225, 204, 0.2);
+  border: 1px solid rgba(33, 28, 22, 0.24);
   border-radius: 0;
   outline-color: #EDE1CC;
-  background: #11100F;
-  color: #F1E8DA;
+  background: rgba(255, 250, 240, 0.72);
+  color: #211C16;
   transition: border-color 0.35s ease;
 }
 .inquiry-form input:not([type=submit]):focus, .inquiry-form select:focus, .inquiry-form textarea:focus {
-  border-color: #EDE1CC;
+  border-color: #211C16;
 }
 
 .inquiry-form textarea {
@@ -1088,7 +1103,15 @@ p {
 }
 
 .contact {
-  background: #1C1A17;
+  background: #B39A70;
+  color: #211C16;
+}
+
+.contact__content h2 {
+  color: #211C16;
+}
+.contact__content .eyebrow {
+  color: #211C16;
 }
 
 .contact__visual {
@@ -1126,7 +1149,7 @@ p {
   flex-wrap: wrap;
   gap: 12px 28px;
   margin-top: 24px;
-  color: #EDE1CC;
+  color: #211C16;
   font-size: 14px;
 }
 

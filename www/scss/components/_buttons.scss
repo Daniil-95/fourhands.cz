@@ -62,3 +62,15 @@
     color: #141210;
   }
 }
+
+.contact .inquiry-form .button {
+  border-color: $color-contact-text;
+  background: $color-contact-text;
+  color: $color-primary;
+
+  &:hover {
+    border-color: #352B20;
+    background: #352B20;
+    color: $color-white;
+  }
+}
