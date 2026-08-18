@@ -1208,6 +1208,36 @@ form .error,
     }
 }
 
+.media-section--settings {
+    padding: var(--space-16) var(--space-20);
+
+    .media-section__head {
+        margin-bottom: var(--space-12);
+    }
+}
+
+.media-section-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-12);
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+
+    .media-section-form__grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-12);
+    }
+
+    > .btn {
+        align-self: end;
+        white-space: nowrap;
+    }
+}
+
 .media-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1595,6 +1625,11 @@ code {
 
     .media-section {
         padding: var(--space-16);
+    }
+
+    .media-section-form,
+    .media-section-form .media-section-form__grid {
+        grid-template-columns: 1fr;
     }
 
     .media-section__head h3 {

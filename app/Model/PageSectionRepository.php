@@ -82,6 +82,14 @@ final class PageSectionRepository
         ]);
     }
 
+    public function updateTitleAndSubtitle(int $id, string $title, string $subtitle): void
+    {
+        $this->db->table('page_sections')->where('id', $id)->update([
+            'title' => $title,
+            'subtitle' => $subtitle,
+        ]);
+    }
+
     public function syncImageAcrossLocales(string $pageKey, string $sectionKey, string $imagePath): void
     {
         $this->db->table('page_sections')

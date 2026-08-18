@@ -4,6 +4,7 @@ namespace App\AdminModule\Presenters;
 
 use App\Common\BaseAdminPresenter;
 use App\Model\MediaRepository;
+use App\Model\PageSectionRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Http\FileUpload;
@@ -14,7 +15,10 @@ final class MediaPresenter extends BaseAdminPresenter
     private ?string $editingType = null;
     private ?string $presetType = null;
 
-    public function __construct(private MediaRepository $mediaRepository)
+    public function __construct(
+        private MediaRepository $mediaRepository,
+        private PageSectionRepository $pageSectionRepository,
+    )
     {
         parent::__construct();
     }
@@ -35,9 +39,52 @@ final class MediaPresenter extends BaseAdminPresenter
         }
 
         $tab = $this->getParameter('type');
-        $this->template->activeTab = is_string($tab) && $tab === 'video' ? 'video' : 'photo';
+        $activeTab = is_string($tab) && $tab === 'video' ? 'video' : 'photo';
+        $sectionKey = $activeTab === 'video' ? 'videos' : 'gallery';
+        $section = $this->pageSectionRepository->getByPageSection('homepage', $sectionKey, $this->getAdminContentLang());
+        $this->template->activeTab = $activeTab;
+        $this->template->mediaSectionTitle = $section?->title ?? '';
+        $this->template->mediaSectionSubtitle = $section?->subtitle ?? '';
+        $this['mediaSectionForm']->setDefaults([
+            'title' => $section?->title ?? '',
+            'subtitle' => $section?->subtitle ?? '',
+        ]);
         $this->template->photos = $photos;
         $this->template->videos = $videos;
+    }
+
+    protected function createComponentMediaSectionForm(): Form
+    {
+        $form = new Form();
+        $form->addProtection();
+        $form->addText('title', 'Titulek')->setRequired();
+        $form->addText('subtitle', 'Podtitulek');
+        $form->addSubmit('save', 'Uložit texty');
+        $form->onSuccess[] = $this->mediaSectionFormSucceeded(...);
+        return $form;
+    }
+
+    private function mediaSectionFormSucceeded(Form $form, \stdClass $values): void
+    {
+        $sectionKey = $this->getParameter('type') === 'video' ? 'videos' : 'gallery';
+        $section = $this->pageSectionRepository->getByPageSection(
+            'homepage',
+            $sectionKey,
+            $this->getAdminContentLang(),
+        );
+        if (!$section) {
+            $this->error('Texty sekce nebyly nalezeny.');
+        }
+
+        $this->pageSectionRepository->updateTitleAndSubtitle(
+            (int) $section->id,
+            (string) $values->title,
+            (string) $values->subtitle,
+        );
+        $this->flashMessage('Texty sekce byly uloženy.', 'success');
+        $this->redirectToDefaultWithContentLang($this->getAdminContentLang(), [
+            'type' => $sectionKey === 'videos' ? 'video' : 'photo',
+        ]);
     }
 
     public function renderEdit(): void

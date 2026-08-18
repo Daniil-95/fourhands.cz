@@ -1,8 +1,8 @@
 {block title}{_'Videos'}{/block}
 {block content}
-    {var $hero = $pageSections['videos']['hero'] ?? null}
+    {var $hero = $pageSections['homepage']['videos'] ?? null}
     <section class="page-hero">
-        <div class="container"><p class="eyebrow eyebrow--light">{_'Video gallery'}</p>
+        <div class="container"><p class="eyebrow eyebrow--light">{if $locale === 'cs'}Videogalerie{else}Video gallery{/if}</p>
             <h1>{$hero?->title ?: ($locale === 'cs' ? 'Poslouchejte Fourhands' : 'Listen to Fourhands')}</h1>
             <p>{$hero?->subtitle ?: ($locale === 'cs' ? 'Výběr koncertních vystoupení a hudebních ukázek.' : 'Selection of concert performances and music samples.')}</p></div>
     </section>

@@ -1,9 +1,9 @@
 {block title}{_'Gallery'}{/block}
 {block content}
-    {var $hero = $pageSections['gallery']['hero'] ?? null}
+    {var $hero = $pageSections['homepage']['gallery'] ?? null}
     <section class="page-hero">
         <div class="container">
-            <p class="eyebrow eyebrow--light">{_'Photo gallery'}</p>
+            <p class="eyebrow eyebrow--light">{if $locale === 'cs'}Fotogalerie{else}Photo gallery{/if}</p>
             <h1>{$hero?->title ?: ($locale === 'cs' ? 'Momenty v obrazech' : 'Moments in pictures')}</h1>
             <p>{$hero?->subtitle ?: ($locale === 'cs' ? 'Koncerty, svatby a události s atmosférou.' : 'Concerts, weddings and events with atmosphere.')}</p>
         </div>

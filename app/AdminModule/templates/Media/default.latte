@@ -6,6 +6,22 @@
         </div>
     </div>
 
+    <section class="media-section media-section--settings">
+        <div class="media-section__head">
+            <div>
+                <h3>Texty stránky</h3>
+                <p class="muted">Upravte titulek a podtitulek této galerie na webu.</p>
+            </div>
+        </div>
+        {form mediaSectionForm class => 'media-section-form'}
+            <div class="media-section-form__grid">
+                <label>{label title /}{input title}</label>
+                <label>{label subtitle /}{input subtitle}</label>
+            </div>
+            {input save class => 'btn'}
+        {/form}
+    </section>
+
     {if $activeTab !== 'video'}
     <section class="media-section">
         <div class="media-section__head">
