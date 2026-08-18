@@ -32,6 +32,7 @@
             <th>Jazyk</th>
             <th>Datum</th>
             <th>Název</th>
+            <th>Odkaz</th>
             <th>Stav</th>
             <th>Akce</th>
         </tr>
@@ -49,6 +50,13 @@
             <td data-label="Jazyk">{$item->lang}</td>
             <td data-label="Datum">{$item->publish_date|date:'j. n. Y'}</td>
             <td data-label="Název">{$item->title|truncate:70}</td>
+            <td data-label="Odkaz">
+                {if $item->external_url}
+                    <a href="{$item->external_url}" target="_blank" rel="noopener noreferrer" title="{$item->external_url}">{$item->external_url|truncate:40}</a>
+                {else}
+                    <span class="muted">—</span>
+                {/if}
+            </td>
             <td data-label="Stav">{if $item->active}<span class="badge badge-active">Aktivní</span>{else}<span class="badge badge-inactive">Neaktivní</span>{/if}</td>
             <td data-label="Akce" class="actions-cell">
                 <a n:href="edit id => $item->id">Upravit</a>
