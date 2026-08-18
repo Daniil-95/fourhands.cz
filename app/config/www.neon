@@ -9,20 +9,3 @@ session:
 
 parameters:
     mode: production
-
-    # mail_settings:
-    #     useSMTP: true
-    #     SMTPhost: rsj-com.mail.protection.outlook.com
-    #     SMTPport: '25'
-    #     SMTPauth: false
-    #     SMTPusername: ''
-    #     SMTPpassword: ''
-    #     SMTPsecure: tls
-    #     defaultFrom: 'Klient.Backoffice@rsj.com'
-    #     defaultTo: 'Klient.Backoffice@rsj.com'
-
-    import_settings:
-        production: true
-
-    search_settings:
-        baseUrl: 'https://fourhands.cz'
