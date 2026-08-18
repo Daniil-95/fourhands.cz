@@ -11,7 +11,7 @@ final class PageSectionRepository
         'homepage' => 'Úvodní sekce',
         'about' => 'O nás',
         'artists' => 'Umělkyně',
-        'repertoire' => 'Repertoár',
+        'repertoire' => 'Koncertní program',
         'from_stage' => 'Z pódia',
     ];
 
