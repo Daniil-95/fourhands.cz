@@ -15,7 +15,6 @@
                 <img class="event-detail__image" src="{$basePath}/{$event->image_path}" alt="{$event->title}">
             {/if}
             <div class="event-detail__content">
-                <p class="event-detail__date">{$event->publish_date|date:'j. n. Y'}</p>
                 {if $event->description}
                     <div class="event-detail__description">{$event->description}</div>
                 {/if}

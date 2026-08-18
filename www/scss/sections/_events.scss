@@ -270,15 +270,24 @@
 }
 
 .event-tile__body {
-  padding: 20px 4px 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 132px;
+  padding: 20px 12px 12px;
 
   h3 {
-    margin: 0;
+    margin: 0 0 16px;
     font-family: $font-heading;
     font-size: 20px;
     font-weight: 500;
     color: $color-text;
     line-height: 1.4;
+  }
+
+  a.button {
+    align-self: flex-end;
+    padding: 8px 13px;
+    font-size: 10px;
   }
 }
 
@@ -345,6 +354,35 @@
     @include respond-down(sm) {
       font-size: 14px;
       line-height: 1.4;
+    }
+  }
+
+  a.button {
+    display: inline-flex;
+    width: auto;
+    margin-top: 8px;
+    padding: 7px 12px;
+    font-size: 10px;
+    line-height: 1.2;
+  }
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 20px;
+    align-items: center;
+
+    time,
+    h3 {
+      grid-column: 1;
+    }
+
+    a.button {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      margin-top: 0;
+      align-self: center;
+      white-space: nowrap;
     }
   }
 }
