@@ -1131,7 +1131,7 @@ form .error,
 
 .media-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-16);
 }
 
@@ -1370,6 +1370,10 @@ code {
   }
   .dashboard-widgets {
     grid-template-columns: 1fr;
+  }
+  .media-grid,
+  .media-grid--video {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .dashboard-cards--tools {
     grid-template-columns: repeat(2, minmax(0, 1fr));
