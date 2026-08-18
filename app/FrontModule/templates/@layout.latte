@@ -149,7 +149,7 @@
                             <span class="brand__sub">{_'Piano Duo'}</span>
                         </a>
 
-                        <p>{_'Piano duo for weddings, concerts and events that deserve an exceptional musical atmosphere.'}</p>
+                        <p>{($siteSettings['footer_tagline'] ?? '') ?: _("Piano duo for weddings, concerts and events that deserve an exceptional musical atmosphere.")}</p>
 
                         <div class="socials">
                             <a href="{$siteSettings['facebook'] ?: '#'}" aria-label="{_'Facebook'}" target="_blank" rel="noopener noreferrer">f</a>

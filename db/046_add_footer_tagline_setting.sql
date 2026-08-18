@@ -1,0 +1,3 @@
+INSERT IGNORE INTO site_settings (lang, group_name, key_name, label, value_text, sort_order) VALUES
+('cs', 'general', 'footer_tagline', 'Text v patičce', 'Klavírní duo pro svatby, koncerty a události, které si zaslouží výjimečnou hudební atmosféru.', 31),
+('en', 'general', 'footer_tagline', 'Footer tagline', 'Piano duo for weddings, concerts and events that deserve an exceptional musical atmosphere.', 31);
