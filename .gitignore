@@ -5,6 +5,7 @@
 
 # Local environment config
 /app/config/local.neon
+/app/config/secret.neon
 
 # IDE files
 /.idea/

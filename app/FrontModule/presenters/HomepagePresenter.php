@@ -10,6 +10,8 @@ use Nette\Application\UI\Form;
 
 final class HomepagePresenter extends BasePresenter
 {
+    private const MAIL_SENDER_ADDRESS = 'info@fourhands.cz';
+
     public function __construct(
         private EventRepository $eventRepository,
         private MediaRepository $mediaRepository,
@@ -68,11 +70,13 @@ final class HomepagePresenter extends BasePresenter
     private function sendInquiryNotification(array $data): bool
     {
         $siteSettings = $this->getTemplate()->siteSettings ?? [];
-        $recipient = $siteSettings['email'] ?? 'info@fourhands.cz';
-        $fromEmail = filter_var($data['email'], FILTER_VALIDATE_EMAIL) ? $data['email'] : ($siteSettings['email'] ?? 'info@fourhands.cz');
+        $recipient = $siteSettings['email'] ?? self::MAIL_SENDER_ADDRESS;
+        // odesílatel musí zůstat adresou vlastní domény, jinak zprávu zablokuje SPF/DKIM
+        $sender = self::MAIL_SENDER_ADDRESS;
+        $replyTo = filter_var($data['email'], FILTER_VALIDATE_EMAIL) ? $data['email'] : $sender;
         // defense-in-depth proti header injection, i když filter_var už CR/LF v e-mailu odmítá
-        $fromEmail = str_replace(["\r", "\n"], '', (string) $fromEmail);
-        $subject = $this->trans('New inquiry from website');
+        $replyTo = str_replace(["\r", "\n"], '', (string) $replyTo);
+        $subject = '=?UTF-8?B?' . base64_encode($this->trans('New inquiry from website')) . '?=';
         $body = sprintf(
             "%s\n%s\n\n%s\n%s\n%s\n",
             $this->trans('New inquiry received'),
@@ -81,11 +85,12 @@ final class HomepagePresenter extends BasePresenter
             'Message: ' . $data['message'],
         );
         $headers = [];
+        $headers[] = 'MIME-Version: 1.0';
         $headers[] = 'Content-Type: text/plain; charset=utf-8';
-        $headers[] = 'From: ' . $fromEmail;
-        $headers[] = 'Reply-To: ' . $fromEmail;
-        $headers[] = 'X-Mailer: PHP/' . phpversion();
+        $headers[] = 'Content-Transfer-Encoding: 8bit';
+        $headers[] = 'From: =?UTF-8?B?' . base64_encode('Fourhands web') . '?= <' . $sender . '>';
+        $headers[] = 'Reply-To: ' . $replyTo;
 
-        return mail($recipient, $subject, $body, implode("\r\n", $headers));
+        return mail($recipient, $subject, $body, implode("\r\n", $headers), '-f' . $sender);
     }
 }
