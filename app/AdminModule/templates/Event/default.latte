@@ -3,6 +3,10 @@
         <h2>Události</h2>
         <a class="btn" n:href="edit">Přidat událost</a>
     </div>
+    <section class="widget" n:if="$pageHero">
+        <h3>Úvodní část stránky</h3>
+        {control eventPageForm}
+    </section>
     <div class="table-container">
     <table>
         <thead>

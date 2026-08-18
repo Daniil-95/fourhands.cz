@@ -4,6 +4,7 @@ namespace App\AdminModule\Presenters;
 
 use App\Common\BaseAdminPresenter;
 use App\Model\EventRepository;
+use App\Model\PageSectionRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Http\FileUpload;
@@ -12,14 +13,25 @@ final class EventPresenter extends BaseAdminPresenter
 {
     private ?int $editingId = null;
 
-    public function __construct(private EventRepository $eventRepository)
+    public function __construct(
+        private EventRepository $eventRepository,
+        private PageSectionRepository $pageSectionRepository,
+    )
     {
         parent::__construct();
     }
 
     public function renderDefault(): void
     {
+        $language = $this->getAdminContentLang();
         $this->template->items = $this->filterByAdminContentLang($this->eventRepository->getAll());
+        $this->template->pageHero = $this->pageSectionRepository->getByPageSection('events', 'hero', $language);
+        if ($this->template->pageHero) {
+            $this['eventPageForm']->setDefaults([
+                'title' => $this->template->pageHero->title,
+                'subtitle' => $this->template->pageHero->subtitle,
+            ]);
+        }
     }
 
     public function renderEdit(): void
@@ -72,6 +84,37 @@ final class EventPresenter extends BaseAdminPresenter
 
         $form->onSuccess[] = $this->eventFormSucceeded(...);
         return $form;
+    }
+
+    protected function createComponentEventPageForm(): Form
+    {
+        $form = new Form();
+        $form->addProtection();
+        $form->addText('title', 'Nadpis')->setRequired();
+        $form->addText('subtitle', 'Podnadpis');
+        $form->addSubmit('save', 'Uložit');
+        $form->onSuccess[] = $this->eventPageFormSucceeded(...);
+
+        return $form;
+    }
+
+    private function eventPageFormSucceeded(Form $form, \stdClass $values): void
+    {
+        $language = $this->getAdminContentLang();
+        $hero = $this->pageSectionRepository->getByPageSection('events', 'hero', $language);
+        if (!$hero) {
+            $form->addError('Úvodní sekce stránky Události nebyla nalezena.');
+            return;
+        }
+
+        $this->pageSectionRepository->updateTitleAndSubtitle(
+            (int) $hero->id,
+            (string) $values->title,
+            (string) ($values->subtitle ?? ''),
+        );
+
+        $this->flashMessage('Úvodní text stránky byl uložen.', 'success');
+        $this->redirectToDefaultWithContentLang($language);
     }
 
     private function eventFormSucceeded(Form $form, \stdClass $values): void
