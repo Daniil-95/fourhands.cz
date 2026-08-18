@@ -56,6 +56,7 @@ final class EventPresenter extends BaseAdminPresenter
                 'event_date' => $item->publish_date ? $item->publish_date->format('Y-m-d') : '',
                 'title' => $item->title,
                 'description' => $item->description ?? '',
+                'external_url' => $item->external_url ?? '',
                 'image_path' => $item->image_path ?? '',
                 'sort_order' => $item->sort_order,
                 'active' => (bool) $item->active,
@@ -78,6 +79,9 @@ final class EventPresenter extends BaseAdminPresenter
         $form->addText('event_date', 'Datum')->setHtmlType('date')->setRequired();
         $form->addText('title', 'Název akce')->setRequired();
         $form->addTextArea('description', 'Podrobný popis akce')->setHtmlAttribute('rows', 7);
+        $form->addText('external_url', 'Odkaz na informace / vstupenky')
+            ->setHtmlType('url')
+            ->setOption('description', 'Volitelné. Použijte odkaz začínající http:// nebo https://.');
         $form->addUpload('upload', 'Fotografie');
         $form->addText('image_path', 'Existující cesta k obrázku')->setOption('description', 'Použijte pouze pokud nechcete nahrát nový soubor.');
         $form->addInteger('sort_order', 'Pořadí')->setDefaultValue(100);
@@ -166,11 +170,25 @@ final class EventPresenter extends BaseAdminPresenter
             $date = $values->event_date;
         }
 
+        $externalUrl = trim((string) ($values->external_url ?? ''));
+        if ($externalUrl !== '') {
+            $parts = parse_url($externalUrl);
+            if (
+                filter_var($externalUrl, FILTER_VALIDATE_URL) === false
+                || !is_array($parts)
+                || !in_array(strtolower((string) ($parts['scheme'] ?? '')), ['http', 'https'], true)
+            ) {
+                $form->addError('Zadejte platný odkaz začínající http:// nebo https://.');
+                return;
+            }
+        }
+
         $this->eventRepository->save([
             'lang' => $language,
             'event_date' => $date,
             'title' => $values->title,
             'description' => $values->description ?? '',
+            'external_url' => $externalUrl !== '' ? $externalUrl : null,
             'image_path' => $imagePath,
             'sort_order' => $values->sort_order ?? 100,
             'active' => $values->active,

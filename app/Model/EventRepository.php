@@ -32,6 +32,7 @@ final class EventRepository
                 'id' => (int) $row->id,
                 'title' => (string) $row->title,
                 'description' => (string) ($row->description ?? ''),
+                'external_url' => (string) ($row->external_url ?? ''),
                 'event_date' => $publishDate,
                 'image_path' => $row->image_path,
             ];
@@ -74,6 +75,7 @@ final class EventRepository
             'lang' => $data['lang'],
             'title' => $data['title'],
             'description' => $data['description'] ?? '',
+            'external_url' => $data['external_url'] ?? null,
             'publish_date' => $data['event_date'] ?: new \DateTimeImmutable(),
             'image_path' => $data['image_path'] ?? null,
             'active' => 1,

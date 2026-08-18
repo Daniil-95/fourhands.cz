@@ -18,6 +18,11 @@
                 {if $event->description}
                     <div class="event-detail__description">{$event->description}</div>
                 {/if}
+                {if $event->external_url}
+                    <a class="button button--outline event-detail__link" href="{$event->external_url}" target="_blank" rel="noopener noreferrer">
+                        {$locale === 'cs' ? 'Více informací' : 'More information'} <span>→</span>
+                    </a>
+                {/if}
             </div>
         </div>
     </section>
