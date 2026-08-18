@@ -58,7 +58,6 @@ final class EventPresenter extends BaseAdminPresenter
                 'description' => $item->description ?? '',
                 'external_url' => $item->external_url ?? '',
                 'image_path' => $item->image_path ?? '',
-                'sort_order' => $item->sort_order,
                 'active' => (bool) $item->active,
             ]);
             $this['eventForm']['lang']->setDisabled();
@@ -84,7 +83,6 @@ final class EventPresenter extends BaseAdminPresenter
             ->setOption('description', 'Volitelné. Použijte odkaz začínající http:// nebo https://.');
         $form->addUpload('upload', 'Fotografie');
         $form->addText('image_path', 'Existující cesta k obrázku')->setOption('description', 'Použijte pouze pokud nechcete nahrát nový soubor.');
-        $form->addInteger('sort_order', 'Pořadí')->setDefaultValue(100);
         $form->addCheckbox('active', 'Publikovat')->setDefaultValue(true);
         $form->addSubmit('save', 'Uložit');
 
@@ -190,7 +188,7 @@ final class EventPresenter extends BaseAdminPresenter
             'description' => $values->description ?? '',
             'external_url' => $externalUrl !== '' ? $externalUrl : null,
             'image_path' => $imagePath,
-            'sort_order' => $values->sort_order ?? 100,
+            'sort_order' => 100,
             'active' => $values->active,
         ], $this->editingId);
 
