@@ -5,15 +5,21 @@
     <section class="page-hero">
         <div class="container">
             <p class="eyebrow eyebrow--light">{$locale === 'cs' ? 'Koncertní program' : 'Concert program'}</p>
-            <h1>{$hero?->title ?: ($locale === 'cs' ? 'Koncertní program' : 'Concert program')}</h1>
+            <h1>{$hero?->title ?: ($locale === 'cs' ? 'Hudba pro výjimečné okamžiky' : 'Music for exceptional moments')}</h1>
             <p>{$hero?->subtitle ?: 'Hudba pro výjimečné okamžiky.'}</p>
         </div>
     </section>
 
-    <section class="section">
+    <section class="section repertoire-content-section">
         <div class="container">
-            <div class="rich-text reveal reveal--left">
+            <div class="repertoire-content reveal reveal--left">
+                <div class="repertoire-content__heading">
+                    <p class="eyebrow">{if $locale === 'cs'}Nabídka programů{else}Our programmes{/if}</p>
+                    <h2>{$contentSection?->title ?: ($locale === 'cs' ? 'Hudba pro vaše výjimečné chvíle' : 'Music for your special moments')}</h2>
+                </div>
+                <div class="rich-text repertoire-content__body">
                 {$contentSection?->content ?? '<p>Repertoár bude doplněn v administraci.</p>'|noescape}
+                </div>
             </div>
         </div>
     </section>

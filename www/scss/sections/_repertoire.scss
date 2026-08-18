@@ -1,0 +1,63 @@
+@use "../base/variables" as *;
+
+.repertoire-content-section {
+  background: $color-background;
+}
+
+.repertoire-content {
+  display: grid;
+  grid-template-columns: minmax(220px, .7fr) minmax(0, 1.3fr);
+  gap: clamp(32px, 7vw, 100px);
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 64px) 0;
+  border-top: 1px solid $color-border;
+  border-bottom: 1px solid $color-border;
+}
+
+.repertoire-content__heading {
+  h2 {
+    max-width: 280px;
+    color: $color-white;
+    font-size: clamp(30px, 4vw, 50px);
+    line-height: 1.02;
+  }
+}
+
+.repertoire-content__body {
+  align-self: center;
+  color: $color-text-light;
+
+  span {
+    display: block;
+    margin-bottom: 22px;
+    color: $color-primary;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  p {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(237, 225, 204, .12);
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+}
+
+@include respond-down(md) {
+  .repertoire-content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .repertoire-content__heading h2 {
+    max-width: 520px;
+  }
+}
