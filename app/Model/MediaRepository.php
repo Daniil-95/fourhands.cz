@@ -40,7 +40,7 @@ final class MediaRepository
             ];
         }
 
-        foreach ($this->db->table('videos')->order('id DESC')->fetchAll() as $row) {
+        foreach ($this->db->table('videos')->order('sort_order, id DESC')->fetchAll() as $row) {
             $url = (string) (($row->embed ?: $row->file) ?? '');
             $items[] = (object) [
                 'id' => self::VIDEO_ID_OFFSET + (int) $row->id,
