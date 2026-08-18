@@ -1,76 +1,232 @@
 # fourhands.cz
 
-Firemní webová prezentace a vlastní redakční systém (CMS) společnosti Fourhands vytvořený pomocí frameworku Nette.
+Webová prezentace klavírního uskupení **Fourhands** včetně vlastního redakčního systému (CMS) postaveného na frameworku Nette.
+
+**Živý web:** [https://www.fourhands.cz](https://www.fourhands.cz)
+
+---
+
+## Obsah
+
+- [O projektu](#o-projektu)
+- [Hlavní funkce](#hlavní-funkce)
+- [Použité technologie](#použité-technologie)
+- [Požadavky](#požadavky)
+- [Instalace a spuštění](#instalace-a-spuštění)
+- [Konfigurace](#konfigurace)
+- [Frontend build (SCSS)](#frontend-build-scss)
+- [Struktura projektu](#struktura-projektu)
+- [Architektura](#architektura)
+- [Routování a lokalizace](#routování-a-lokalizace)
+- [Databáze a migrace](#databáze-a-migrace)
+- [Administrace](#administrace)
+- [Bezpečnost a produkční nasazení](#bezpečnost-a-produkční-nasazení)
+- [Autor](#autor)
+
+---
 
 ## O projektu
 
-Projekt fourhands.cz představuje moderní webovou aplikaci určenou pro prezentaci služeb společnosti Fourhands. Součástí řešení je veřejná část webu a vlastní administrace pro správu obsahu, událostí a médií.
+Projekt tvoří dvě samostatné části:
 
-Aplikace je postavena na frameworku Nette a využívá šablonovací systém Latte. Administrace umožňuje pohodlnou správu jednotlivých sekcí webu bez nutnosti zásahu do zdrojového kódu.
+- **FrontModule** – veřejná dvoujazyčná (čeština / angličtina) prezentace: úvodní stránka, profily umělkyň, repertoár, koncerty, fotogalerie, videogalerie, ohlasy z pódia a kontaktní formulář.
+- **AdminModule** – vlastní administrace, která umožňuje spravovat veškerý obsah webu bez zásahu do zdrojového kódu.
+
+Veškerý textový obsah, navigace i nastavení webu jsou uloženy v databázi vždy zvlášť pro každý jazyk (sloupec `lang` s hodnotami `cs` / `en`).
 
 ## Hlavní funkce
 
-* Správa obsahu webu
-* Správa událostí
-* Správa médií a obrázků
-* Vlastní administrátorské rozhraní
-* Responzivní design
-* Vícejazyčná podpora
-* SEO optimalizovaná struktura
+- Správa obsahu stránek po sekcích (`page_sections`)
+- Správa koncertů a událostí včetně archivu
+- Správa fotogalerie a videogalerie (YouTube)
+- Správa publikací a ohlasů z médií
+- Editovatelná navigace webu
+- Nastavení webu a SEO metadat
+- Kontaktní formulář s ukládáním poptávek a e-mailovou notifikací
+- Dvoujazyčnost (cs/en) na frontendu i v administraci
+- Přihlašování do administrace s logováním pokusů
+- Responzivní design
 
 ## Použité technologie
 
 ### Backend
 
-* PHP 8.2+
-* Nette Framework
-* Latte Templates
-* MySQL
-
-## Bezpečnost a konfigurace produkce
-
-* Produkční hesla neukládejte do repozitáře.
-* V produkci nastavte proměnnou prostředí `FOURHANDS_DB_PASSWORD`.
-* Složka `www/images/originals_backup` je záměrně blokována přes `.htaccess`.
+- PHP 8.2+
+- Nette Framework 3.2 (`application`, `bootstrap`, `database`, `di`, `forms`, `http`, `security`, `utils`)
+- Latte 3 – šablonovací systém
+- Tracy 2.10 – ladicí nástroj
+- MySQL 8 (utf8mb4, `utf8mb4_czech_ci`)
 
 ### Frontend
 
-* HTML5
-* CSS3
-* JavaScript
-* Font Awesome
+- HTML5, SCSS (Dart Sass 1.80), JavaScript (vanilla)
+- Font Awesome
+
+### Nástroje
+
+- Composer (PHP závislosti, PSR-4 autoloading `App\` → `app/`)
+- npm + Sass (kompilace stylů)
+
+## Požadavky
+
+- PHP >= 8.2
+- MySQL 8+
+- Composer
+- Node.js (pro kompilaci SCSS; ověřeno na Node 20)
+- Apache s `mod_rewrite`, document root musí směřovat do složky `www/`
+
+## Instalace a spuštění
+
+```bash
+# 1) Závislosti
+composer install
+npm install
+
+# 2) Databáze – import základního schématu a následně migrací z db/
+mysql -u root fourhands < db/fourhands.sql
+
+# 3) Lokální konfigurace
+#    app/config/local.neon (není verzován) – viz sekce Konfigurace
+
+# 4) Kompilace stylů
+npm run build:css
+```
+
+Zapisovatelné musí být složky `temp/` a `log/`.
+
+## Konfigurace
+
+Konfigurace je rozdělena do tří souborů v `app/config/`:
+
+| Soubor | Účel |
+| --- | --- |
+| `common.neon` | Sdílené nastavení – routování, mapování presenterů, registrace služeb a repozitářů |
+| `local.neon` | Lokální vývoj (není ve verzování) – připojení k databázi |
+| `www.neon` | Produkce – databáze, zabezpečení session, produkční režim |
+
+O výběru konfigurace rozhoduje `bootstrap.php` podle hostitele: pro `fourhands.cz` a `www.fourhands.cz` se načte `www.neon` a vypne se ladicí režim, jinak se použije `local.neon` s aktivní Tracy.
+
+Příklad `app/config/local.neon`:
+
+```neon
+database:
+    dsn: 'mysql:host=127.0.0.1;dbname=fourhands'
+    user: root
+    password: ''
+```
+
+## Frontend build (SCSS)
+
+```bash
+npm run build:css   # jednorázová kompilace
+npm run watch:css   # kompilace při každé změně souborů
+```
+
+| Zdroj | Výstup |
+| --- | --- |
+| `www/scss/style.scss` | `www/css/style.css` |
+| `www/scss/admin.scss` | `www/css/admin.css` |
+
+Soubory `www/css/*.css` a jejich source mapy jsou generované a nepatří do repozitáře.
 
 ## Struktura projektu
 
 ```text
 app/
 ├── AdminModule/
+│   ├── presenters/     Dashboard, Page, Event, Media, Navigation,
+│   │                   Publication, Setting, Inquiry, Sign
+│   └── templates/      Latte šablony administrace
 ├── FrontModule/
-├── Model/
-├── Security/
+│   ├── presenters/     Homepage, About, Artists, Repertoire, Gallery,
+│   │                   Videos, FromStage, Event, EventsArchive, Error
+│   └── templates/      Latte šablony veřejné části
+├── Common/
+│   ├── BasePresenter.php        locale, bezpečnostní hlavičky, překladač
+│   ├── BaseAdminPresenter.php   přihlášení + persistentní parametr lang
+│   ├── RouterFactory.php        definice URL adres
+│   └── Translator.php           překlady z CSV
+├── Model/                       repozitáře nad Nette Database
+├── Security/AdminAuthenticator.php
+├── config/                      common.neon, local.neon, www.neon
+└── translations/                front_cs.csv, front_en.csv
 
-config/
-├── common.neon
-├── local.neon
+db/                              fourhands.sql + číslované migrace
+www/                             document root
+├── index.php
+├── .htaccess                    rewrite, blokace dotfiles, bezpečnostní hlavičky
+├── css/                         generované styly
+├── js/main.js
+├── scss/                        base/, components/, sections/
+└── images/
 
-www/
-├── css/
-├── images/
-
-vendor/
+bootstrap.php
+temp/  log/  vendor/
 ```
 
 ## Architektura
 
-Projekt využívá architekturu MVC poskytovanou frameworkem Nette.
+Aplikace využívá architekturu MVC a DI kontejner frameworku Nette. Presentery nepracují s databází přímo, ale výhradně přes repozitáře v `app/Model/`:
 
-Klíčové části aplikace:
+| Repozitář | Tabulky | Obsah |
+| --- | --- | --- |
+| `EventRepository` | `news` | Koncerty a události včetně archivu |
+| `PageSectionRepository` | `page_sections` | Textové sekce jednotlivých stránek |
+| `MediaRepository` | `images`, `videos` | Fotogalerie a videogalerie |
+| `NavigationRepository` | `navigation_items` | Položky menu |
+| `PublicationRepository` | `publications` | Publikace a ohlasy |
+| `SettingRepository` | `site_settings` | Nastavení webu a SEO |
+| `InquiryRepository` | `inquiries` | Poptávky z kontaktního formuláře |
 
-* FrontModule – veřejná část webu
-* AdminModule – administrátorské rozhraní
-* ContentRepository – správa obsahu
-* EventRepository – správa událostí
-* MediaRepository – správa médií
+Autentizaci administrátorů zajišťuje `App\Security\AdminAuthenticator` nad tabulkami `users` a `users_roles`; přihlášení se zaznamenává do `log_users_login`.
+
+## Routování a lokalizace
+
+Adresy definuje `app/Common/RouterFactory.php`.
+
+- Volitelný prefix jazyka `/<locale>/`, podporováno `cs` (výchozí, bez prefixu) a `en`
+- Administrace: `/admin[/<presenter>[/<action>[/<id>]]]`, výchozí `Admin:Dashboard:default`
+- Veřejné adresy mají české i anglické varianty:
+
+| Presenter | Adresy |
+| --- | --- |
+| Homepage | `/`, `/kontakt`, `/contact` |
+| About | `/o-nas`, `/about` |
+| Artists | `/umelkyne`, `/clenky`, `/artists` |
+| Repertoire | `/repertoar`, `/koncertni-program`, `/repertoire` |
+| Gallery | `/galerie`, `/fotogalerie`, `/gallery` |
+| Videos | `/videa`, `/video-galerie`, `/videos` |
+| FromStage | `/z-podia`, `/from-stage` |
+| EventsArchive | `/archiv-udalosti`, `/events-archive` |
+| Event (detail) | `/event/<id>` |
+
+Překlady rozhraní se načítají ze souborů `app/translations/front_<locale>.csv` (oddělovač `;`, formát `klíč;překlad`). Obsah z databáze je jazykově oddělen sloupcem `lang`.
+
+## Databáze a migrace
+
+- `db/fourhands.sql` – kompletní schéma databáze
+- `db/NNN_nazev.sql` – číslované migrace aplikované postupně; historie je evidována v tabulce `migrations`
+
+Po stažení novějších změn je potřeba doplnit dosud neaplikované migrace, jinak mohou presentery selhat kvůli chybějícím tabulkám nebo sloupcům.
+
+> Poznámka: v číslování migrací chybí číslo `039` (přechod z `038` na `040`). Jde o známý stav, nikoli chybu.
+
+## Administrace
+
+Administrace je dostupná na adrese `/admin` a vyžaduje přihlášení.
+
+- Jazyk editovaného obsahu se přepíná parametrem `lang` (`cs` / `en`), který je persistentní napříč celou administrací.
+- U existujících záznamů je pole `lang` ve formuláři zamčené – jazyk záznamu se po vytvoření nemění.
+- Tabulka `page_sections` má unikátní kombinaci `page_key` + `section_key` + `lang`.
+
+## Bezpečnost a produkční nasazení
+
+- Produkční hesla nikdy neukládejte do repozitáře. Heslo k databázi se načítá z proměnné prostředí `FOURHANDS_DB_PASSWORD` (`app/config/www.neon`).
+- V produkci je vypnutá Tracy, chyby se logují do složky `log/`.
+- Session je v produkci zabezpečená pomocí `cookieSecure: true` a `cookieSamesite: Lax`.
+- `www/.htaccess` blokuje přístup k souborům začínajícím tečkou a nastavuje hlavičky `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` a `Strict-Transport-Security`.
+- Složka `www/images/originals_backup` je záměrně blokována přes `.htaccess`.
+- Kontaktní formulář odstraňuje z e-mailové adresy odesílatele znaky `\r\n` jako obranu proti injektáži hlaviček.
 
 ## Autor
 
