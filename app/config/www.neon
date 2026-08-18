@@ -3,6 +3,10 @@ database:
     user: fourhandscz001
     password: %env.FOURHANDS_DB_PASSWORD%
 
+session:
+    cookieSecure: true
+    cookieSamesite: Lax
+
 parameters:
     mode: production
 

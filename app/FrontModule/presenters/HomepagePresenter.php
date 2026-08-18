@@ -65,6 +65,8 @@ final class HomepagePresenter extends BasePresenter
         $siteSettings = $this->getTemplate()->siteSettings ?? [];
         $recipient = $siteSettings['email'] ?? 'info@fourhands.cz';
         $fromEmail = filter_var($data['email'], FILTER_VALIDATE_EMAIL) ? $data['email'] : ($siteSettings['email'] ?? 'info@fourhands.cz');
+        // defense-in-depth proti header injection, i když filter_var už CR/LF v e-mailu odmítá
+        $fromEmail = str_replace(["\r", "\n"], '', (string) $fromEmail);
         $subject = $this->trans('New inquiry from website');
         $body = sprintf(
             "%s\n%s\n\n%s\n%s\n%s\n\n%s\n\n%s\n",
