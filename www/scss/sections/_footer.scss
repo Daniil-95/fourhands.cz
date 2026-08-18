@@ -31,6 +31,29 @@
   margin-bottom: 10px;
 }
 
+.footer-contact {
+  a,
+  span {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-bottom: 14px;
+    color: rgba(255, 255, 255, .8);
+  }
+
+  small {
+    color: $color-primary-dark;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+
+  a:hover {
+    color: $color-white;
+  }
+}
+
 .socials {
   display: flex;
   gap: 10px;

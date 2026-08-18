@@ -143,7 +143,7 @@
         <footer class="site-footer">
             <div class="container">
                 <div class="row gy-5">
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <a class="brand brand--footer" n:href=":Front:Homepage:default locale => $locale">
                             <span class="brand__name">FOURHANDS</span>
                             <span class="brand__sub">{_'Piano Duo'}</span>
@@ -157,7 +157,7 @@
                             <a href="{$siteSettings['youtube'] ?: '#'}" aria-label="{_'YouTube'}" target="_blank" rel="noopener noreferrer">yt</a>
                         </div>
                     </div>
-                    <div class="col-6 col-lg-2">
+                    <div class="col-6 col-lg-3">
                         <h3>{_'Navigation'}</h3>
                         <a n:href=":Front:About:default locale => $locale">{_'About us'}</a>
                         <a n:href=":Front:Artists:default locale => $locale">{_'Artists'}</a>
@@ -166,11 +166,20 @@
                         <a n:href=":Front:FromStage:default locale => $locale">{_'From the stage'}</a>
                         <a href="{link :Front:Homepage:default, locale => $locale}#videa">{_'Videos'}</a>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4 footer-contact">
                         <h3>{_'Contact'}</h3>
-                        {* <a href="tel:+420777123456">{$siteSettings['phone'] ?: '+420 777 123 456'}</a> *}
-                        <a href="mailto:{$siteSettings['email'] ?: 'info@fourhands.cz'}">{$siteSettings['email'] ?: 'info@fourhands.cz'}</a>
-                        <span>{$siteSettings['address'] ?: 'Praha, Česká republika'}</span>
+                        <a class="footer-contact__phone" href="tel:+420777123456">
+                            <small>{if $locale === 'cs'}Telefon{else}Phone{/if}</small>
+                            {$siteSettings['phone'] ?: '+420 777 123 456'}
+                        </a>
+                        <a href="mailto:{$siteSettings['email'] ?: 'info@fourhands.cz'}">
+                            <small>{if $locale === 'cs'}E-mail{else}Email{/if}</small>
+                            {$siteSettings['email'] ?: 'info@fourhands.cz'}
+                        </a>
+                        <span>
+                            <small>{if $locale === 'cs'}Adresa{else}Address{/if}</small>
+                            {$siteSettings['address'] ?: ($locale === 'cs' ? 'Praha, Česká republika' : 'Prague, Czech Republic')}
+                        </span>
                     </div>
                 </div>
                 <div class="site-footer__bottom">
