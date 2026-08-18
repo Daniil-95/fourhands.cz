@@ -18,7 +18,7 @@ final class InquiryRepository
             'name' => $data['name'],
             'email' => $data['email'],
             'event_type' => $data['eventType'] ?? null,
-            'event_date' => $data['date'] ?: null,
+            'event_date' => $data['date'] ?? null,
             'message' => $data['message'],
             'created' => new \DateTimeImmutable(),
         ];

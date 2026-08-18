@@ -54,9 +54,14 @@ final class HomepagePresenter extends BasePresenter
         ];
 
         $this->inquiryRepository->save($data);
-        $this->sendInquiryNotification($data);
+        $notificationSent = $this->sendInquiryNotification($data);
 
-        $this->flashMessage($this->trans('Thank you for your inquiry. We will get back to you soon.'), 'success');
+        $this->flashMessage(
+            $notificationSent
+                ? $this->trans('Thank you for your inquiry. We will get back to you soon.')
+                : $this->trans('Your inquiry was saved, but the email notification could not be sent.'),
+            $notificationSent ? 'success' : 'warning',
+        );
         $this->redirect('this#kontakt');
     }
 
@@ -69,7 +74,7 @@ final class HomepagePresenter extends BasePresenter
         $fromEmail = str_replace(["\r", "\n"], '', (string) $fromEmail);
         $subject = $this->trans('New inquiry from website');
         $body = sprintf(
-            "%s\n%s\n\n%s\n%s\n%s\n\n%s\n\n%s\n",
+            "%s\n%s\n\n%s\n%s\n%s\n",
             $this->trans('New inquiry received'),
             '=========================','Name: ' . $data['name'],
             'Email: ' . $data['email'],
@@ -81,6 +86,6 @@ final class HomepagePresenter extends BasePresenter
         $headers[] = 'Reply-To: ' . $fromEmail;
         $headers[] = 'X-Mailer: PHP/' . phpversion();
 
-        return @mail($recipient, $subject, $body, implode("\r\n", $headers));
+        return mail($recipient, $subject, $body, implode("\r\n", $headers));
     }
 }
