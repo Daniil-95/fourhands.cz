@@ -10,14 +10,19 @@ $configurator->setTempDirectory(__DIR__ . '/temp');
 
 /**
  * Debug mode
+ * Host header is client-controlled, therefore everything except an explicit
+ * development host is treated as production.
  */
-$isProduction = isset($_SERVER['HTTP_HOST'])
-    && in_array($_SERVER['HTTP_HOST'], ['fourhands.cz', 'www.fourhands.cz'], true);
+$host = strtolower(explode(':', (string) ($_SERVER['HTTP_HOST'] ?? ''), 2)[0]);
+$devHosts = ['fourhands.local', 'localhost', '127.0.0.1', '::1'];
+$isProduction = PHP_SAPI !== 'cli' && !in_array($host, $devHosts, true);
 $configurator->setDebugMode(!$isProduction);
+$configurator->enableTracy(__DIR__ . '/log');
 
-if (!$isProduction) {
-    $configurator->enableTracy(__DIR__ . '/log');
-}
+/**
+ * Environment variables available in config as %env.NAME%
+ */
+$configurator->addDynamicParameters(['env' => getenv()]);
 
 /**
  * RobotLoader
@@ -34,13 +39,6 @@ $configurator->addConfig(__DIR__ . '/app/config/common.neon');
 /**
  * Environment configuration
  */
-if (
-    isset($_SERVER['HTTP_HOST'])
-    && in_array($_SERVER['HTTP_HOST'], ['fourhands.cz', 'www.fourhands.cz'], true)
-) {
-    $configurator->addConfig(__DIR__ . '/app/config/www.neon');
-} else {
-    $configurator->addConfig(__DIR__ . '/app/config/local.neon');
-}
+$configurator->addConfig(__DIR__ . ($isProduction ? '/app/config/www.neon' : '/app/config/local.neon'));
 
 return $configurator->createContainer();

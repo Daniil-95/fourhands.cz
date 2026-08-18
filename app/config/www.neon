@@ -6,6 +6,3 @@ database:
 session:
     cookieSecure: true
     cookieSamesite: Lax
-
-parameters:
-    mode: production
