@@ -44,10 +44,10 @@
             <tbody>
             {foreach $items as $item}
                 <tr>
-                    <td>{$item->title}</td>
-                    <td>{$item->source}</td>
-                    <td>{$item->publish_date|date:'j. n. Y'}</td>
-                    <td>{if $item->active}Ano{else}Ne{/if}</td>
+                    <td data-label="Název">{$item->title}</td>
+                    <td data-label="Zdroj">{$item->source ?: '—'}</td>
+                    <td data-label="Datum">{$item->publish_date|date:'j. n. Y'}</td>
+                    <td data-label="Aktivní">{if $item->active}Ano{else}Ne{/if}</td>
                     <td class="actions-cell" data-label="Akce">
                         <a class="btn btn-secondary" n:href="edit id => $item->id">Upravit</a>
                         <form method="post" action="{link delete id => $item->id}" class="inline-delete-form" onsubmit="return confirm('Smazat tuto publikaci?')">

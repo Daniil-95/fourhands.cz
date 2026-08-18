@@ -56,7 +56,6 @@ final class PublicationPresenter extends BaseAdminPresenter
                 'source' => $item->source,
                 'short_description' => $item->short_description,
                 'url' => $item->url,
-                'image_path' => $item->image_path,
                 'publish_date' => $item->publish_date ? $item->publish_date->format('Y-m-d') : '',
                 'sort_order' => $item->sort_order,
                 'active' => (bool) $item->active,
@@ -75,12 +74,13 @@ final class PublicationPresenter extends BaseAdminPresenter
         $form->addProtection();
         $form->addSelect('lang', 'Jazyk', ['cs' => 'Čeština', 'en' => 'Angličtina'])->setRequired();
         $form->addText('title', 'Název')->setRequired();
-        $form->addText('source', 'Zdroj / publikace');
+        $form->addText('source', 'Zdroj (časopis, web, pořad)');
         $form->addTextArea('short_description', 'Krátký popis')->setHtmlAttribute('rows', 4);
         $form->addText('url', 'Externí URL')->setHtmlType('url');
-        $form->addText('image_path', 'Cesta k obrázku');
         $form->addText('publish_date', 'Datum')->setHtmlType('date');
-        $form->addInteger('sort_order', 'Pořadí')->setDefaultValue(100);
+        $form->addInteger('sort_order', 'Pořadí zobrazení')
+            ->setDefaultValue(100)
+            ->setOption('description', 'Menší číslo zobrazí publikaci výše.');
         $form->addCheckbox('active', 'Aktivní')->setDefaultValue(true);
         $form->addSubmit('save', 'Uložit');
 
@@ -134,13 +134,19 @@ final class PublicationPresenter extends BaseAdminPresenter
             $language = $values->lang;
         }
 
+        $imagePath = null;
+        if ($this->editingId !== null) {
+            $current = $this->publicationRepository->getById($this->editingId);
+            $imagePath = $current?->image_path;
+        }
+
         $this->publicationRepository->save([
             'lang' => $language,
             'title' => $values->title,
             'source' => $values->source,
             'short_description' => $values->short_description,
             'url' => $values->url,
-            'image_path' => $values->image_path,
+            'image_path' => $imagePath,
             'publish_date' => $values->publish_date,
             'sort_order' => $values->sort_order ?? 100,
             'active' => $values->active,

@@ -19,7 +19,7 @@
                                 <img src="{$basePath}/{$publication->image_path}" alt="{$publication->title}" loading="lazy">
                             {/if}
                             <div class="publication-card__body">
-                                <p class="eyebrow">{$publication->source ?: 'External source'}</p>
+                                <p class="eyebrow">{$publication->source ?: ($locale === 'cs' ? 'Externí zdroj' : 'External source')}</p>
                                 <h2>{$publication->title}</h2>
                                 <p class="publication-card__date">{$publication->publish_date|date:'j. n. Y'}</p>
                                 {if $publication->short_description}
