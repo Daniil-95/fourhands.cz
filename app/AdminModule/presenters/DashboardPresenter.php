@@ -15,7 +15,11 @@ final class DashboardPresenter extends BaseAdminPresenter
 
     public function renderDefault(): void
     {
-        $this->template->pages = PageSectionRepository::PAGES;
+        $this->template->pages = array_filter(
+            PageSectionRepository::PAGES,
+            static fn(string $pageKey): bool => $pageKey !== 'from_stage',
+            ARRAY_FILTER_USE_KEY,
+        );
         $this->template->quickActions = [
             [
                 'title' => 'Události',
