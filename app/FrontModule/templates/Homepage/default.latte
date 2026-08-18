@@ -61,7 +61,7 @@
 
     <section class="section videos" id="videa">
         <div class="container">
-            <div class="section-heading reveal"><p class="eyebrow">{$videosSection?->subtitle ?: ($locale === 'cs' ? 'Videogalerie' : 'Video gallery')}</p>
+            <div class="section-heading reveal"><p class="eyebrow">{if $locale === 'cs'}Videogalerie{else}Video gallery{/if}</p>
                 <h2>{$videosSection?->title ?: 'Poslouchejte nás'}</h2></div>
             <div class="slider-shell reveal">
                 <div class="swiper video-swiper">
@@ -86,7 +86,7 @@
     <section class="section section--light" id="galerie">
         <div class="container-fluid">
             <div class="section-heading reveal">
-                <p class="eyebrow">{$gallerySection?->subtitle ?: 'Fotogalerie'}</p>
+                <p class="eyebrow">{if $locale === 'cs'}Fotogalerie{else}Photo gallery{/if}</p>
                 <h2>{$gallerySection?->title ?: 'Momenty v obrazech'}</h2>
             </div>
             {if $photos}

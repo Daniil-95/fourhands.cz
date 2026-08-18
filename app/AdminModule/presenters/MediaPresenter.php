@@ -46,6 +46,7 @@ final class MediaPresenter extends BaseAdminPresenter
         $this->template->mediaSectionTitle = $section?->title ?? '';
         $this->template->mediaSectionSubtitle = $section?->subtitle ?? '';
         $this['mediaSectionForm']->setDefaults([
+            'type' => $activeTab,
             'title' => $section?->title ?? '',
             'subtitle' => $section?->subtitle ?? '',
         ]);
@@ -57,6 +58,8 @@ final class MediaPresenter extends BaseAdminPresenter
     {
         $form = new Form();
         $form->addProtection();
+        // 'type' se ukládá jako skryté pole, protože parametr URL není persistentní a při odeslání formuláře by se ztratil
+        $form->addHidden('type', 'photo');
         $form->addText('title', 'Titulek')->setRequired();
         $form->addText('subtitle', 'Podtitulek');
         $form->addSubmit('save', 'Uložit texty');
@@ -66,7 +69,7 @@ final class MediaPresenter extends BaseAdminPresenter
 
     private function mediaSectionFormSucceeded(Form $form, \stdClass $values): void
     {
-        $sectionKey = $this->getParameter('type') === 'video' ? 'videos' : 'gallery';
+        $sectionKey = $values->type === 'video' ? 'videos' : 'gallery';
         $section = $this->pageSectionRepository->getByPageSection(
             'homepage',
             $sectionKey,
