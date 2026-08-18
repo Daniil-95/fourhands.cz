@@ -54,7 +54,8 @@ final class EventPresenter extends BaseAdminPresenter
             $this['eventForm']->setDefaults([
                 'lang' => $item->lang,
                 'event_date' => $item->publish_date ? $item->publish_date->format('Y-m-d') : '',
-                'description' => $item->title,
+                'title' => $item->title,
+                'description' => $item->description ?? '',
                 'image_path' => $item->image_path ?? '',
                 'sort_order' => $item->sort_order,
                 'active' => (bool) $item->active,
@@ -75,7 +76,8 @@ final class EventPresenter extends BaseAdminPresenter
         $form->addProtection();
         $form->addSelect('lang', 'Jazyk', ['cs' => 'Čeština', 'en' => 'Angličtina'])->setRequired();
         $form->addText('event_date', 'Datum')->setHtmlType('date')->setRequired();
-        $form->addTextArea('description', 'Název a popis akce')->setRequired()->setHtmlAttribute('rows', 5);
+        $form->addText('title', 'Název akce')->setRequired();
+        $form->addTextArea('description', 'Podrobný popis akce')->setHtmlAttribute('rows', 7);
         $form->addUpload('upload', 'Fotografie');
         $form->addText('image_path', 'Existující cesta k obrázku')->setOption('description', 'Použijte pouze pokud nechcete nahrát nový soubor.');
         $form->addInteger('sort_order', 'Pořadí')->setDefaultValue(100);
@@ -167,7 +169,8 @@ final class EventPresenter extends BaseAdminPresenter
         $this->eventRepository->save([
             'lang' => $language,
             'event_date' => $date,
-            'description' => $values->description,
+            'title' => $values->title,
+            'description' => $values->description ?? '',
             'image_path' => $imagePath,
             'sort_order' => $values->sort_order ?? 100,
             'active' => $values->active,

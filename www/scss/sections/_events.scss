@@ -348,3 +348,38 @@
     }
   }
 }
+
+.event-detail {
+  .container {
+    max-width: 900px;
+  }
+}
+
+.event-detail__image {
+  display: block;
+  width: 100%;
+  max-height: 560px;
+  margin: 32px 0;
+  object-fit: cover;
+}
+
+.event-detail__content {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.event-detail__date {
+  margin-bottom: 20px;
+  color: $color-primary;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.event-detail__description {
+  color: $color-text-light;
+  font-size: 18px;
+  line-height: 1.8;
+  white-space: pre-line;
+}

@@ -30,7 +30,8 @@ final class EventRepository
 
             $item = [
                 'id' => (int) $row->id,
-                'description' => (string) $row->title,
+                'title' => (string) $row->title,
+                'description' => (string) ($row->description ?? ''),
                 'event_date' => $publishDate,
                 'image_path' => $row->image_path,
             ];
@@ -58,11 +59,21 @@ final class EventRepository
         return $this->db->table('news')->get($id);
     }
 
+    public function getByIdAndLocale(int $id, string $locale): ?ActiveRow
+    {
+        return $this->db->table('news')
+            ->where('id', $id)
+            ->where('lang', $locale)
+            ->where('active', 1)
+            ->fetch() ?: null;
+    }
+
     public function save(array $data, ?int $id = null): void
     {
         $payload = [
             'lang' => $data['lang'],
-            'title' => $data['description'],
+            'title' => $data['title'],
+            'description' => $data['description'] ?? '',
             'publish_date' => $data['event_date'] ?: new \DateTimeImmutable(),
             'image_path' => $data['image_path'] ?? null,
             'active' => 1,

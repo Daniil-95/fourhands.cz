@@ -46,6 +46,12 @@ final class RouterFactory
             ]);
         }
 
+        $router->addRoute('[<locale=cs cs|en>/]event/<id>', [
+            'module' => 'Front',
+            'presenter' => 'Event',
+            'action' => 'detail',
+        ]);
+
         $router->addRoute('[<locale=cs cs|en>/]<presenter>/<action>[/<id>]', [
             'module' => 'Front',
             'presenter' => 'Homepage',

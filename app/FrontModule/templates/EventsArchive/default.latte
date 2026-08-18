@@ -25,7 +25,8 @@
                             </div>
                         </div>
                         <div class="event-tile__body">
-                            <h3>{$event['description']}</h3>
+                            <h3>{$event['title']}</h3>
+                            <a class="button button--outline" n:href=":Front:Event:detail id => $event['id'], locale => $locale">{_'Read more'} <span>→</span></a>
                         </div>
                     </article>
                 </div>
@@ -41,7 +42,8 @@
                         <div class="event-row__media" style="background-image:url('{$basePath}/{$event['image_path'] ?: ($hero?->image_path ?: 'images/story.jpg')}')"></div>
                         <div class="event-row__body">
                             <time datetime="{$event['event_date']->format('Y-m-d')}">{$event['event_date']|date:'j. n. Y'}</time>
-                            <h3>{$event['description']}</h3>
+                            <h3>{$event['title']}</h3>
+                            <a class="button button--outline" n:href=":Front:Event:detail id => $event['id'], locale => $locale">{_'Read more'} <span>→</span></a>
                         </div>
                     </article>
                 </div>
