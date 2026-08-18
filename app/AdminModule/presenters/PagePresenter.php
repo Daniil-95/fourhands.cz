@@ -94,7 +94,6 @@ final class PagePresenter extends BaseAdminPresenter
         if (!$item || !isset(PageSectionRepository::SECTIONS[$item->page_key][$item->section_key])) {
             $this->error('Sekce nenalezena.');
         }
-        $this->assertAdminContentLanguage($item);
 
         $this->editingPageKey = (string) $item->page_key;
         $this->editingSectionKey = (string) $item->section_key;
@@ -113,6 +112,10 @@ final class PagePresenter extends BaseAdminPresenter
             $this->lang = $this->editingLang;
             $this->template->adminContentLang = $this->editingLang;
             $this->flashMessage('Tato sekce zatím nemá druhou jazykovou verzi.', 'warning');
+        }
+
+        if ($this->getAdminContentLang() === $this->editingLang) {
+            $this->assertAdminContentLanguage($item);
         }
 
         $this->fillSectionEditor($item);
@@ -230,6 +233,15 @@ final class PagePresenter extends BaseAdminPresenter
             'content' => $values->content ?? $current->content,
             'image_path' => $imagePath,
         ]);
+
+        if ($this->editingPageKey === 'artists' && in_array($this->editingSectionKey, ['katerina', 'irena'], true)) {
+            $this->pageSectionRepository->syncImageAcrossLocales(
+                $this->editingPageKey,
+                $this->editingSectionKey,
+                $imagePath,
+            );
+        }
+
         $this->flashMessage('Sekce byla uložena.', 'success');
 
         if ($this->getAction() === 'default') {

@@ -81,4 +81,12 @@ final class PageSectionRepository
             'image_path' => $data['image_path'],
         ]);
     }
+
+    public function syncImageAcrossLocales(string $pageKey, string $sectionKey, string $imagePath): void
+    {
+        $this->db->table('page_sections')
+            ->where('page_key', $pageKey)
+            ->where('section_key', $sectionKey)
+            ->update(['image_path' => $imagePath]);
+    }
 }
