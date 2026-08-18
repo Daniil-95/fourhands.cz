@@ -17,6 +17,13 @@ final class RouterFactory
             'action' => 'default',
         ]);
 
+        // musí být před slugem "contact", jinak by se z úvodní stránky generovala adresa /contact
+        $router->addRoute('[<locale=cs cs|en>]', [
+            'module' => 'Front',
+            'presenter' => 'Homepage',
+            'action' => 'default',
+        ]);
+
         foreach ([
             'artists' => 'Artists',
             'clenky' => 'Artists',
@@ -53,12 +60,6 @@ final class RouterFactory
         ]);
 
         $router->addRoute('[<locale=cs cs|en>/]<presenter>/<action>[/<id>]', [
-            'module' => 'Front',
-            'presenter' => 'Homepage',
-            'action' => 'default',
-        ]);
-
-        $router->addRoute('[<locale=cs cs|en>]', [
             'module' => 'Front',
             'presenter' => 'Homepage',
             'action' => 'default',
