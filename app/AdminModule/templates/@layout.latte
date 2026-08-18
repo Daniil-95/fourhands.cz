@@ -105,8 +105,8 @@
                 <div class="admin-content">
                     <div class="admin-lang-switch" n:if="$presenter->getAction() !== 'default' || $presenter->getName() !== 'Admin:Dashboard'">
                         <span>Jazyk obsahu:</span>
-                        <a n:href="this lang => 'cs'" class="{if $adminContentLang === 'cs'}is-active{/if}">Čeština</a>
-                        <a n:href="this lang => 'en'" class="{if $adminContentLang === 'en'}is-active{/if}">English</a>
+                        <a n:href="this lang => 'cs', type => $presenter->getName() === 'Admin:Media' ? $presenter->getParameter('type') : null" class="{if $adminContentLang === 'cs'}is-active{/if}">Čeština</a>
+                        <a n:href="this lang => 'en', type => $presenter->getName() === 'Admin:Media' ? $presenter->getParameter('type') : null" class="{if $adminContentLang === 'en'}is-active{/if}">English</a>
                     </div>
                     {include content}
                 </div>
