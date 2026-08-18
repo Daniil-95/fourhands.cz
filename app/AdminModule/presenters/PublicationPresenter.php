@@ -134,6 +134,19 @@ final class PublicationPresenter extends BaseAdminPresenter
             $language = $values->lang;
         }
 
+        $url = trim((string) ($values->url ?? ''));
+        if ($url !== '') {
+            $parts = parse_url($url);
+            if (
+                filter_var($url, FILTER_VALIDATE_URL) === false
+                || !is_array($parts)
+                || !in_array(strtolower((string) ($parts['scheme'] ?? '')), ['http', 'https'], true)
+            ) {
+                $form->addError('Zadejte platný odkaz začínající http:// nebo https://.');
+                return;
+            }
+        }
+
         $imagePath = null;
         if ($this->editingId !== null) {
             $current = $this->publicationRepository->getById($this->editingId);
@@ -145,7 +158,7 @@ final class PublicationPresenter extends BaseAdminPresenter
             'title' => $values->title,
             'source' => $values->source,
             'short_description' => $values->short_description,
-            'url' => $values->url,
+            'url' => $url !== '' ? $url : null,
             'image_path' => $imagePath,
             'publish_date' => $values->publish_date,
             'sort_order' => $values->sort_order ?? 100,

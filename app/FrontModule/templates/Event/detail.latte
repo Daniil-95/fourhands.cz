@@ -4,7 +4,9 @@
         <div class="container">
             <p class="eyebrow eyebrow--light">{$locale === 'cs' ? 'Událost' : 'Event'}</p>
             <h1>{$event->title}</h1>
-            <p>{$event->publish_date|date:'j. n. Y'}</p>
+            {if $event->publish_date}
+                <p>{$event->publish_date|date:'j. n. Y'}</p>
+            {/if}
         </div>
     </section>
 

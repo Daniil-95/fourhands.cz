@@ -196,6 +196,19 @@ final class MediaPresenter extends BaseAdminPresenter
             return;
         }
 
+        $mediaUrl = trim((string) ($values->url ?? ''));
+        if ($values->type === 'video' && $mediaUrl !== '') {
+            $parts = parse_url($mediaUrl);
+            if (
+                filter_var($mediaUrl, FILTER_VALIDATE_URL) === false
+                || !is_array($parts)
+                || !in_array(strtolower((string) ($parts['scheme'] ?? '')), ['http', 'https'], true)
+            ) {
+                $form->addError('Zadejte platný odkaz na video začínající http:// nebo https://.');
+                return;
+            }
+        }
+
         $this->mediaRepository->save([
             'lang' => $language,
             'type' => $values->type,
@@ -203,7 +216,7 @@ final class MediaPresenter extends BaseAdminPresenter
             'description' => $values->description,
             'alt_text' => $values->alt_text,
             'image_path' => $values->image_path,
-            'url' => $values->url,
+            'url' => $mediaUrl !== '' ? $mediaUrl : null,
             'sort_order' => $values->sort_order ?? 100,
             'active' => $values->active,
         ], (int) $this->getUser()->getId(), $this->editingId);
