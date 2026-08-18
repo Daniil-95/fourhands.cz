@@ -1764,10 +1764,51 @@ code {
   h2 {
     font-size: 28px;
   }
+  .signin-page {
+    padding: 16px;
+  }
   .signin-wrap {
-    margin: var(--space-24) auto;
-    width: calc(100% - 24px);
-    padding: var(--space-20);
+    margin: 0 auto;
+    width: calc(100% - 16px);
+    padding: var(--space-20) 18px;
+  }
+  .signin-wrap h1 {
+    font-size: 1.5rem;
+    margin: 0 0 14px;
+  }
+  .signin-errors {
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    font-size: 0.85rem;
+  }
+  .signin-form {
+    gap: 16px;
+  }
+  .signin-field {
+    gap: 8px;
+  }
+  .signin-field label {
+    font-size: 0.72rem;
+  }
+  .signin-field input[type=text],
+  .signin-field input[type=password] {
+    min-height: 44px;
+    font-size: 0.9rem;
+  }
+  .signin-remember {
+    margin-top: 4px;
+  }
+  .signin-remember label {
+    font-size: 0.85rem;
+  }
+  .signin-submit {
+    margin-top: 6px;
+  }
+  .signin-submit input,
+  .signin-submit button {
+    width: 100%;
+    min-height: 46px;
+    font-size: 0.95rem;
   }
 }
 
