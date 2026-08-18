@@ -188,3 +188,163 @@
 .events-preview__empty {
   color: #d8cec1;
 }
+
+// Karty na vlastní stránce Události – odlišné od kompaktní varianty na hlavní straně
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 36px 28px;
+  margin-bottom: 56px;
+
+  @include respond-down(md) {
+    grid-template-columns: 1fr;
+    gap: 32px 0;
+  }
+}
+
+.event-tile {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  border-radius: 12px;
+  background: $color-background-light;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .05);
+  transition: $transition;
+
+  &:hover {
+    box-shadow: $shadow;
+    transform: translateY(-4px);
+
+    .event-tile__media {
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.event-tile__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 12px;
+  background-position: center;
+  background-size: cover;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, .45), rgba(0, 0, 0, 0) 55%);
+    opacity: .85;
+    transition: opacity .4s ease;
+  }
+}
+
+.event-tile__date {
+  position: absolute;
+  z-index: 1;
+  left: 20px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+  color: $color-white;
+
+  strong {
+    font-family: $font-heading;
+    font-size: 30px;
+    font-weight: 500;
+  }
+
+  span {
+    margin-top: 4px;
+    font-family: $font-body;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .85);
+  }
+}
+
+.event-tile__body {
+  padding: 20px 4px 0;
+
+  h3 {
+    margin: 0;
+    font-family: $font-heading;
+    font-size: 20px;
+    font-weight: 500;
+    color: $color-text;
+    line-height: 1.4;
+  }
+}
+
+.section-heading--archive {
+  margin-top: 24px;
+}
+
+// Kompaktní seznam minulých událostí (může jich být desítky) – malá miniatura místo velké fotky
+.events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.event-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px;
+  border-radius: 10px;
+  transition: $transition;
+
+  &:hover {
+    background: $color-background-light;
+  }
+}
+
+.event-row__media {
+  flex-shrink: 0;
+  width: 76px;
+  height: 76px;
+  border-radius: 8px;
+  background-position: center;
+  background-size: cover;
+  filter: grayscale(.4);
+
+  @include respond-down(sm) {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+.event-row__body {
+  min-width: 0;
+
+  time {
+    display: block;
+    margin-bottom: 4px;
+    font-family: $font-body;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: $color-primary;
+  }
+
+  h3 {
+    margin: 0;
+    font-family: $font-body;
+    font-size: 15px;
+    font-weight: 400;
+    color: $color-text-light;
+    line-height: 1.5;
+
+    @include respond-down(sm) {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+  }
+}

@@ -32,6 +32,7 @@ final class EventRepository
                 'id' => (int) $row->id,
                 'description' => (string) $row->title,
                 'event_date' => $publishDate,
+                'image_path' => $row->image_path,
             ];
 
             if ($publishDate !== null && $publishDate >= $now) {
@@ -63,6 +64,7 @@ final class EventRepository
             'lang' => $data['lang'],
             'title' => $data['description'],
             'publish_date' => $data['event_date'] ?: new \DateTimeImmutable(),
+            'image_path' => $data['image_path'] ?? null,
             'active' => 1,
             'sort_order' => $data['sort_order'],
         ];

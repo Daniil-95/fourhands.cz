@@ -8,6 +8,7 @@
         <thead>
         <tr>
             <th>ID</th>
+            <th>Foto</th>
             <th>Jazyk</th>
             <th>Datum</th>
             <th>Popis</th>
@@ -19,6 +20,13 @@
         <tbody>
         <tr n:foreach="$items as $item">
             <td data-label="ID">{$item->id}</td>
+            <td data-label="Foto">
+                {if $item->image_path}
+                    <img src="{$basePath}/{$item->image_path}" alt="" class="media-thumb">
+                {else}
+                    <span class="muted">bez fota</span>
+                {/if}
+            </td>
             <td data-label="Jazyk">{$item->lang}</td>
             <td data-label="Datum">{$item->publish_date|date:'j. n. Y'}</td>
             <td data-label="Popis">{$item->title|truncate:70}</td>

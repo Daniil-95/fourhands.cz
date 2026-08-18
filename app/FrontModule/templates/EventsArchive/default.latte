@@ -16,14 +16,18 @@
                     <p class="eyebrow">{_'Upcoming performances'}</p>
                     <h2>{_'Events'}</h2>
                 </div>
-                <div class="row gy-3">
-                    <div class="col-md-6" n:foreach="$events['upcoming'] as $event">
-                        <article class="event-card event-card--archive">
-                            <time datetime="{$event['event_date']->format('Y-m-d')}">{$event['event_date']|date:'j. n. Y'}</time>
-                            <small>{$event['event_date']|date:'F'}</small>
+                <div class="events-grid">
+                    <article class="event-tile reveal" n:foreach="$events['upcoming'] as $event">
+                        <div class="event-tile__media" style="background-image:url('{$basePath}/{$event['image_path'] ?: ($hero?->image_path ?: 'images/story.jpg')}')">
+                            <div class="event-tile__date">
+                                <strong>{$event['event_date']|date:'d'}</strong>
+                                <span>{$event['event_date']|date:'M Y'}</span>
+                            </div>
+                        </div>
+                        <div class="event-tile__body">
                             <h3>{$event['description']}</h3>
-                        </article>
-                    </div>
+                        </div>
+                    </article>
                 </div>
             {/if}
 
@@ -32,14 +36,14 @@
                     <p class="eyebrow">{_'Event archive'}</p>
                     <h2>{_'Past events'}</h2>
                 </div>
-                <div class="row gy-3">
-                    <div class="col-md-6" n:foreach="$events['past'] as $event">
-                        <article class="event-card event-card--archive">
+                <div class="events-list">
+                    <article class="event-row reveal" n:foreach="$events['past'] as $event">
+                        <div class="event-row__media" style="background-image:url('{$basePath}/{$event['image_path'] ?: ($hero?->image_path ?: 'images/story.jpg')}')"></div>
+                        <div class="event-row__body">
                             <time datetime="{$event['event_date']->format('Y-m-d')}">{$event['event_date']|date:'j. n. Y'}</time>
-                            <small>{$event['event_date']|date:'F'}</small>
                             <h3>{$event['description']}</h3>
-                        </article>
-                    </div>
+                        </div>
+                    </article>
                 </div>
             {else}
                 <p>{_'No past events available yet.'}</p>

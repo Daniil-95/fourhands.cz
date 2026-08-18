@@ -40,8 +40,8 @@
 
             {if $upcomingEvents}
                 <div class="events-preview__grid">
-                    <article class="event-card event-card--featured reveal" n:foreach="$upcomingEvents as $eventKey => $event">
-                        {var $eventImage = $photos[$eventKey]['image_path'] ?? $hero?->image_path ?? 'images/story.jpg'}
+                    <article class="event-card event-card--featured reveal" n:foreach="$upcomingEvents as $event">
+                        {var $eventImage = $event['image_path'] ?: ($hero?->image_path ?: 'images/story.jpg')}
                         <div class="event-card__visual" style="background-image: url('{$basePath}/{$eventImage}')"></div>
                         <div class="event-card__body">
                             <time datetime="{$event['event_date']->format('Y-m-d')}">

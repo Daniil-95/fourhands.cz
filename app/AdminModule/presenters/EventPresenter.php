@@ -6,6 +6,7 @@ use App\Common\BaseAdminPresenter;
 use App\Model\EventRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
+use Nette\Http\FileUpload;
 
 final class EventPresenter extends BaseAdminPresenter
 {
@@ -42,14 +43,17 @@ final class EventPresenter extends BaseAdminPresenter
                 'lang' => $item->lang,
                 'event_date' => $item->publish_date ? $item->publish_date->format('Y-m-d') : '',
                 'description' => $item->title,
+                'image_path' => $item->image_path ?? '',
                 'sort_order' => $item->sort_order,
                 'active' => (bool) $item->active,
             ]);
             $this['eventForm']['lang']->setDisabled();
+            $this->template->currentImagePath = $item->image_path;
         } else {
             $this['eventForm']->setDefaults([
                 'lang' => $this->getAdminContentLang(),
             ]);
+            $this->template->currentImagePath = null;
         }
     }
 
@@ -60,6 +64,8 @@ final class EventPresenter extends BaseAdminPresenter
         $form->addSelect('lang', 'Jazyk', ['cs' => 'Čeština', 'en' => 'Angličtina'])->setRequired();
         $form->addText('event_date', 'Datum')->setHtmlType('date')->setRequired();
         $form->addTextArea('description', 'Název a popis akce')->setRequired()->setHtmlAttribute('rows', 5);
+        $form->addUpload('upload', 'Fotografie');
+        $form->addText('image_path', 'Existující cesta k obrázku')->setOption('description', 'Použijte pouze pokud nechcete nahrát nový soubor.');
         $form->addInteger('sort_order', 'Pořadí')->setDefaultValue(100);
         $form->addCheckbox('active', 'Publikovat')->setDefaultValue(true);
         $form->addSubmit('save', 'Uložit');
@@ -71,6 +77,7 @@ final class EventPresenter extends BaseAdminPresenter
     private function eventFormSucceeded(Form $form, \stdClass $values): void
     {
         $language = $values->lang;
+        $imagePath = null;
         if ($this->editingId !== null) {
             $item = $this->eventRepository->getById($this->editingId);
             if (!$item) {
@@ -78,6 +85,32 @@ final class EventPresenter extends BaseAdminPresenter
             }
             $this->assertAdminContentLanguage($item);
             $language = (string) $item->lang;
+            $imagePath = $item->image_path;
+        }
+
+        /** @var FileUpload $upload */
+        $upload = $values->upload;
+        if ($upload->hasFile()) {
+            if (!$upload->isOk() || !$upload->isImage() || $upload->getSize() > 8 * 1024 * 1024) {
+                $form->addError('Nahrajte platný obrázek JPG, PNG, GIF nebo WebP do velikosti 8 MB.');
+                return;
+            }
+            $storedImagePath = $this->storeImageUpload($upload, 'event');
+            if ($storedImagePath === null) {
+                $form->addError('Nahrajte platný obrázek JPG, PNG, GIF nebo WebP do velikosti 8 MB.');
+                return;
+            }
+            $imagePath = $storedImagePath;
+        } elseif (is_string($values->image_path) && trim($values->image_path) !== '') {
+            if (
+                str_contains($values->image_path, '..')
+                || str_contains($values->image_path, '\\')
+                || preg_match('~^(?:[a-z][a-z0-9+.-]*:|//)~i', trim($values->image_path)) === 1
+            ) {
+                $form->addError('Zadejte pouze bezpečnou lokální cestu k obrázku.');
+                return;
+            }
+            $imagePath = $values->image_path;
         }
 
         $date = null;
@@ -89,6 +122,7 @@ final class EventPresenter extends BaseAdminPresenter
             'lang' => $language,
             'event_date' => $date,
             'description' => $values->description,
+            'image_path' => $imagePath,
             'sort_order' => $values->sort_order ?? 100,
             'active' => $values->active,
         ], $this->editingId);

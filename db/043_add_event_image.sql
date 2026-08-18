@@ -1,0 +1,2 @@
+ALTER TABLE `news`
+  ADD COLUMN `image_path` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci DEFAULT NULL AFTER `title`;
