@@ -76,7 +76,8 @@ final class EventPresenter extends BaseAdminPresenter
 
     private function eventFormSucceeded(Form $form, \stdClass $values): void
     {
-        $language = $values->lang;
+        // pole 'lang' je při editaci disabled, Nette ho proto do $values vůbec nezahrne
+        $language = $this->getAdminContentLang();
         $imagePath = null;
         if ($this->editingId !== null) {
             $item = $this->eventRepository->getById($this->editingId);
@@ -86,6 +87,8 @@ final class EventPresenter extends BaseAdminPresenter
             $this->assertAdminContentLanguage($item);
             $language = (string) $item->lang;
             $imagePath = $item->image_path;
+        } else {
+            $language = $values->lang;
         }
 
         /** @var FileUpload $upload */

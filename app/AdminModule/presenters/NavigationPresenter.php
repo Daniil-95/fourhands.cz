@@ -70,7 +70,8 @@ final class NavigationPresenter extends BaseAdminPresenter
 
     private function navigationFormSucceeded(Form $form, \stdClass $values): void
     {
-        $language = $values->lang;
+        // pole 'lang' je při editaci disabled, Nette ho proto do $values vůbec nezahrne
+        $language = $this->getAdminContentLang();
         if ($this->editingId !== null) {
             $item = $this->navigationRepository->getById($this->editingId);
             if (!$item) {
@@ -78,6 +79,8 @@ final class NavigationPresenter extends BaseAdminPresenter
             }
             $this->assertAdminContentLanguage($item);
             $language = (string) $item->lang;
+        } else {
+            $language = $values->lang;
         }
 
         $this->navigationRepository->save([

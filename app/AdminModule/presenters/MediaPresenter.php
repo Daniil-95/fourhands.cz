@@ -160,7 +160,8 @@ final class MediaPresenter extends BaseAdminPresenter
 
     private function mediaFormSucceeded(Form $form, \stdClass $values): void
     {
-        $language = $values->lang;
+        // pole 'lang' i 'type' jsou při editaci disabled, Nette je proto do $values vůbec nezahrne
+        $language = $this->getAdminContentLang();
         if ($this->editingId !== null) {
             $item = $this->mediaRepository->getById($this->editingId);
             if (!$item) {
@@ -169,6 +170,8 @@ final class MediaPresenter extends BaseAdminPresenter
             $this->assertAdminContentLanguage($item);
             $values->type = $item->type;
             $language = (string) $item->lang;
+        } else {
+            $language = $values->lang;
         }
 
         /** @var FileUpload $upload */

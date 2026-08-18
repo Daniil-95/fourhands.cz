@@ -121,7 +121,8 @@ final class SettingPresenter extends BaseAdminPresenter
 
     private function settingFormSucceeded(Form $form, \stdClass $values): void
     {
-        $language = $values->lang;
+        // pole 'lang' je při editaci disabled, Nette ho proto do $values vůbec nezahrne
+        $language = $this->getAdminContentLang();
         if ($this->editingId !== null) {
             $item = $this->settingRepository->getById($this->editingId);
             if (!$item) {
@@ -129,6 +130,8 @@ final class SettingPresenter extends BaseAdminPresenter
             }
             $this->assertAdminContentLanguage($item);
             $language = (string) $item->lang;
+        } else {
+            $language = $values->lang;
         }
 
         $this->settingRepository->save([
