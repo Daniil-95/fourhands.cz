@@ -1,11 +1,11 @@
-{block title}{_'Repertoire'}{/block}
+{block title}{if $locale === 'cs'}Koncertní program{else}Concert program{/if}{/block}
 {block content}
     {var $hero = $pageSections['repertoire']['hero'] ?? null}
     {var $contentSection = $pageSections['repertoire']['content'] ?? null}
     <section class="page-hero">
         <div class="container">
-            <p class="eyebrow eyebrow--light">{$locale === 'cs' ? 'Repertoár' : 'Repertoire'}</p>
-            <h1>{$hero?->title ?: 'Repertoár'}</h1>
+            <p class="eyebrow eyebrow--light">{$locale === 'cs' ? 'Koncertní program' : 'Concert program'}</p>
+            <h1>{$hero?->title ?: ($locale === 'cs' ? 'Koncertní program' : 'Concert program')}</h1>
             <p>{$hero?->subtitle ?: 'Hudba pro výjimečné okamžiky.'}</p>
         </div>
     </section>
