@@ -85,6 +85,8 @@ abstract class BaseAdminPresenter extends BasePresenter
         $filename = $prefix . '-' . date('Ymd-His') . '-' . Random::generate(12, 'abcdefghijklmnopqrstuvwxyz0123456789') . '.' . $extension;
         $upload->move(__DIR__ . '/../../www/images/' . $filename);
 
+        \App\Model\ImageOptimizer::createDerivative('images/' . $filename, 1200, 72);
+
         return 'images/' . $filename;
     }
 

@@ -23,6 +23,10 @@ final class HomepagePresenter extends BasePresenter
     public function renderDefault(): void
     {
         $locale = $this->getLocale();
+        $heroSection = $this->template->pageSections['homepage']['hero'] ?? null;
+        $heroPath = $heroSection?->image_path ?: 'images/story.jpg';
+        $this->template->heroImageDesktop = $this->mediaRepository->getOptimizedImagePath($heroPath, 1200);
+        $this->template->heroImageMobile = $this->mediaRepository->getOptimizedImagePath($heroPath, 480);
         $this->template->events = $this->eventRepository->getByLocale($locale);
         $eventPreview = array_merge(
             $this->template->events['upcoming'],

@@ -44,7 +44,7 @@ $configurator->addConfig(__DIR__ . ($isProduction ? '/app/config/www.neon' : '/a
 /**
  * Secrets kept outside the repository (created manually on the server)
  */
-if (is_file(__DIR__ . '/app/config/secret.neon')) {
+if ($isProduction && is_file(__DIR__ . '/app/config/secret.neon')) {
     $configurator->addConfig(__DIR__ . '/app/config/secret.neon');
 }
 

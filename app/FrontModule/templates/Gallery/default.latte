@@ -13,7 +13,7 @@
             <div class="gallery-grid">
                 {foreach $photos as $photo}
                     <a class="gallery-item reveal" href="{$basePath}/{$photo['image_path']}" data-fancybox="gallery" data-caption="{$photo['title'] ?: 'Fourhands'}">
-                        <img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title'] ?: 'Fourhands'}" loading="lazy">
+                        <img src="{$basePath}/{$photo['gallery_path'] ?: $photo['image_path']}" srcset="{$basePath}/{$photo['thumbnail_path'] ?: $photo['image_path']} 480w, {$basePath}/{$photo['gallery_path'] ?: $photo['image_path']} 1200w" sizes="(max-width: 600px) 92vw, 33vw" alt="{$photo['title'] ?: 'Fourhands'}" loading="lazy">
                         <span>{$photo['title']}</span>
                     </a>
                 {/foreach}

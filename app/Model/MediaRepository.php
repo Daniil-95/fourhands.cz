@@ -26,13 +26,16 @@ final class MediaRepository
         $items = [];
 
         foreach ($this->db->table('images')->order('id DESC')->fetchAll() as $row) {
+            $imagePath = $this->normalizePath((string) ($row->file ?? ''));
             $items[] = (object) [
                 'id' => (int) $row->id,
                 'lang' => (string) $row->lang,
                 'type' => 'photo',
                 'title' => (string) ($row->title ?? ''),
                 'description' => (string) ($row->subtitle ?? ''),
-                'image_path' => $this->normalizePath((string) ($row->file ?? '')),
+                'image_path' => $imagePath,
+                'gallery_path' => $this->getOptimizedImagePath($imagePath, 1200),
+                'thumbnail_path' => $this->getOptimizedImagePath($imagePath, 480),
                 'url' => '',
                 'sort_order' => (int) $row->sort_order,
                 'active' => (bool) $row->active,
@@ -122,13 +125,17 @@ final class MediaRepository
             return null;
         }
 
+        $imagePath = $this->normalizePath((string) ($row->file ?? ''));
+
         return (object) [
             'id' => (int) $row->id,
             'lang' => (string) ($row->lang ?? 'cs'),
             'type' => 'photo',
             'title' => (string) ($row->title ?? ''),
             'description' => (string) ($row->subtitle ?? ''),
-            'image_path' => $this->normalizePath((string) ($row->file ?? '')),
+            'image_path' => $imagePath,
+            'gallery_path' => $this->getOptimizedImagePath($imagePath, 1200),
+            'thumbnail_path' => $this->getOptimizedImagePath($imagePath, 480),
             'url' => '',
             'sort_order' => (int) $row->sort_order,
             'active' => (bool) $row->active,
@@ -197,11 +204,14 @@ final class MediaRepository
     {
         $items = [];
         foreach ($this->db->table('images')->where('lang', $locale)->where('active', 1)->order('id DESC')->fetchAll() as $row) {
+            $imagePath = $this->normalizePath((string) ($row->file ?? ''));
             $items[] = [
                 'id' => (int) $row->id,
                 'title' => (string) ($row->title ?? ''),
                 'description' => (string) ($row->subtitle ?? ''),
-                'image_path' => $this->normalizePath((string) ($row->file ?? '')),
+                'image_path' => $imagePath,
+                'gallery_path' => $this->getOptimizedImagePath($imagePath, 1200),
+                'thumbnail_path' => $this->getOptimizedImagePath($imagePath, 480),
                 'url' => '',
             ];
         }
@@ -268,5 +278,15 @@ final class MediaRepository
         }
 
         return '';
+    }
+
+    public function getOptimizedImagePath(string $path, int $maxWidth = 1200): string
+    {
+        $normalized = $this->normalizePath($path);
+        if ($normalized === '') {
+            return '';
+        }
+
+        return ImageOptimizer::createDerivative($normalized, $maxWidth, 72);
     }
 }

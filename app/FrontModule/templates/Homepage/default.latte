@@ -2,7 +2,9 @@
 {var $videosSection = $pageSections['homepage']['videos'] ?? null}
 {var $gallerySection = $pageSections['homepage']['gallery'] ?? null}
 {var $contactSection = $pageSections['homepage']['contact'] ?? null}
-{var $heroImage = $hero?->image_path ? $basePath . '/' . $hero->image_path : $basePath . '/images/story.jpg'}
+{var $heroImagePath = $hero?->image_path ?: 'images/story.jpg'}
+{var $heroImage = $basePath . '/' . ($heroImageDesktop ?: $heroImagePath)}
+{var $heroImageMobile = $basePath . '/' . ($heroImageMobile ?: $heroImagePath)}
 {var $heroHeading = $hero?->title ?: 'FOURHANDS'}
 {var $heroLead = $hero?->subtitle ?: 'Klavírní duo pro výjimečné okamžiky vašeho života.'}
 {var $heroEyebrow = $hero?->content ?: ($locale === 'cs' ? 'Klavírní duo' : 'Piano Duo')}
@@ -19,11 +21,11 @@
 {block title}{_'Piano duo for exceptional moments'}{/block}
 
 {block head}
-    <link rel="preload" as="image" href="{$heroImage}" fetchpriority="high">
+    <link rel="preload" as="image" href="{$heroImage}" imagesrcset="{$heroImageMobile} 480w, {$heroImage} 1200w" imagesizes="100vw" fetchpriority="high">
 {/block}
 
 {block content}
-    <section class="hero" id="uvod" style="--hero-image:url('{$heroImage}');--hero-position:center 30%">
+    <section class="hero" id="uvod" style="--hero-image:url('{$heroImage}');--hero-image-mobile:url('{$heroImageMobile}');--hero-position:center 30%">
         <div class="container hero__content reveal">
             <p class="eyebrow eyebrow--light">{$heroEyebrow}</p>
             <h1>{$heroHeading}</h1>
@@ -100,7 +102,7 @@
                             {foreach $photos as $photo}
                                 <div class="swiper-slide">
                                     <a href="{$basePath}/{$photo['image_path']}" data-fancybox="homepage-gallery" data-caption="{$photo['title'] ?: 'Fourhands'}">
-                                        <img src="{$basePath}/{$photo['image_path']}" alt="{$photo['title'] ?: 'Fourhands'}" loading="lazy">
+                                        <img src="{$basePath}/{$photo['gallery_path'] ?: $photo['image_path']}" srcset="{$basePath}/{$photo['thumbnail_path'] ?: $photo['image_path']} 480w, {$basePath}/{$photo['gallery_path'] ?: $photo['image_path']} 1200w" sizes="(max-width: 600px) 92vw, 50vw" alt="{$photo['title'] ?: 'Fourhands'}" loading="lazy">
                                     </a>
                                 </div>
                             {/foreach}
