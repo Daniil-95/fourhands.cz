@@ -18,8 +18,17 @@ final class MediaRepository
         foreach ($this->db->table('media_translations')->where('lang', $locale)->where('active', 1)->order('sort_order, id DESC')->fetchAll() as $row) {
             $asset = $this->db->table('media_assets')->get((int) $row->asset_id);
             if ($asset && (string) $asset->type === $type) {
-                $items[] = (array) $this->mapRow($row, $asset, $type === 'video');
+                $item = $this->mapRow($row, $asset, $type === 'video');
+                if ($type === 'video') {
+                    $item->sort_order = $this->getCzechVideoSortOrder((int) $asset->id, (int) $row->sort_order);
+                } else {
+                    $item->sort_order = $this->getCzechPhotoSortOrder((int) $asset->id, (int) $row->sort_order);
+                }
+                $items[] = (array) $item;
             }
+        }
+        if (in_array($type, ['photo', 'video'], true)) {
+            usort($items, static fn (array $first, array $second): int => $first['sort_order'] <=> $second['sort_order'] ?: $first['id'] <=> $second['id']);
         }
         return $items;
     }
@@ -30,9 +39,24 @@ final class MediaRepository
         foreach ($this->db->table('media_translations')->order('lang, sort_order, id DESC')->fetchAll() as $row) {
             $asset = $this->db->table('media_assets')->get((int) $row->asset_id);
             if ($asset) {
-                $items[] = $this->mapRow($row, $asset, (string) $asset->type === 'video');
+                $item = $this->mapRow($row, $asset, (string) $asset->type === 'video');
+                if ((string) $asset->type === 'video') {
+                    $item->sort_order = $this->getCzechVideoSortOrder((int) $asset->id, (int) $row->sort_order);
+                } elseif ((string) $asset->type === 'photo') {
+                    $item->sort_order = $this->getCzechPhotoSortOrder((int) $asset->id, (int) $row->sort_order);
+                }
+                $items[] = $item;
             }
         }
+        usort($items, static function (object $first, object $second): int {
+            $languageOrder = strcmp((string) $first->lang, (string) $second->lang);
+            if ($languageOrder !== 0) {
+                return $languageOrder;
+            }
+
+            return (int) $first->sort_order <=> (int) $second->sort_order
+                ?: (int) $first->id <=> (int) $second->id;
+        });
         return $items;
     }
 
@@ -79,7 +103,9 @@ final class MediaRepository
             'title' => $data['title'],
             'description' => $data['description'],
             'alt_text' => $data['alt_text'] ?? null,
-            'sort_order' => $data['sort_order'],
+            'sort_order' => $isVideo
+                ? $this->getCzechVideoSortOrder($assetId, (int) $data['sort_order'])
+                : $this->getCzechPhotoSortOrder($assetId, (int) $data['sort_order']),
             'active' => $data['active'] ? 1 : 0,
         ];
         $existing = $this->db->table('media_translations')->where('asset_id', $assetId)->where('lang', $language)->fetch();
@@ -88,6 +114,13 @@ final class MediaRepository
         } else {
             $translation['created'] = new \DateTimeImmutable();
             $this->db->table('media_translations')->insert($translation);
+        }
+
+        if ($isVideo && $language === 'cs') {
+            $this->db->table('media_translations')->where('asset_id', $assetId)->update(['sort_order' => (int) $data['sort_order']]);
+        }
+        if (!$isVideo && $language === 'cs') {
+            $this->db->table('media_translations')->where('asset_id', $assetId)->update(['sort_order' => (int) $data['sort_order']]);
         }
     }
 
@@ -124,6 +157,26 @@ final class MediaRepository
             $item['thumbnail_path'] = $this->getOptimizedImagePath($path, 480);
         }
         return (object) $item;
+    }
+
+    private function getCzechVideoSortOrder(int $assetId, int $fallback): int
+    {
+        $czechTranslation = $this->db->table('media_translations')
+            ->where('asset_id', $assetId)
+            ->where('lang', 'cs')
+            ->fetch();
+
+        return $czechTranslation ? (int) $czechTranslation->sort_order : $fallback;
+    }
+
+    private function getCzechPhotoSortOrder(int $assetId, int $fallback): int
+    {
+        $czechTranslation = $this->db->table('media_translations')
+            ->where('asset_id', $assetId)
+            ->where('lang', 'cs')
+            ->fetch();
+
+        return $czechTranslation ? (int) $czechTranslation->sort_order : $fallback;
     }
 
     private function normalizePath(string $path): string
