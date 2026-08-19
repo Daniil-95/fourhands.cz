@@ -287,6 +287,6 @@ final class MediaRepository
             return '';
         }
 
-        return ImageOptimizer::createDerivative($normalized, $maxWidth, 72);
+        return ImageOptimizer::getDerivativePath($normalized, $maxWidth);
     }
 }

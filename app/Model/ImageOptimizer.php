@@ -4,6 +4,20 @@ namespace App\Model;
 
 final class ImageOptimizer
 {
+    public static function getDerivativePath(string $sourcePath, int $maxWidth): string
+    {
+        $normalized = trim($sourcePath);
+        if ($normalized === '' || $maxWidth <= 0) {
+            return $normalized;
+        }
+
+        $root = dirname(__DIR__, 2) . '/www/';
+        $source = $root . ltrim($normalized, '/');
+        $target = dirname($source) . '/optimized/' . pathinfo($source, PATHINFO_FILENAME) . '--w' . $maxWidth . '.jpg';
+
+        return is_file($target) ? self::toWebPath($target) : $normalized;
+    }
+
     public static function createDerivative(string $sourcePath, int $maxWidth, int $quality = 72): string
     {
         $normalized = trim($sourcePath);
@@ -70,6 +84,10 @@ final class ImageOptimizer
 
     private static function isSupportedImage(string $path): bool
     {
+        if (!function_exists('mime_content_type')) {
+            return false;
+        }
+
         $mime = @mime_content_type($path);
         if ($mime === false) {
             return false;
