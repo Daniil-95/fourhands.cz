@@ -14,279 +14,140 @@ final class MediaRepository
 
     public function getByLocaleAndType(string $locale, string $type): array
     {
-        if ($type === 'photo') {
-            return $this->photos($locale);
+        $items = [];
+        foreach ($this->db->table('media_translations')->where('lang', $locale)->where('active', 1)->order('sort_order, id DESC')->fetchAll() as $row) {
+            $asset = $this->db->table('media_assets')->get((int) $row->asset_id);
+            if ($asset && (string) $asset->type === $type) {
+                $items[] = (array) $this->mapRow($row, $asset, $type === 'video');
+            }
         }
-
-        return $this->videos($locale);
+        return $items;
     }
 
     public function getAll(): array
     {
         $items = [];
-
-        foreach ($this->db->table('images')->order('id DESC')->fetchAll() as $row) {
-            $imagePath = $this->normalizePath((string) ($row->file ?? ''));
-            $items[] = (object) [
-                'id' => (int) $row->id,
-                'lang' => (string) $row->lang,
-                'type' => 'photo',
-                'title' => (string) ($row->title ?? ''),
-                'description' => (string) ($row->subtitle ?? ''),
-                'image_path' => $imagePath,
-                'gallery_path' => $this->getOptimizedImagePath($imagePath, 1200),
-                'thumbnail_path' => $this->getOptimizedImagePath($imagePath, 480),
-                'url' => '',
-                'sort_order' => (int) $row->sort_order,
-                'active' => (bool) $row->active,
-                'alt_text' => (string) ($row->alt_text ?? ''),
-            ];
-        }
-
-        foreach ($this->db->table('videos')->order('sort_order, id DESC')->fetchAll() as $row) {
-            $url = (string) (($row->embed ?: $row->file) ?? '');
-            $items[] = (object) [
-                'id' => self::VIDEO_ID_OFFSET + (int) $row->id,
-                'lang' => (string) $row->lang,
-                'type' => 'video',
-                'title' => (string) ($row->title ?? ''),
-                'description' => '',
-                'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
-                'url' => $url,
-                'youtube_thumb' => $this->getYoutubeThumbnail($url, 'hqdefault'),
-                'youtube_thumb_fallback' => $this->getYoutubeThumbnail($url, 'mqdefault'),
-                'sort_order' => (int) $row->sort_order,
-                'active' => (bool) $row->active,
-                'alt_text' => '',
-            ];
-        }
-
-        return $items;
-    }
-
-    public function getLatest(int $limit = 5): array
-    {
-        $items = [];
-
-        foreach ($this->db->table('images')->order('id DESC')->limit($limit)->fetchAll() as $row) {
-            $items[] = (object) [
-                'id' => (int) $row->id,
-                'lang' => (string) $row->lang,
-                'type' => 'photo',
-                'title' => (string) ($row->title ?? ''),
-                'image_path' => $this->normalizePath((string) ($row->file ?? '')),
-                'active' => (bool) $row->active,
-            ];
-        }
-
-        if (count($items) < $limit) {
-            foreach ($this->db->table('videos')->order('id DESC')->limit($limit - count($items))->fetchAll() as $row) {
-                $items[] = (object) [
-                    'id' => self::VIDEO_ID_OFFSET + (int) $row->id,
-                    'lang' => (string) $row->lang,
-                    'type' => 'video',
-                    'title' => (string) ($row->title ?? ''),
-                    'image_path' => '',
-                    'active' => (bool) $row->active,
-                ];
+        foreach ($this->db->table('media_translations')->order('lang, sort_order, id DESC')->fetchAll() as $row) {
+            $asset = $this->db->table('media_assets')->get((int) $row->asset_id);
+            if ($asset) {
+                $items[] = $this->mapRow($row, $asset, (string) $asset->type === 'video');
             }
         }
-
         return $items;
     }
 
     public function getById(int $id): ?object
     {
-        if ($id >= self::VIDEO_ID_OFFSET) {
-            $videoId = $id - self::VIDEO_ID_OFFSET;
-            $row = $this->db->table('videos')->get($videoId);
-            if (!$row) {
-                return null;
-            }
-
-            return (object) [
-                'id' => $id,
-                'lang' => (string) ($row->lang ?? 'cs'),
-                'type' => 'video',
-                'title' => (string) ($row->title ?? ''),
-                'description' => '',
-                'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
-                'url' => (string) (($row->embed ?: $row->file) ?? ''),
-                'youtube_thumb' => $this->getYoutubeThumbnail((string) (($row->embed ?: $row->file) ?? ''), 'hqdefault'),
-                'youtube_thumb_fallback' => $this->getYoutubeThumbnail((string) (($row->embed ?: $row->file) ?? ''), 'mqdefault'),
-                'sort_order' => (int) $row->sort_order,
-                'active' => (bool) $row->active,
-                'alt_text' => '',
-            ];
-        }
-
-        $row = $this->db->table('images')->get($id);
-        if (!$row) {
+        $isVideo = $id >= self::VIDEO_ID_OFFSET;
+        $assetId = $isVideo ? $id - self::VIDEO_ID_OFFSET : $id;
+        $row = $this->db->table('media_translations')->where('asset_id', $assetId)->fetch();
+        $asset = $row ? $this->db->table('media_assets')->get($assetId) : null;
+        if (!$row || !$asset || ((string) $asset->type === 'video') !== $isVideo) {
             return null;
         }
-
-        $imagePath = $this->normalizePath((string) ($row->file ?? ''));
-
-        return (object) [
-            'id' => (int) $row->id,
-            'lang' => (string) ($row->lang ?? 'cs'),
-            'type' => 'photo',
-            'title' => (string) ($row->title ?? ''),
-            'description' => (string) ($row->subtitle ?? ''),
-            'image_path' => $imagePath,
-            'gallery_path' => $this->getOptimizedImagePath($imagePath, 1200),
-            'thumbnail_path' => $this->getOptimizedImagePath($imagePath, 480),
-            'url' => '',
-            'sort_order' => (int) $row->sort_order,
-            'active' => (bool) $row->active,
-            'alt_text' => (string) ($row->alt_text ?? ''),
-        ];
+        return $this->mapRow($row, $asset, $isVideo);
     }
 
     public function save(array $data, int $userId, ?int $id = null): void
     {
-        if ($data['type'] === 'video') {
-            $payload = [
-                'title' => $data['title'],
-                'lang' => $data['lang'],
-                'description' => $data['description'],
-                'embed' => $data['url'] ?: null,
-                'file' => $data['url'] ?: null,
-                'ratio' => $this->normalizePath((string) ($data['image_path'] ?? '')),
-                'sort_order' => $data['sort_order'],
-                'active' => $data['active'] ? 1 : 0,
-            ];
+        $type = (string) $data['type'];
+        $isVideo = $type === 'video';
+        $language = (string) $data['lang'];
+        $assetId = $id !== null ? ($isVideo ? $id - self::VIDEO_ID_OFFSET : $id) : null;
+        $assetData = $isVideo
+            ? ['type' => 'video', 'embed_url' => $data['url'] ?: null, 'thumbnail_path' => $this->normalizePath((string) ($data['image_path'] ?? '')) ?: null]
+            : ['type' => 'photo', 'file' => $this->normalizePath((string) ($data['image_path'] ?? '')) ?: null];
 
-            if ($id !== null) {
-                $videoId = $id >= self::VIDEO_ID_OFFSET ? $id - self::VIDEO_ID_OFFSET : $id;
-                $this->db->table('videos')->where('id', $videoId)->update($payload);
-                return;
+        if ($assetId === null) {
+            $asset = $isVideo
+                ? $this->db->table('media_assets')->where('type', 'video')->where('embed_url', $assetData['embed_url'])->fetch()
+                : ($assetData['file'] !== null ? $this->db->table('media_assets')->where('type', 'photo')->where('file', $assetData['file'])->fetch() : null);
+            if ($asset) {
+                $assetId = (int) $asset->id;
+            } else {
+                $assetData['users_id'] = $userId;
+                $assetData['created'] = new \DateTimeImmutable();
+                $assetId = (int) $this->db->table('media_assets')->insert($assetData)->id;
             }
-
-            $payload['created'] = new \DateTimeImmutable();
-            $payload['users_id'] = $userId;
-            $this->db->table('videos')->insert($payload);
-            return;
+        } else {
+            $this->db->table('media_assets')->where('id', $assetId)->update($assetData);
         }
 
-        $payload = [
+        $translation = [
+            'asset_id' => $assetId,
+            'lang' => $language,
             'title' => $data['title'],
-            'lang' => $data['lang'],
-            'subtitle' => $data['description'],
-            'alt_text' => $data['alt_text'],
-            'file' => $this->normalizePath((string) ($data['image_path'] ?? '')),
-            'crop' => 0,
+            'description' => $data['description'],
+            'alt_text' => $data['alt_text'] ?? null,
             'sort_order' => $data['sort_order'],
             'active' => $data['active'] ? 1 : 0,
         ];
-
-        if ($id !== null) {
-            $this->db->table('images')->where('id', $id)->update($payload);
-            return;
+        $existing = $this->db->table('media_translations')->where('asset_id', $assetId)->where('lang', $language)->fetch();
+        if ($existing) {
+            $this->db->table('media_translations')->where('id', $existing->id)->update($translation);
+        } else {
+            $translation['created'] = new \DateTimeImmutable();
+            $this->db->table('media_translations')->insert($translation);
         }
-
-        $payload['created'] = new \DateTimeImmutable();
-        $payload['users_id'] = $userId;
-        $this->db->table('images')->insert($payload);
     }
 
     public function delete(int $id): void
     {
-        if ($id >= self::VIDEO_ID_OFFSET) {
-            $this->db->table('videos')->where('id', $id - self::VIDEO_ID_OFFSET)->delete();
-            return;
+        $assetId = $id >= self::VIDEO_ID_OFFSET ? $id - self::VIDEO_ID_OFFSET : $id;
+        $this->db->table('media_translations')->where('asset_id', $assetId)->delete();
+        if (!$this->db->table('media_translations')->where('asset_id', $assetId)->fetch()) {
+            $this->db->table('media_assets')->where('id', $assetId)->delete();
         }
-
-        $this->db->table('images')->where('id', $id)->delete();
     }
 
-    private function photos(string $locale): array
+    private function mapRow(object $row, object $asset, bool $isVideo): object
     {
-        $items = [];
-        foreach ($this->db->table('images')->where('lang', $locale)->where('active', 1)->order('id DESC')->fetchAll() as $row) {
-            $imagePath = $this->normalizePath((string) ($row->file ?? ''));
-            $items[] = [
-                'id' => (int) $row->id,
-                'title' => (string) ($row->title ?? ''),
-                'description' => (string) ($row->subtitle ?? ''),
-                'image_path' => $imagePath,
-                'gallery_path' => $this->getOptimizedImagePath($imagePath, 1200),
-                'thumbnail_path' => $this->getOptimizedImagePath($imagePath, 480),
-                'url' => '',
-            ];
+        $path = $isVideo ? $this->normalizeVideoThumb((string) ($asset->thumbnail_path ?? '')) : $this->normalizePath((string) ($asset->file ?? ''));
+        $url = $isVideo ? (string) ($asset->embed_url ?? '') : '';
+        $item = [
+            'id' => $isVideo ? self::VIDEO_ID_OFFSET + (int) $asset->id : (int) $asset->id,
+            'lang' => (string) $row->lang,
+            'type' => $isVideo ? 'video' : 'photo',
+            'title' => (string) ($row->title ?? ''),
+            'description' => (string) ($row->description ?? ''),
+            'image_path' => $path,
+            'url' => $url,
+            'sort_order' => (int) $row->sort_order,
+            'active' => (bool) $row->active,
+            'alt_text' => (string) ($row->alt_text ?? ''),
+        ];
+        if ($isVideo) {
+            $item['youtube_thumb'] = $this->getYoutubeThumbnail($url, 'hqdefault');
+            $item['youtube_thumb_fallback'] = $this->getYoutubeThumbnail($url, 'mqdefault');
+        } else {
+            $item['gallery_path'] = $this->getOptimizedImagePath($path, 1200);
+            $item['thumbnail_path'] = $this->getOptimizedImagePath($path, 480);
         }
-
-        return $items;
-    }
-
-    private function videos(string $locale): array
-    {
-        $items = [];
-        foreach ($this->db->table('videos')->where('lang', $locale)->where('active', 1)->order('sort_order, id DESC')->fetchAll() as $row) {
-            $items[] = [
-                'id' => self::VIDEO_ID_OFFSET + (int) $row->id,
-                'title' => (string) ($row->title ?? ''),
-                'description' => '',
-                'image_path' => $this->normalizeVideoThumb((string) ($row->ratio ?? '')),
-                'url' => (string) (($row->embed ?: $row->file) ?? ''),
-                'youtube_thumb' => $this->getYoutubeThumbnail((string) (($row->embed ?: $row->file) ?? ''), 'hqdefault'),
-                'youtube_thumb_fallback' => $this->getYoutubeThumbnail((string) (($row->embed ?: $row->file) ?? ''), 'mqdefault'),
-            ];
-        }
-
-        return $items;
+        return (object) $item;
     }
 
     private function normalizePath(string $path): string
     {
         $trimmed = trim($path);
-        if ($trimmed === '') {
-            return '';
-        }
-
-        if (str_starts_with($trimmed, 'images/')) {
-            return $trimmed;
-        }
-
-        return 'images/' . ltrim($trimmed, '/');
+        return $trimmed === '' ? '' : (str_starts_with($trimmed, 'images/') ? $trimmed : 'images/' . ltrim($trimmed, '/'));
     }
 
     private function normalizeVideoThumb(string $thumb): string
     {
-        $trimmed = trim($thumb);
-        if ($trimmed === '' || $trimmed === '16:9') {
-            return '';
-        }
-
-        return $this->normalizePath($trimmed);
-    }
-
-    public function getYoutubeThumbnail(string $url, string $variant = 'maxresdefault'): string
-    {
-        $trimmed = trim($url);
-        if ($trimmed === '') {
-            return '';
-        }
-
-        $patterns = [
-            '~(?:youtube\.com/(?:watch\?v=|embed/|shorts/)|youtu\.be/)([A-Za-z0-9_-]{11})~i',
-        ];
-        foreach ($patterns as $pattern) {
-            if (preg_match($pattern, $trimmed, $matches) === 1) {
-                return 'https://img.youtube.com/vi/' . $matches[1] . '/' . $variant . '.jpg';
-            }
-        }
-
-        return '';
+        return trim($thumb) === '' || trim($thumb) === '16:9' ? '' : $this->normalizePath($thumb);
     }
 
     public function getOptimizedImagePath(string $path, int $maxWidth = 1200): string
     {
         $normalized = $this->normalizePath($path);
-        if ($normalized === '') {
-            return '';
-        }
+        return $normalized === '' ? '' : ImageOptimizer::getDerivativePath($normalized, $maxWidth);
+    }
 
-        return ImageOptimizer::getDerivativePath($normalized, $maxWidth);
+    public function getYoutubeThumbnail(string $url, string $variant = 'maxresdefault'): string
+    {
+        if (preg_match('~(?:youtube\.com/(?:watch\?v=|embed/|shorts/)|youtu\.be/)([A-Za-z0-9_-]{11})~i', trim($url), $matches) === 1) {
+            return 'https://img.youtube.com/vi/' . $matches[1] . '/' . $variant . '.jpg';
+        }
+        return '';
     }
 }

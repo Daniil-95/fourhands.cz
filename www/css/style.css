@@ -429,10 +429,7 @@ p {
 }
 @media (max-width: 575.98px) {
   .gallery-item span {
-    padding: 24px 12px 10px;
-    font-size: 13px;
-    opacity: 1;
-    transform: none;
+    display: none;
   }
 }
 

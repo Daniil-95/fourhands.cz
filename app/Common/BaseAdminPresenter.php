@@ -82,8 +82,26 @@ abstract class BaseAdminPresenter extends BasePresenter
             return null;
         }
 
+        $temporaryFile = $upload->getTemporaryFile();
+        $imagesDirectory = __DIR__ . '/../../www/images/';
+        $uploadedHash = is_file($temporaryFile) ? hash_file('sha256', $temporaryFile) : false;
+        if ($uploadedHash !== false) {
+            foreach (new \DirectoryIterator($imagesDirectory) as $existingFile) {
+                if (!$existingFile->isFile() || !preg_match('~\.(?:jpe?g|png|gif|webp)$~i', $existingFile->getFilename())) {
+                    continue;
+                }
+
+                if (hash_file('sha256', $existingFile->getPathname()) === $uploadedHash) {
+                    $existingPath = 'images/' . $existingFile->getFilename();
+                    \App\Model\ImageOptimizer::createDerivative($existingPath, 1200, 72);
+                    \App\Model\ImageOptimizer::createDerivative($existingPath, 480, 72);
+                    return $existingPath;
+                }
+            }
+        }
+
         $filename = $prefix . '-' . date('Ymd-His') . '-' . Random::generate(12, 'abcdefghijklmnopqrstuvwxyz0123456789') . '.' . $extension;
-        $upload->move(__DIR__ . '/../../www/images/' . $filename);
+        $upload->move($imagesDirectory . $filename);
 
         \App\Model\ImageOptimizer::createDerivative('images/' . $filename, 1200, 72);
         \App\Model\ImageOptimizer::createDerivative('images/' . $filename, 480, 72);

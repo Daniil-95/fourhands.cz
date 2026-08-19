@@ -70,10 +70,7 @@
   pointer-events: none;
 
   @include respond-down(sm) {
-    padding: 24px 12px 10px;
-    font-size: 13px;
-    opacity: 1;
-    transform: none;
+    display: none;
   }
 }
 
