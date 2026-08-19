@@ -62,6 +62,8 @@ abstract class BasePresenter extends Presenter
         $this->template->pageSections = $this->pageSectionRepository?->getByLocale($locale) ?? [];
         $stylePath = dirname(__DIR__, 2) . '/www/css/style.css';
         $this->template->styleVersion = is_file($stylePath) ? (string) filemtime($stylePath) : (string) time();
+        $adminStylePath = dirname(__DIR__, 2) . '/www/css/admin.css';
+        $this->template->adminStyleVersion = is_file($adminStylePath) ? (string) filemtime($adminStylePath) : (string) time();
     }
 
     protected function getLocale(): string
