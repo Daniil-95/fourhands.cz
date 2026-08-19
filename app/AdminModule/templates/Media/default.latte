@@ -28,12 +28,13 @@
             <div>
                 <h3>Fotogalerie</h3>
                 <p class="muted">Nahrávejte fotografie, nastavte pořadí a upravte jejich názvy.</p>
+                <p class="muted media-reorder-note">Tip: Na počítači můžete pořadí měnit přetažením karty myší.</p>
             </div>
             <a class="btn" n:href="edit type => 'photo'">Přidat fotografii</a>
         </div>
-        <div class="media-grid">
+        <div class="media-grid" data-reorder-grid data-reorder-type="photo" data-reorder-url="{link reorder type => 'photo'}" data-csrf-token="{$csrfToken}">
             {foreach $photos as $item}
-                <article class="media-card">
+                <article class="media-card" draggable="true" data-media-id="{$item->id}">
                     <div class="media-card__image-wrap">
                         {if $item->image_path}
                             <img src="{$basePath}/{$item->image_path}" alt="{$item->title}" class="media-card__image">
@@ -42,10 +43,11 @@
                         {/if}
                     </div>
                     <div class="media-card__body">
+                        <div class="media-card__drag" title="Přetažením změňte pořadí" aria-hidden="true">&#x2630; Přetáhnout</div>
                         <h4>{$item->title}</h4>
                         <div class="media-meta">
                             <span><strong>Jazyk:</strong> {$item->lang}</span>
-                            <span><strong>Pořadí:</strong> {$item->sort_order}</span>
+                            <span><strong>Pořadí:</strong> <span data-sort-order>{$item->sort_order}</span></span>
                             <span><strong>Stav:</strong> {if $item->active}Aktivní{else}Neaktivní{/if}</span>
                         </div>
                         <div class="media-card__actions">
@@ -71,12 +73,13 @@
             <div>
                 <h3>Video galerie</h3>
                 <p class="muted">Přidávejte odkazy na YouTube videa. Náhled se načte automaticky, pokud je URL správná.</p>
+                <p class="muted media-reorder-note">Tip: Na počítači můžete pořadí měnit přetažením karty myší.</p>
             </div>
             <a class="btn" n:href="edit type => 'video'">Přidat video odkaz</a>
         </div>
-        <div class="media-grid media-grid--video">
+        <div class="media-grid media-grid--video" data-reorder-grid data-reorder-type="video" data-reorder-url="{link reorder type => 'video'}" data-csrf-token="{$csrfToken}">
             {foreach $videos as $item}
-                <article class="media-card media-card--video">
+                <article class="media-card media-card--video" draggable="true" data-media-id="{$item->id}">
                     <div class="media-card__image-wrap">
                         {var $preview = $item->youtube_thumb ?? ''}
                         {var $previewFallback = $item->youtube_thumb_fallback ?? ''}
@@ -90,10 +93,11 @@
                         {/if}
                     </div>
                     <div class="media-card__body">
+                        <div class="media-card__drag" title="Přetažením změňte pořadí" aria-hidden="true">&#x2630; Přetáhnout</div>
                         <h4>{$item->title}</h4>
                         <div class="media-meta">
                             <span><strong>Jazyk:</strong> {$item->lang}</span>
-                            <span><strong>Pořadí:</strong> {$item->sort_order}</span>
+                            <span><strong>Pořadí:</strong> <span data-sort-order>{$item->sort_order}</span></span>
                             <span><strong>Stav:</strong> {if $item->active}Aktivní{else}Neaktivní{/if}</span>
                         </div>
                         <p class="media-url" title="{$item->url}">{$item->url|truncate:65}</p>
@@ -114,4 +118,122 @@
     </section>
     {/if}
 
+{/block}
+
+{block scripts}
+    <script>
+        (function () {
+            'use strict';
+
+            var desktopPointer = window.matchMedia('(pointer: fine)').matches;
+            if (!desktopPointer) {
+                return;
+            }
+
+            var grids = document.querySelectorAll('[data-reorder-grid]');
+            grids.forEach(function (grid) {
+                var reorderUrl = grid.getAttribute('data-reorder-url');
+                var csrfToken = grid.getAttribute('data-csrf-token');
+                if (!reorderUrl || !csrfToken) {
+                    return;
+                }
+
+                var draggingCard = null;
+                var pendingSave = false;
+
+                var getCards = function () {
+                    return Array.prototype.slice.call(grid.querySelectorAll('[data-media-id]'));
+                };
+
+                var refreshSortOrderLabels = function (sortMap) {
+                    getCards().forEach(function (card) {
+                        var id = card.getAttribute('data-media-id');
+                        var label = card.querySelector('[data-sort-order]');
+                        if (!id || !label || !sortMap[id]) {
+                            return;
+                        }
+                        label.textContent = String(sortMap[id]);
+                    });
+                };
+
+                var saveOrder = function () {
+                    if (pendingSave) {
+                        return;
+                    }
+
+                    var ids = getCards().map(function (card) {
+                        return card.getAttribute('data-media-id') || '';
+                    }).filter(function (id) {
+                        return id !== '';
+                    });
+
+                    if (ids.length === 0) {
+                        return;
+                    }
+
+                    pendingSave = true;
+                    grid.classList.add('is-saving-order');
+
+                    var payload = new URLSearchParams();
+                    payload.set('_token', csrfToken);
+                    payload.set('ids', ids.join(','));
+
+                    fetch(reorderUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: payload.toString()
+                    }).then(function (response) {
+                        return response.json();
+                    }).then(function (result) {
+                        if (!result || result.ok !== true) {
+                            throw new Error(result && result.message ? result.message : 'Pořadí se nepodařilo uložit.');
+                        }
+                        if (result.sortMap) {
+                            refreshSortOrderLabels(result.sortMap);
+                        }
+                    }).catch(function (error) {
+                        alert(error && error.message ? error.message : 'Pořadí se nepodařilo uložit. Obnovte stránku.');
+                        window.location.reload();
+                    }).finally(function () {
+                        pendingSave = false;
+                        grid.classList.remove('is-saving-order');
+                    });
+                };
+
+                getCards().forEach(function (card) {
+                    card.addEventListener('dragstart', function () {
+                        draggingCard = card;
+                        card.classList.add('is-dragging');
+                    });
+
+                    card.addEventListener('dragend', function () {
+                        card.classList.remove('is-dragging');
+                        if (!draggingCard) {
+                            return;
+                        }
+                        draggingCard = null;
+                        saveOrder();
+                    });
+                });
+
+                grid.addEventListener('dragover', function (event) {
+                    if (!draggingCard) {
+                        return;
+                    }
+                    event.preventDefault();
+                    var targetCard = event.target.closest('[data-media-id]');
+                    if (!targetCard || targetCard === draggingCard || targetCard.parentNode !== grid) {
+                        return;
+                    }
+
+                    var rectangle = targetCard.getBoundingClientRect();
+                    var placeAfter = event.clientY > rectangle.top + rectangle.height / 2;
+                    grid.insertBefore(draggingCard, placeAfter ? targetCard.nextSibling : targetCard);
+                });
+            });
+        })();
+    </script>
 {/block}

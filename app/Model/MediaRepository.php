@@ -152,6 +152,47 @@ final class MediaRepository
         }
     }
 
+    /**
+     * @param int[] $presentationIds
+     * @return array<int, int> map[presentationId] = sortOrder
+     */
+    public function reorderByPresentationIds(array $presentationIds, string $type, string $locale): array
+    {
+        if (!in_array($type, ['photo', 'video'], true)) {
+            throw new \InvalidArgumentException('Neplatný typ média.');
+        }
+
+        $normalizedIds = array_values(array_unique(array_map(static fn ($id): int => (int) $id, $presentationIds)));
+        $currentIds = $this->getAdminPresentationIdsByLocaleAndType($locale, $type);
+
+        if (count($normalizedIds) !== count($currentIds)) {
+            throw new \InvalidArgumentException('Pořadí nelze uložit, seznam se mezitím změnil.');
+        }
+
+        $expected = $currentIds;
+        sort($expected);
+        $received = $normalizedIds;
+        sort($received);
+        if ($expected !== $received) {
+            throw new \InvalidArgumentException('Pořadí nelze uložit, seznam se mezitím změnil.');
+        }
+
+        $sortMap = [];
+        $this->db->getConnection()->transaction(function () use ($normalizedIds, &$sortMap): void {
+            $sortOrder = 10;
+            foreach ($normalizedIds as $presentationId) {
+                $assetId = $this->toAssetId($presentationId);
+                $this->db->table('media_translations')
+                    ->where('asset_id', $assetId)
+                    ->update(['sort_order' => $sortOrder]);
+                $sortMap[$presentationId] = $sortOrder;
+                $sortOrder += 10;
+            }
+        });
+
+        return $sortMap;
+    }
+
     private function mapRow(object $row, object $asset, bool $isVideo): object
     {
         $path = $isVideo ? $this->normalizeVideoThumb((string) ($asset->thumbnail_path ?? '')) : $this->normalizePath((string) ($asset->file ?? ''));
@@ -230,6 +271,29 @@ final class MediaRepository
     {
         $trimmed = trim($path);
         return $trimmed === '' ? '' : (str_starts_with($trimmed, 'images/') ? $trimmed : 'images/' . ltrim($trimmed, '/'));
+    }
+
+    private function toAssetId(int $presentationId): int
+    {
+        return $presentationId >= self::VIDEO_ID_OFFSET
+            ? $presentationId - self::VIDEO_ID_OFFSET
+            : $presentationId;
+    }
+
+    /** @return int[] */
+    private function getAdminPresentationIdsByLocaleAndType(string $locale, string $type): array
+    {
+        $all = $this->getAll();
+        $ids = [];
+        foreach ($all as $item) {
+            if ((string) $item->lang !== $locale || (string) $item->type !== $type) {
+                continue;
+            }
+
+            $ids[] = (int) $item->id;
+        }
+
+        return $ids;
     }
 
     private function normalizeVideoThumb(string $thumb): string

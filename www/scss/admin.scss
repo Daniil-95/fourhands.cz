@@ -1244,10 +1244,19 @@ form .error,
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--space-16);
+
+    &.is-saving-order {
+        opacity: 0.7;
+        pointer-events: none;
+    }
 }
 
 .media-grid--video {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.media-reorder-note {
+    margin-top: var(--space-4);
 }
 
 .media-card {
@@ -1257,6 +1266,12 @@ form .error,
     background: var(--admin-surface);
     display: flex;
     flex-direction: column;
+    cursor: grab;
+
+    &.is-dragging {
+        opacity: 0.55;
+        cursor: grabbing;
+    }
 }
 
 .media-card__image-wrap {
@@ -1303,6 +1318,15 @@ form .error,
         font-weight: 500;
         line-height: 1.2;
     }
+}
+
+.media-card__drag {
+    margin: 0 0 var(--space-8);
+    color: var(--admin-text-muted);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    user-select: none;
 }
 
 .media-meta {

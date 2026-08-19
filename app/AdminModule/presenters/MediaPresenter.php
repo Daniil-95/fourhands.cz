@@ -244,6 +244,55 @@ final class MediaPresenter extends BaseAdminPresenter
         $this->redirectToDefaultWithContentLang(null, ['type' => is_string($tab) ? $tab : null]);
     }
 
+    public function actionReorder(string $type): void
+    {
+        if (!in_array($type, ['photo', 'video'], true)) {
+            $this->getHttpResponse()->setCode(400);
+            $this->sendJson(['ok' => false, 'message' => 'Neplatný typ média.']);
+        }
+
+        if (!$this->getHttpRequest()->isMethod('POST')) {
+            $this->getHttpResponse()->setCode(405);
+            $this->sendJson(['ok' => false, 'message' => 'Neplatná metoda požadavku.']);
+        }
+
+        $token = $this->getHttpRequest()->getPost('_token');
+        if (!is_string($token) || !$this->checkCsrfToken($token)) {
+            $this->getHttpResponse()->setCode(403);
+            $this->sendJson(['ok' => false, 'message' => 'Neplatný bezpečnostní token.']);
+        }
+
+        $idsRaw = $this->getHttpRequest()->getPost('ids');
+        if (!is_string($idsRaw)) {
+            $this->getHttpResponse()->setCode(400);
+            $this->sendJson(['ok' => false, 'message' => 'Neplatná data pořadí.']);
+        }
+
+        $ids = [];
+        foreach (explode(',', $idsRaw) as $idPart) {
+            $idPart = trim($idPart);
+            if ($idPart === '' || !ctype_digit($idPart)) {
+                continue;
+            }
+            $ids[] = (int) $idPart;
+        }
+
+        if ($ids === []) {
+            $this->getHttpResponse()->setCode(400);
+            $this->sendJson(['ok' => false, 'message' => 'Seznam médií je prázdný.']);
+        }
+
+        try {
+            $sortMap = $this->mediaRepository->reorderByPresentationIds($ids, $type, $this->getAdminContentLang());
+        } catch (\InvalidArgumentException $exception) {
+            $this->getHttpResponse()->setCode(409);
+            $this->sendJson(['ok' => false, 'message' => $exception->getMessage()]);
+            return;
+        }
+
+        $this->sendJson(['ok' => true, 'sortMap' => $sortMap]);
+    }
+
     protected function createComponentDeleteForm(): Form
     {
         $form = new Form();
