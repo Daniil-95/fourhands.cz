@@ -86,6 +86,7 @@ abstract class BaseAdminPresenter extends BasePresenter
         $upload->move(__DIR__ . '/../../www/images/' . $filename);
 
         \App\Model\ImageOptimizer::createDerivative('images/' . $filename, 1200, 72);
+        \App\Model\ImageOptimizer::createDerivative('images/' . $filename, 480, 72);
 
         return 'images/' . $filename;
     }

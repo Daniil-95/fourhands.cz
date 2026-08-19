@@ -19,7 +19,8 @@
                 </div>
                 <div class="events-grid">
                     <article class="event-tile reveal" n:foreach="$events['upcoming'] as $event">
-                        <div class="event-tile__media" style="background-image:url('{$basePath}/{$event['image_path'] ?: $eventFallbackImage}')">
+                        {var $eventImage = $event['image_path'] ?: $eventFallbackImage}
+                        <div class="event-tile__media" style="--event-image:url('{$basePath}/{$optimizedImage($eventImage, 1200)}');--event-image-mobile:url('{$basePath}/{$optimizedImage($eventImage, 480)}')">
                             <div class="event-tile__date">
                                 <strong>{$event['event_date']|date:'d'}</strong>
                                 <span>{$eventMonth($event['event_date'])}</span>
@@ -40,7 +41,8 @@
                 </div>
                 <div class="events-list">
                     <article class="event-row reveal" n:foreach="$events['past'] as $event">
-                        <div class="event-row__media" style="background-image:url('{$basePath}/{$event['image_path'] ?: $eventFallbackImage}')"></div>
+                        {var $eventImage = $event['image_path'] ?: $eventFallbackImage}
+                        <div class="event-row__media" style="--event-image:url('{$basePath}/{$optimizedImage($eventImage, 1200)}');--event-image-mobile:url('{$basePath}/{$optimizedImage($eventImage, 480)}')"></div>
                         <div class="event-row__body">
                             <time datetime="{$event['event_date']->format('Y-m-d')}">{$event['event_date']|date:'j. n. Y'}</time>
                             <h3>{$event['title']}</h3>

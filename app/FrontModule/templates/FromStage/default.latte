@@ -16,7 +16,7 @@
                     <div class="col-lg-4" n:foreach="$publications as $publication">
                         <article class="publication-card reveal">
                             {if $publication->image_path}
-                                <img src="{$basePath}/{$publication->image_path}" alt="{$publication->title}" loading="lazy">
+                                <img src="{$basePath}/{$optimizedImage($publication->image_path, 1200)}" srcset="{$basePath}/{$optimizedImage($publication->image_path, 480)} 480w, {$basePath}/{$optimizedImage($publication->image_path, 1200)} 1200w" sizes="(max-width: 600px) 92vw, 33vw" alt="{$publication->title}" loading="lazy">
                             {/if}
                             <div class="publication-card__body">
                                 <p class="eyebrow">{$publication->source ?: ($locale === 'cs' ? 'Externí zdroj' : 'External source')}</p>

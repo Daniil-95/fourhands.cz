@@ -13,7 +13,7 @@
     <section class="section">
         <div class="container about-story reveal reveal--left {if !$aboutImage}about-story--no-image{/if}">
             <div class="about-story__media" n:if="$aboutImage">
-                <img src="{$basePath}/{$aboutImage}" alt="{$contentSection?->title}" loading="lazy">
+                <img src="{$basePath}/{$optimizedImage($aboutImage, 1200)}" srcset="{$basePath}/{$optimizedImage($aboutImage, 480)} 480w, {$basePath}/{$optimizedImage($aboutImage, 1200)} 1200w" sizes="(max-width: 600px) 92vw, 50vw" alt="{$contentSection?->title}" loading="lazy">
             </div>
             <div class="rich-text about-story__text">
                 {$contentSection?->content ?? '<p>Vítejte v Fourhands.</p>'|noescape}

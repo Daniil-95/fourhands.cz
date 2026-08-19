@@ -48,7 +48,7 @@
                 <div class="events-preview__grid">
                     <article class="event-card event-card--featured reveal" n:foreach="$upcomingEvents as $event">
                         {var $eventImage = $event['image_path'] ?: ($hero?->image_path ?: 'images/story.jpg')}
-                        <div class="event-card__visual" style="background-image: url('{$basePath}/{$eventImage}')"></div>
+                        <div class="event-card__visual" style="--event-image:url('{$basePath}/{$optimizedImage($eventImage, 1200)}');--event-image-mobile:url('{$basePath}/{$optimizedImage($eventImage, 480)}')"></div>
                         <div class="event-card__body">
                             <time datetime="{$event['event_date']->format('Y-m-d')}">
                                 <strong>{$event['event_date']|date:'d'}</strong>
@@ -119,7 +119,7 @@
     <section class="contact" id="kontakt">
         <div class="container-fluid">
             <div class="row g-0">
-                <div class="col-lg-5 contact__visual" style="background-image:url('{$contactImage}')"></div>
+                <div class="col-lg-5 contact__visual" style="--contact-image:url('{$basePath}/{$optimizedImage($contactSection?->image_path ?: $heroImagePath, 1200)}');--contact-image-mobile:url('{$basePath}/{$optimizedImage($contactSection?->image_path ?: $heroImagePath, 480)}')"></div>
                 <div class="col-lg-7 contact__content reveal">
                     <p class="eyebrow">Kontakt</p>
                     <h2>{$contactTitle}<br>{$contactSubtitle}</h2>

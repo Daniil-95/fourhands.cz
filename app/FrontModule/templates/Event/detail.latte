@@ -14,7 +14,7 @@
         <div class="container">
             <a class="button button--outline" n:href=":Front:EventsArchive:default locale => $locale">&larr; {_'Back to events'}</a>
             {if $event->image_path}
-                <img class="event-detail__image" src="{$basePath}/{$event->image_path}" alt="{$event->title}">
+                <img class="event-detail__image" src="{$basePath}/{$optimizedImage($event->image_path, 1200)}" srcset="{$basePath}/{$optimizedImage($event->image_path, 480)} 480w, {$basePath}/{$optimizedImage($event->image_path, 1200)} 1200w" sizes="(max-width: 600px) 92vw, 70vw" alt="{$event->title}" loading="lazy">
             {/if}
             <div class="event-detail__content">
                 {if $event->description}

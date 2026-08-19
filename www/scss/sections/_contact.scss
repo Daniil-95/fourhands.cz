@@ -16,9 +16,14 @@
 }
 
 .contact__visual {
+  background-image: var(--contact-image);
   min-height: 720px;
   background-position: center;
   background-size: cover;
+
+  @include respond-down(sm) {
+    background-image: var(--contact-image-mobile, var(--contact-image));
+  }
 
   @include respond-down(lg) {
     min-height: 440px;

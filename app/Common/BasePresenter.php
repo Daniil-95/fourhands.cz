@@ -5,6 +5,7 @@ namespace App\Common;
 use Nette\Application\UI\Presenter;
 use Nette\Application\UI\Template;
 use App\Model\NavigationRepository;
+use App\Model\ImageOptimizer;
 use App\Model\PageSectionRepository;
 use App\Model\SettingRepository;
 
@@ -60,6 +61,9 @@ abstract class BasePresenter extends Presenter
         $this->template->siteSettings = $this->settingRepository?->getByLocale($locale) ?? [];
         $this->template->navigation = $this->navigationRepository?->getActiveByLocale($locale) ?? [];
         $this->template->pageSections = $this->pageSectionRepository?->getByLocale($locale) ?? [];
+        $this->template->optimizedImage = static function (string $path, int $width = 1200): string {
+            return ImageOptimizer::getDerivativePath($path, $width);
+        };
         $stylePath = dirname(__DIR__, 2) . '/www/css/style.css';
         $this->template->styleVersion = is_file($stylePath) ? (string) filemtime($stylePath) : (string) time();
         $adminStylePath = dirname(__DIR__, 2) . '/www/css/admin.css';

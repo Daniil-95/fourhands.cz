@@ -3,8 +3,8 @@
     {var $hero = $pageSections['artists']['hero'] ?? null}
     {var $katerina = $pageSections['artists']['katerina'] ?? null}
     {var $irena = $pageSections['artists']['irena'] ?? null}
-    {var $katerinaImage = $basePath . '/' . ($katerina?->image_path ?: 'images/katerina.jpg')}
-    {var $irenaImage = $basePath . '/' . ($irena?->image_path ?: 'images/Irena.jpg')}
+    {var $katerinaImagePath = $katerina?->image_path ?: 'images/katerina.jpg'}
+    {var $irenaImagePath = $irena?->image_path ?: 'images/Irena.jpg'}
     <section class="page-hero">
         <div class="container">
             <p class="eyebrow eyebrow--light">Umělkyně</p>
@@ -15,14 +15,14 @@
     <section class="section members">
         <div class="container">
             <article class="member row align-items-start gy-5 reveal reveal--left">
-                <div class="col-lg-5"><img src="{$katerinaImage}" width="600" height="750" alt="{_'Kateřina Konopová'}" loading="lazy"></div>
+                <div class="col-lg-5"><img src="{$basePath}/{$optimizedImage($katerinaImagePath, 1200)}" srcset="{$basePath}/{$optimizedImage($katerinaImagePath, 480)} 480w, {$basePath}/{$optimizedImage($katerinaImagePath, 1200)} 1200w" sizes="(max-width: 600px) 92vw, 50vw" width="600" height="750" alt="{_'Kateřina Konopová'}" loading="lazy"></div>
                 <div class="col-lg-7"><p class="eyebrow">{_'Pianist'}</p>
                     <h2>{$katerina?->title ?: 'Kateřina Konopová'}</h2>
                     <div class="rich-text">{$katerina?->content ?? ''|noescape}</div>
                 </div>
             </article>
             <article class="member member--reverse row align-items-start gy-5 reveal reveal--right">
-                <div class="col-lg-5"><img src="{$irenaImage}" width="600" height="750" alt="{_'Irena Andruško'}" loading="lazy"></div>
+                <div class="col-lg-5"><img src="{$basePath}/{$optimizedImage($irenaImagePath, 1200)}" srcset="{$basePath}/{$optimizedImage($irenaImagePath, 480)} 480w, {$basePath}/{$optimizedImage($irenaImagePath, 1200)} 1200w" sizes="(max-width: 600px) 92vw, 50vw" width="600" height="750" alt="{_'Irena Andruško'}" loading="lazy"></div>
                 <div class="col-lg-7"><p class="eyebrow">{_'Pianist'}</p>
                     <h2>{$irena?->title ?: 'Irena Andruško'}</h2>
                     <div class="rich-text">{$irena?->content ?? ''|noescape}</div>

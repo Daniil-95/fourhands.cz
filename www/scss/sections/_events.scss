@@ -113,6 +113,7 @@
   width: 43%;
   min-height: 270px;
   flex-shrink: 0;
+  background-image: var(--event-image);
   background-position: center 30%;
   background-size: cover;
   filter: saturate(.8);
@@ -127,6 +128,7 @@
   }
 
   @include respond-down(sm) {
+    background-image: var(--event-image-mobile, var(--event-image));
     min-height: 210px;
   }
 }
@@ -228,6 +230,7 @@
   aspect-ratio: 16 / 10;
   overflow: hidden;
   border-radius: 12px;
+  background-image: var(--event-image);
   background-position: center;
   background-size: cover;
 
@@ -320,11 +323,13 @@
   width: 76px;
   height: 76px;
   border-radius: 8px;
+  background-image: var(--event-image);
   background-position: center;
   background-size: cover;
   filter: grayscale(.4);
 
   @include respond-down(sm) {
+    background-image: var(--event-image-mobile, var(--event-image));
     width: 56px;
     height: 56px;
   }
