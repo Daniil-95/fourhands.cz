@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#8F1125">
+        <meta name="theme-color" content="#11100F">
 
         {var $metaTitle = $siteSettings['meta_title'] ?? 'Fourhands'}
         {var $metaDescription = $siteSettings['meta_description'] ?? ''}
@@ -46,7 +46,7 @@
         <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6/dist/fancybox/fancybox.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6/dist/fancybox/fancybox.css"></noscript>
 
-        <link rel="stylesheet" href="{$basePath}/css/style.css">
+        <link rel="stylesheet" href="{$basePath}/css/style.css?v={$styleVersion}">
 
         <link rel="icon" href="{$basePath}/images/icons.png" type="image/x-icon" sizes="32x32">
 
