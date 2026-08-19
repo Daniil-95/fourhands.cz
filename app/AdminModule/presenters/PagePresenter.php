@@ -209,6 +209,7 @@ final class PagePresenter extends BaseAdminPresenter
         $this->assertAdminContentLanguage($current);
 
         $imagePath = (string) $current->image_path;
+        $imageWasUploaded = false;
 
         /** @var FileUpload|null $upload */
         $upload = $values->upload ?? null;
@@ -223,6 +224,7 @@ final class PagePresenter extends BaseAdminPresenter
                 return;
             }
             $imagePath = $storedImagePath;
+            $imageWasUploaded = true;
         }
 
         $lang = (string) $this->editingLang;
@@ -234,7 +236,11 @@ final class PagePresenter extends BaseAdminPresenter
             'image_path' => $imagePath,
         ]);
 
-        if ($this->editingPageKey === 'artists' && in_array($this->editingSectionKey, ['katerina', 'irena'], true)) {
+        if (
+            $imageWasUploaded
+            && is_string($this->editingPageKey)
+            && is_string($this->editingSectionKey)
+        ) {
             $this->pageSectionRepository->syncImageAcrossLocales(
                 $this->editingPageKey,
                 $this->editingSectionKey,

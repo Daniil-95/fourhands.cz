@@ -28,7 +28,7 @@ final class MediaRepository
             }
         }
         if (in_array($type, ['photo', 'video'], true)) {
-            usort($items, static fn (array $first, array $second): int => $first['sort_order'] <=> $second['sort_order'] ?: $first['id'] <=> $second['id']);
+            usort($items, static fn (array $first, array $second): int => $first['sort_order'] <=> $second['sort_order'] ?: $second['id'] <=> $first['id']);
         }
         return $items;
     }
@@ -55,9 +55,26 @@ final class MediaRepository
             }
 
             return (int) $first->sort_order <=> (int) $second->sort_order
-                ?: (int) $first->id <=> (int) $second->id;
+                ?: (int) $second->id <=> (int) $first->id;
         });
         return $items;
+    }
+
+    public function getNextTopSortOrder(string $type): int
+    {
+        $minSortOrder = $this->db->query(
+            'SELECT MIN(mt.sort_order) AS min_sort_order
+             FROM media_translations mt
+             INNER JOIN media_assets ma ON ma.id = mt.asset_id
+             WHERE ma.type = ?',
+            $type,
+        )->fetch();
+
+        if (!$minSortOrder || $minSortOrder->min_sort_order === null) {
+            return 100;
+        }
+
+        return (int) $minSortOrder->min_sort_order - 1;
     }
 
     public function getById(int $id): ?object
@@ -116,12 +133,14 @@ final class MediaRepository
             $this->db->table('media_translations')->insert($translation);
         }
 
-        if ($isVideo && $language === 'cs') {
-            $this->db->table('media_translations')->where('asset_id', $assetId)->update(['sort_order' => (int) $data['sort_order']]);
-        }
-        if (!$isVideo && $language === 'cs') {
-            $this->db->table('media_translations')->where('asset_id', $assetId)->update(['sort_order' => (int) $data['sort_order']]);
-        }
+        $this->db->table('media_translations')->where('asset_id', $assetId)->update(['sort_order' => (int) $data['sort_order']]);
+
+        $this->ensureCounterpartTranslationExists(
+            $assetId,
+            $language,
+            (int) $data['sort_order'],
+            (bool) $data['active'],
+        );
     }
 
     public function delete(int $id): void
@@ -177,6 +196,34 @@ final class MediaRepository
             ->fetch();
 
         return $czechTranslation ? (int) $czechTranslation->sort_order : $fallback;
+    }
+
+    private function ensureCounterpartTranslationExists(int $assetId, string $language, int $sortOrder, bool $active): void
+    {
+        $counterpartLanguage = $language === 'cs' ? 'en' : ($language === 'en' ? 'cs' : null);
+        if ($counterpartLanguage === null) {
+            return;
+        }
+
+        $counterpartTranslation = $this->db->table('media_translations')
+            ->where('asset_id', $assetId)
+            ->where('lang', $counterpartLanguage)
+            ->fetch();
+
+        if ($counterpartTranslation) {
+            return;
+        }
+
+        $this->db->table('media_translations')->insert([
+            'asset_id' => $assetId,
+            'lang' => $counterpartLanguage,
+            'title' => '',
+            'description' => '',
+            'alt_text' => '',
+            'sort_order' => $sortOrder,
+            'active' => $active ? 1 : 0,
+            'created' => new \DateTimeImmutable(),
+        ]);
     }
 
     private function normalizePath(string $path): string

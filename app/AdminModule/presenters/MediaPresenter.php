@@ -128,12 +128,12 @@ final class MediaPresenter extends BaseAdminPresenter
             $this->template->currentImagePath = $item->image_path;
         } else {
             $this->template->currentImagePath = null;
+            $newType = $this->presetType ?? 'photo';
             $defaults = [
                 'lang' => $this->getAdminContentLang(),
+                'type' => $newType,
+                'sort_order' => $this->mediaRepository->getNextTopSortOrder($newType),
             ];
-            if ($this->presetType !== null) {
-                $defaults['type'] = $this->presetType;
-            }
             $this['mediaForm']->setDefaults($defaults);
         }
     }
