@@ -84,7 +84,7 @@
                 <button class="slider-arrow slider-arrow--next video-next" aria-label="{_'Next video'}">→</button>
             </div>
             <div class="section-action">
-                <a class="button button--outline button--outline-light" href="{$basePath}{$videosSection?->button_url ?: '/videa'}">{$videosSection?->button_text ?: 'Zobrazit všechna videa'}<span>→</span></a>
+                <a class="button button--outline button--outline-light" n:href=":Front:Videos:default locale => $locale">{$videosSection?->button_text ?: 'Zobrazit všechna videa'}<span>→</span></a>
             </div>
         </div>
     </section>
@@ -110,7 +110,7 @@
                     </div>
                 </div>
                 <div class="section-action">
-                    <a class="button button--outline" href="{$basePath}{$gallerySection?->button_url ?: '/galerie'}">{$gallerySection?->button_text ?: 'Zobrazit celou galerii'}<span>→</span></a>
+                    <a class="button button--outline" n:href=":Front:Gallery:default locale => $locale">{$gallerySection?->button_text ?: 'Zobrazit celou galerii'}<span>→</span></a>
                 </div>
             {/if}
         </div>
