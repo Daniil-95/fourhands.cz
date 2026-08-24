@@ -3,16 +3,21 @@
 namespace App\AdminModule\Presenters;
 
 use App\Common\BaseAdminPresenter;
+use App\Model\PageSectionRepository;
 use App\Model\SettingRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
+use Nette\Http\FileUpload;
 
 final class SettingPresenter extends BaseAdminPresenter
 {
     private ?int $editingId = null;
     private string $editReturnAction = 'default';
 
-    public function __construct(private SettingRepository $settingRepository)
+    public function __construct(
+        private SettingRepository $settingRepository,
+        private PageSectionRepository $pageSectionRepository,
+    )
     {
         parent::__construct();
     }
@@ -42,6 +47,54 @@ final class SettingPresenter extends BaseAdminPresenter
             'contact' => 'Údaje, podle kterých vás návštěvníci mohou kontaktovat.',
             'social' => 'Odkazy na sociální sítě, zásady ochrany údajů a cookies.',
         ];
+
+        $contactSection = $this->pageSectionRepository->getByPageSection('homepage', 'contact', $this->getAdminContentLang());
+        $this->template->contactImagePath = $contactSection?->image_path ?: null;
+    }
+
+    protected function createComponentContactImageForm(): Form
+    {
+        $form = new Form();
+        $form->addProtection();
+        $form->addUpload('upload', 'Nová fotografie');
+        $form->addCheckbox('reset', 'Použít obrázek z úvodní sekce');
+        $form->addSubmit('save', 'Uložit fotografii');
+        $form->onSuccess[] = $this->contactImageFormSucceeded(...);
+
+        return $form;
+    }
+
+    private function contactImageFormSucceeded(Form $form, \stdClass $values): void
+    {
+        $section = $this->pageSectionRepository->getByPageSection('homepage', 'contact', $this->getAdminContentLang());
+        if (!$section) {
+            $form->addError('Kontaktní sekce úvodní stránky nebyla nalezena.');
+            return;
+        }
+
+        if ($values->reset) {
+            // fotografie je společná pro obě jazykové mutace, proto se maže najednou
+            $this->pageSectionRepository->syncImageAcrossLocales('homepage', 'contact', '');
+            $this->flashMessage('Kontaktní fotografie byla odebrána, použije se obrázek z úvodní sekce.', 'success');
+            $this->redirectToDefaultWithContentLang();
+        }
+
+        /** @var FileUpload|null $upload */
+        $upload = $values->upload ?? null;
+        if (!$upload || !$upload->hasFile()) {
+            $form->addError('Vyberte fotografii, kterou chcete nahrát.');
+            return;
+        }
+
+        $imagePath = $this->storeImageUpload($upload, 'contact');
+        if ($imagePath === null) {
+            $form->addError('Nahrajte platný obrázek JPG, PNG, GIF nebo WebP do velikosti 8 MB.');
+            return;
+        }
+
+        $this->pageSectionRepository->syncImageAcrossLocales('homepage', 'contact', $imagePath);
+        $this->flashMessage('Kontaktní fotografie byla uložena pro obě jazykové verze.', 'success');
+        $this->redirectToDefaultWithContentLang();
     }
 
     public function renderSeo(): void

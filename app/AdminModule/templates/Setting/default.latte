@@ -8,6 +8,50 @@
     </div>
 
     <div class="settings-groups">
+        <section class="settings-group settings-group-general">
+            <div class="settings-group-header">
+                <div>
+                    <span class="settings-group-kicker">Kontaktní sekce</span>
+                    <h3>Fotografie u kontaktního formuláře</h3>
+                    <p>Obrázek vedle formuláře na úvodní stránce. Je společný pro českou i anglickou verzi.</p>
+                </div>
+            </div>
+
+            <div class="hero-editor-grid">
+                <div class="hero-editor-panel">
+                    {form contactImageForm class => 'hero-admin-form'}
+                        <div class="form-error" n:if="$form->hasErrors()">
+                            <p n:foreach="$form->ownErrors as $error">{$error}</p>
+                        </div>
+
+                        <div class="hero-form-section">
+                            <label>
+                                {label upload /}
+                                {input upload}
+                            </label>
+                            <label class="checkbox-line">
+                                {input reset}
+                                {label reset /}
+                            </label>
+                        </div>
+
+                        <div class="hero-admin-actions">
+                            {input save class => 'btn'}
+                        </div>
+                    {/form}
+                </div>
+
+                <aside class="hero-image-panel">
+                    <h3>Aktuální fotografie</h3>
+                    {if $contactImagePath}
+                        <img src="{$basePath}/{$contactImagePath}" alt="Náhled kontaktní sekce" class="hero-image-preview">
+                    {else}
+                        <p class="muted">Vlastní fotografie není nastavena – použije se obrázek z úvodní sekce.</p>
+                    {/if}
+                </aside>
+            </div>
+        </section>
+
         <section n:foreach="$groups as $groupName => $groupItems" n:if="$groupItems" class="settings-group settings-group-{$groupName}">
             <div class="settings-group-header">
                 <div>
