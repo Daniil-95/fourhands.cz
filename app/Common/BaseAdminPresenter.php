@@ -127,6 +127,24 @@ abstract class BaseAdminPresenter extends BasePresenter
         }));
     }
 
+    /**
+     * Odkaz přepínače jazyka. Editační formuláře pracují se záznamem konkrétního jazyka,
+     * proto se při přepnutí vrací na přehled – jinak by cílové ID v novém jazyce neexistovalo.
+     */
+    public function getContentLangSwitchLink(string $lang): string
+    {
+        $params = ['lang' => $lang];
+        if ($this->getName() === 'Admin:Media') {
+            $params['type'] = $this->getParameter('type');
+        }
+
+        if ($this->getParameter('id') !== null) {
+            return $this->link('default', $params);
+        }
+
+        return $this->link('this', $params);
+    }
+
     protected function redirectToDefaultWithContentLang(?string $lang = null, array $extraParams = []): void
     {
         $targetLang = in_array($lang, ['cs', 'en'], true) ? $lang : $this->getAdminContentLang();
