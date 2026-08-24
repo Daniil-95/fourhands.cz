@@ -28,11 +28,10 @@ final class HomepagePresenter extends BasePresenter
         $this->template->heroImageDesktop = $this->mediaRepository->getOptimizedImagePath($heroPath, 1200);
         $this->template->heroImageMobile = $this->mediaRepository->getOptimizedImagePath($heroPath, 480);
         $this->template->events = $this->eventRepository->getByLocale($locale);
-        $eventPreview = array_merge(
-            $this->template->events['upcoming'],
-            $this->template->events['past'],
-        );
-        $this->template->upcomingEvents = array_slice($eventPreview, 0, 3);
+        // v karuselu na hlavní straně chceme nejbližší termín jako první
+        $upcoming = $this->template->events['upcoming'];
+        usort($upcoming, static fn (array $first, array $second): int => $first['event_date'] <=> $second['event_date']);
+        $this->template->upcomingEvents = $upcoming;
         $this->template->photos = $this->mediaRepository->getByLocaleAndType($locale, 'photo');
         $this->template->videos = $this->mediaRepository->getByLocaleAndType($locale, 'video');
     }

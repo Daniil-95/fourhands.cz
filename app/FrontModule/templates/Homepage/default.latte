@@ -45,19 +45,27 @@
             </div>
 
             {if $upcomingEvents}
-                <div class="events-preview__grid">
-                    <article class="event-card event-card--featured reveal" n:foreach="$upcomingEvents as $event">
-                        {var $eventImage = $event['image_path'] ?: ($hero?->image_path ?: 'images/story.jpg')}
-                        <div class="event-card__visual" style="--event-image:url('{$basePath}/{$optimizedImage($eventImage, 1200)}');--event-image-mobile:url('{$basePath}/{$optimizedImage($eventImage, 480)}')"></div>
-                        <div class="event-card__body">
-                            <time datetime="{$event['event_date']->format('Y-m-d')}">
-                                <strong>{$event['event_date']|date:'d'}</strong>
-                                <span>{$eventMonth($event['event_date'])}</span>
-                            </time>
-                            <h3>{$event['title']}</h3>
-                            <a n:href=":Front:Event:detail id => $event['id'], locale => $locale">{_'Read more'} <span>→</span></a>
+                <div class="slider-shell reveal">
+                    <div class="swiper events-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide" n:foreach="$upcomingEvents as $event">
+                                <article class="event-card event-card--featured">
+                                    {var $eventImage = $event['image_path'] ?: ($hero?->image_path ?: 'images/story.jpg')}
+                                    <div class="event-card__visual" style="--event-image:url('{$basePath}/{$optimizedImage($eventImage, 1200)}');--event-image-mobile:url('{$basePath}/{$optimizedImage($eventImage, 480)}')"></div>
+                                    <div class="event-card__body">
+                                        <time datetime="{$event['event_date']->format('Y-m-d')}">
+                                            <strong>{$event['event_date']|date:'d'}</strong>
+                                            <span>{$eventMonth($event['event_date'])}</span>
+                                        </time>
+                                        <h3>{$event['title']}</h3>
+                                        <a n:href=":Front:Event:detail id => $event['id'], locale => $locale">{_'Read more'} <span>→</span></a>
+                                    </div>
+                                </article>
+                            </div>
                         </div>
-                    </article>
+                    </div>
+                    <button class="slider-arrow slider-arrow--prev events-prev" aria-label="{_'Previous event'}">←</button>
+                    <button class="slider-arrow slider-arrow--next events-next" aria-label="{_'Next event'}">→</button>
                 </div>
             {else}
                 <p class="events-preview__empty">{_'No upcoming events available yet.'}</p>

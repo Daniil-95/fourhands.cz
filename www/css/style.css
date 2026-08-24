@@ -1441,6 +1441,13 @@ p {
   }
 }
 
+.events-swiper .swiper-slide {
+  height: auto;
+}
+.events-swiper .event-card--featured {
+  height: 100%;
+}
+
 .event-card--featured {
   display: flex;
   min-width: 0;

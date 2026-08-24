@@ -79,6 +79,18 @@ if (window.Swiper && document.querySelector('.video-swiper')) {
     });
 }
 
+// ─── Swiper: Upcoming events carousel ────────────────────
+if (window.Swiper && document.querySelector('.events-swiper')) {
+    new Swiper('.events-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 16,
+        grabCursor: true,
+        watchOverflow: true,
+        navigation: { nextEl: '.events-next', prevEl: '.events-prev' },
+        breakpoints: { 768: { slidesPerView: 2 }, 1200: { slidesPerView: 3 } },
+    });
+}
+
 // ─── Swiper: Homepage gallery carousel ──────────────────
 if (window.Swiper && document.querySelector('.homepage-gallery-swiper')) {
     new Swiper('.homepage-gallery-swiper', {

@@ -89,6 +89,16 @@
   }
 }
 
+.events-swiper {
+  .swiper-slide {
+    height: auto;
+  }
+
+  .event-card--featured {
+    height: 100%;
+  }
+}
+
 .event-card--featured {
   display: flex;
   min-width: 0;
