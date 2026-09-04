@@ -22,13 +22,26 @@
                     <td data-label="Jazyk">{$item->lang}</td>
                     <td data-label="Jméno">{$item->name}</td>
                     <td data-label="E-mail"><a href="mailto:{$item->email}">{$item->email}</a></td>
-                    <td data-label="Zpráva">{$item->message|truncate:80}</td>
+                    <td class="message-cell" data-label="Zpráva">
+                        <p class="inquiry-message__teaser">{$item->message|truncate:80}</p>
+                    </td>
                     <td data-label="Vytvořeno">{$item->created|date:'j. n. Y H:i'}</td>
                     <td class="actions-cell" data-label="Akce">
+                        <button type="button" class="btn-secondary" data-inquiry-open="inquiry-message-{$item->id}" aria-controls="inquiry-message-{$item->id}">Přečíst</button>
                         <form method="post" action="{link delete id => $item->id}" class="inline-delete-form" onsubmit="return confirm('Smazat tuto zprávu?')">
                             <input type="hidden" name="_token" value="{$csrfToken}">
                             <button type="submit" class="btn-delete">Smazat</button>
                         </form>
+                        <dialog class="inquiry-dialog" id="inquiry-message-{$item->id}" aria-labelledby="inquiry-dialog-title-{$item->id}">
+                            <div class="inquiry-dialog__header">
+                                <div>
+                                    <h3 id="inquiry-dialog-title-{$item->id}">Zpráva od {$item->name}</h3>
+                                    <p>{$item->email} · {$item->created|date:'j. n. Y H:i'}</p>
+                                </div>
+                                <button type="button" class="inquiry-dialog__close" data-inquiry-close aria-label="Zavřít">×</button>
+                            </div>
+                            <div class="inquiry-dialog__message">{$item->message}</div>
+                        </dialog>
                     </td>
                 </tr>
                 {if !count($items)}
@@ -39,4 +52,47 @@
             </tbody>
         </table>
     </div>
+{/block}
+
+{block scripts}
+    <script>
+        (function() {
+            'use strict';
+
+            document.querySelectorAll('[data-inquiry-open]').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var dialog = document.getElementById(button.getAttribute('data-inquiry-open'));
+                    if (!dialog) return;
+
+                    if (typeof dialog.showModal === 'function') {
+                        dialog.showModal();
+                    } else {
+                        dialog.setAttribute('open', 'open');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.inquiry-dialog').forEach(function(dialog) {
+                function closeDialog() {
+                    if (typeof dialog.close === 'function') {
+                        dialog.close();
+                    } else {
+                        dialog.removeAttribute('open');
+                    }
+                }
+
+                dialog.addEventListener('click', function(event) {
+                    if (event.target === dialog) {
+                        closeDialog();
+                    }
+                });
+
+                dialog.querySelectorAll('[data-inquiry-close]').forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        closeDialog();
+                    });
+                });
+            });
+        })();
+    </script>
 {/block}

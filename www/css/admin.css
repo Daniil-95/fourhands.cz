@@ -573,6 +573,81 @@ table tbody tr:last-child td {
   font-style: italic;
 }
 
+.message-cell {
+  min-width: 260px;
+}
+
+.inquiry-message__teaser {
+  margin: 0;
+  color: var(--admin-text);
+  line-height: 1.5;
+}
+
+.inquiry-dialog {
+  width: min(680px, 100vw - 32px);
+  max-height: min(720px, 100vh - 32px);
+  padding: 0;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius-card);
+  background: var(--admin-surface);
+  box-shadow: var(--admin-shadow-lg);
+  color: var(--admin-text);
+  overflow: hidden;
+}
+.inquiry-dialog::backdrop {
+  background: rgba(24, 36, 60, 0.48);
+}
+
+.inquiry-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-16);
+  padding: var(--space-20);
+  border-bottom: 1px solid var(--admin-border);
+  background: var(--admin-surface-muted);
+}
+.inquiry-dialog__header h3 {
+  margin: 0 0 var(--space-4);
+  color: var(--admin-text);
+  font-size: 22px;
+  line-height: 1.2;
+}
+.inquiry-dialog__header p {
+  margin: 0;
+  color: var(--admin-text-muted);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.inquiry-dialog__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius-control);
+  background: var(--admin-surface);
+  color: var(--admin-text);
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+}
+.inquiry-dialog__close:hover {
+  background: #eef2f8;
+}
+
+.inquiry-dialog__message {
+  max-height: calc(100vh - 220px);
+  padding: var(--space-20);
+  line-height: 1.65;
+  overflow: auto;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -1772,9 +1847,11 @@ code {
     grid-column: 1/-1;
   }
   .table-container tbody td.actions-cell a,
+  .table-container tbody td.actions-cell > .btn-secondary,
   .table-container tbody td.actions-cell .inline-delete-form,
   .table-container tbody td.actions-cell .inline-delete-form .btn-delete,
   .table-shell tbody td.actions-cell a,
+  .table-shell tbody td.actions-cell > .btn-secondary,
   .table-shell tbody td.actions-cell .inline-delete-form,
   .table-shell tbody td.actions-cell .inline-delete-form .btn-delete {
     width: 100%;
@@ -1784,6 +1861,10 @@ code {
   .table-container tbody td.actions-cell .inline-delete-form,
   .table-shell tbody td.actions-cell .inline-delete-form {
     display: block;
+  }
+  .table-container tbody td.message-cell,
+  .table-shell tbody td.message-cell {
+    grid-template-columns: 1fr;
   }
 }
 @media (max-width: 576px) {
